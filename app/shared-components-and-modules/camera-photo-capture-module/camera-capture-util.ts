@@ -18,7 +18,11 @@ export const CAMERA_PERMISSION = PermissionsAndroid.PERMISSIONS.CAMERA;
  * @param message
  * @returns {Promise<boolean>}
  */
-export async function requestPermission(permission, title, message) {
+export async function requestPermission(
+  permission: string, 
+  title: string, 
+  message: string
+): Promise<boolean> {
   try {
     const granted = await PermissionsAndroid.request(
         permission,
