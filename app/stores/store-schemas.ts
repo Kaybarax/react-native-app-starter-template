@@ -20,13 +20,23 @@ export const StoreNames = {
   recipeBoxStore: 'recipeBoxStore',
 };
 
+// Base schema interface
+interface StoreSchemaBase {
+  storeName: string;
+  namespace: string | null;
+  storeKey: string;
+  loading: boolean;
+  updated: boolean;
+  loadingMessage: string;
+}
+
 /**
  * sd _ Kaybarax
  * @param namespace
  * @param name
  * @constructor
  */
-export function ActivityStoreSchema(namespace, name) {
+export function ActivityStoreSchema(this: any, namespace: string | null, name: string) {
   this.storeSchema = {
     storeName: name,
     namespace: namespace,
@@ -36,6 +46,17 @@ export function ActivityStoreSchema(namespace, name) {
     loading: false,
     updated: false,
     loadingMessage: 'Loading...',
+  } as StoreSchemaBase;
+}
+
+// App activity schema interface
+interface AppActivitySchemaType extends StoreSchemaBase {
+  user: any | null;
+  navStore: {
+    navigationTrail: any[];
+    currentNavigationTrailIndex: number;
+    navigatedTo: any | null;
+    navigatedFrom: any | null;
   };
 }
 
@@ -46,7 +67,7 @@ export function ActivityStoreSchema(namespace, name) {
  * @returns {{loadingMessage: string, storeKey: *, name: *, loading: boolean, updated: boolean}}
  * @constructor
  */
-export function AppActivitySchema(namespace, name) {
+export function AppActivitySchema(this: any, namespace: string | null, name: string): AppActivitySchemaType {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.user = null;
@@ -57,7 +78,22 @@ export function AppActivitySchema(namespace, name) {
     navigatedFrom: null,
   };
   // console.log('AppActivitySchema::', this.storeSchema)
-  return this.storeSchema;
+  return this.storeSchema as AppActivitySchemaType;
+}
+
+// Login activity schema interface
+interface LoginActivitySchemaType extends StoreSchemaBase {
+  loginForm: {
+    usernameOrEmail: string | null;
+  };
+  signUpForm: {
+    user: any | null;
+  };
+  resetPasswordForm: {
+    usernameOrEmail: string | null;
+  };
+  viewAction: any | null;
+  notificationAlert: any;
 }
 
 /**
@@ -67,7 +103,7 @@ export function AppActivitySchema(namespace, name) {
  * @returns {{loadingMessage: string, storeKey: *, name: *, loading: boolean, updated: boolean}}
  * @constructor
  */
-export function LoginActivitySchema(namespace, name) {
+export function LoginActivitySchema(this: any, namespace: string | null, name: string): LoginActivitySchemaType {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.loginForm = {
@@ -82,7 +118,13 @@ export function LoginActivitySchema(namespace, name) {
   schema.viewAction = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log('LoginActivitySchema:: ', this.storeSchema)
-  return this.storeSchema;
+  return this.storeSchema as LoginActivitySchemaType;
+}
+
+// Page example activity schema interface
+interface PageExampleActivitySchemaType extends StoreSchemaBase {
+  todo: any | null;
+  notificationAlert: any;
 }
 
 /**
@@ -92,13 +134,13 @@ export function LoginActivitySchema(namespace, name) {
  * @returns {{loadingMessage: string, storeKey: *, name: *, loading: boolean, updated: boolean}}
  * @constructor
  */
-export function Page1ExampleActivitySchema(namespace, name) {
+export function Page1ExampleActivitySchema(this: any, namespace: string | null, name: string): PageExampleActivitySchemaType {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.todo = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log('Page1ExampleActivitySchema::', this.storeSchema)
-  return this.storeSchema;
+  return this.storeSchema as PageExampleActivitySchemaType;
 }
 
 /**
@@ -108,13 +150,13 @@ export function Page1ExampleActivitySchema(namespace, name) {
  * @returns {{loadingMessage: string, storeKey: *, name: *, loading: boolean, updated: boolean}}
  * @constructor
  */
-export function Page2ExampleActivitySchema(namespace, name) {
+export function Page2ExampleActivitySchema(this: any, namespace: string | null, name: string): PageExampleActivitySchemaType {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.todo = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log('Page2ExampleActivitySchema::', this.storeSchema)
-  return this.storeSchema;
+  return this.storeSchema as PageExampleActivitySchemaType;
 }
 
 /**
@@ -124,13 +166,13 @@ export function Page2ExampleActivitySchema(namespace, name) {
  * @returns {{loadingMessage: string, storeKey: *, name: *, loading: boolean, updated: boolean}}
  * @constructor
  */
-export function Page3ExampleActivitySchema(namespace, name) {
+export function Page3ExampleActivitySchema(this: any, namespace: string | null, name: string): PageExampleActivitySchemaType {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.todo = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log('Page3ExampleActivitySchema::', this.storeSchema)
-  return this.storeSchema;
+  return this.storeSchema as PageExampleActivitySchemaType;
 }
 
 /**
@@ -140,13 +182,21 @@ export function Page3ExampleActivitySchema(namespace, name) {
  * @returns {{loadingMessage: string, storeKey: *, name: *, loading: boolean, updated: boolean}}
  * @constructor
  */
-export function Page4ExampleActivitySchema(namespace, name) {
+export function Page4ExampleActivitySchema(this: any, namespace: string | null, name: string): PageExampleActivitySchemaType {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.todo = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log("Page4ExampleActivitySchema::", this.storeSchema)
-  return this.storeSchema;
+  return this.storeSchema as PageExampleActivitySchemaType;
+}
+
+// Recipe box activity schema interface
+interface RecipeBoxActivitySchemaType extends StoreSchemaBase {
+  recipeItems: any[];
+  selectedRecipe: any | null;
+  user: any | null;
+  notificationAlert: any;
 }
 
 /**
@@ -156,7 +206,7 @@ export function Page4ExampleActivitySchema(namespace, name) {
  * @returns {{loadingMessage: string, storeKey: *, name: *, loading: boolean, updated: boolean}}
  * @constructor
  */
-export function RecipeBoxActivitySchema(namespace, name) {
+export function RecipeBoxActivitySchema(this: any, namespace: string | null, name: string): RecipeBoxActivitySchemaType {
   ActivityStoreSchema.call(this, namespace, name);
   let schema = this.storeSchema;
   schema.recipeItems = [];
@@ -164,5 +214,5 @@ export function RecipeBoxActivitySchema(namespace, name) {
   schema.user = null;
   schema.notificationAlert = objectInstanceProvider(notificationAlertProps);
   // console.log("RecipeBoxActivitySchema::", this.storeSchema)
-  return this.storeSchema;
+  return this.storeSchema as RecipeBoxActivitySchemaType;
 }

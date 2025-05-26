@@ -18,6 +18,8 @@ import {isNullUndefined} from '../util/util';
  * sd _ Kaybarax
  */
 export default class AppStores {
+  stores: Record<string, any> | null;
+  appStoresLoaded: boolean;
 
   constructor() {
     this.stores = null;
@@ -28,7 +30,7 @@ export default class AppStores {
   // if application uses several stores classes
   static namespace = 'AppStores_' + _StoreKey_;
 
-  loadAppStores = async () => {
+  loadAppStores = async (): Promise<void> => {
 
     try {
 

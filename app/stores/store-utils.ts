@@ -26,6 +26,20 @@ import {
 import StoreProviders from './stores-providers';
 import {toJS} from 'mobx';
 
+// Define types for store provider and store
+interface StoreProvider {
+    storeKey: (namespace: string) => string;
+    storeProvidedBy: (namespace: string) => any;
+    storeModelSnapshot: Promise<any>;
+}
+
+interface Store {
+    storeName: string;
+    storeKey: string;
+    namespace: string;
+    [key: string]: any;
+}
+
 /**
  * sd _ Kaybarax
  * @param storeKey
@@ -33,7 +47,11 @@ import {toJS} from 'mobx';
  * @param storeNamespace
  * @returns {Promise<null|*>}
  */
-export const persistedStoreFromAsyncStorage = async (storeKey, storeProvider, storeNamespace) => {
+export const persistedStoreFromAsyncStorage = async (
+    storeKey: string, 
+    storeProvider: StoreProvider, 
+    storeNamespace: string
+): Promise<Store | null> => {
 
     let savedStore = await getObjectFromAsyncStorage(storeKey);
     console.log('FOUND PERSISTED STORE', savedStore);
@@ -128,7 +146,7 @@ export const persistedStoreFromAsyncStorage = async (storeKey, storeProvider, st
  * sd _ Kaybarax
  * @param store
  */
-export async function persistStoreToAsyncStorage(store) {
+export async function persistStoreToAsyncStorage(store: Store): Promise<void> {
     console.log('persistStoreToAsyncStorage store', toJS(store));
     try {
         let storeKey = store.storeKey;
@@ -148,7 +166,7 @@ export async function persistStoreToAsyncStorage(store) {
         let storeModelStructure = await getItemFromAsyncStorage(store.storeName);
         console.log('persistStoreToAsyncStorage storeModelStructure', storeModelStructure);
         if (isNullUndefined(storeModelStructure)) {
-            let storeProvider = StoreProviders[store.storeName];
+            let storeProvider = (StoreProviders as Record<string, StoreProvider>)[store.storeName];
             console.log('persistStoreToAsyncStorage storeProvider', storeProvider);
             await storeObjectToAsyncStorage(_StoreSnapshot_ + store.storeName, storeProvider.storeProvidedBy(store.namespace));
             console.log('persistStoreToAsyncStorage storeModelStructure added');
@@ -167,7 +185,7 @@ export async function persistStoreToAsyncStorage(store) {
  * @param stores
  * @returns {Promise<void>}
  */
-export async function persistStoresToAsyncStorage(stores) {
+export async function persistStoresToAsyncStorage(stores: Store[]): Promise<void> {
     console.log('persistStoresToAsyncStorage stores', stores);
     try {
         for (let store of stores) {
@@ -184,7 +202,7 @@ export async function persistStoresToAsyncStorage(stores) {
 /**
  * sd _ Kaybarax
  */
-export async function clearAllPersistedStoresToAsyncStorage() {
+export async function clearAllPersistedStoresToAsyncStorage(): Promise<void> {
     try {
         let keys = Object.keys(AsyncStorage);
         for (let key of keys) {
@@ -205,7 +223,7 @@ export async function clearAllPersistedStoresToAsyncStorage() {
  * @param assignedName
  * @returns {*}
  */
-export function getPersistedStoreKey(namespaceProvider, assignedName) {
+export function getPersistedStoreKey(namespaceProvider: string, assignedName: string): string {
     return namespaceProvider + assignedName;
 }
 
@@ -215,7 +233,7 @@ export function getPersistedStoreKey(namespaceProvider, assignedName) {
  * @param storeSchemaInstance
  * @returns {Promise<T | *>}
  */
-export function createStoreModelSnapshot(storeName, storeSchemaInstance) {
+export function createStoreModelSnapshot(storeName: string, storeSchemaInstance: any): Promise<any> {
     return getObjectFromAsyncStorage(_StoreSnapshot_ + storeName)
         .then(item => item || storeSchemaInstance)
         .catch(error => {
