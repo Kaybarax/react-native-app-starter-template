@@ -8,7 +8,7 @@
     "linkedin": "https://linkedin.com/in/kaybarax",
     "twitter": "https://twitter.com/Kaybarax"
   },
-  "repository": "https://github.com/Kaybarax/react-native-with-typescript-app-starter-template",
+  "repository": "https://github.com/Kaybarax/react-native-app-starter-template",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
