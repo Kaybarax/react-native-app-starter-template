@@ -11,7 +11,18 @@
 
 import {FoodGroupConsumer} from './models-manager';
 
-export const SOs_and_Credits_List = [
+interface Link {
+  site: string;
+  link: string;
+}
+
+interface Credit {
+  person: string;
+  attribution: string;
+  links: Link[];
+}
+
+export const SOs_and_Credits_List: Credit[] = [
   {
     person: 'Michel Weststrate',
     attribution: 'Creator of MobX. The global state manager powering the app.',
@@ -45,7 +56,6 @@ export const SOs_and_Credits_List = [
 
 /**
  * sd _ Kaybarax
- * @type {*[]}
  */
 export const RecipeGroupsSuitable = [
   FoodGroupConsumer('VEG', 'Vegan'),

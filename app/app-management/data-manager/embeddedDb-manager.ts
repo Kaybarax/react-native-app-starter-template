@@ -23,6 +23,19 @@ SQLite.enablePromise(false);
  * sd _ Kaybarax
  */
 class AppSQLiteDb {
+  progress: string[];
+  latestProgressUpdate: string;
+  dbLoadedAndInitialized: boolean;
+  transactionSuccess: boolean;
+  queryResults: any[];
+  usersQueryResults: any[];
+  usersCredentialsQueryResults: any[];
+  recipesQueryResults: any[];
+  recipesPhotosQueryResults: any[];
+  usersRecipesQueryResults: any[];
+  appDatabase: any;
+  appDatabaseTables: any;
+
   constructor() {
     this.progress = [];
     this.latestProgressUpdate = 'Initializing app db...';
@@ -39,39 +52,39 @@ class AppSQLiteDb {
     this.updateProgress('Load and bootstrap app database...');
   }
 
-  updateProgress = (text) => {
+  updateProgress = (text: string): void => {
     this.latestProgressUpdate = text;
     this.progress.push(text);
     console.log('PROGRESS::', this.progress);
   };
 
-  errorCB = (err) => {
+  errorCB = (err: any): boolean => {
     console.log('error: ', err);
     this.updateProgress('Error: ' + (err.message || err));
     this.transactionSuccess = false;
     return this.transactionSuccess;
   };
 
-  successCB = () => {
+  successCB = (): boolean => {
     console.log('SQL executed ...');
     this.transactionSuccess = true;
     return this.transactionSuccess;
   };
 
-  openCB = () => {
+  openCB = (): void => {
     this.updateProgress('Database OPEN');
   };
 
-  closeCB = () => {
+  closeCB = (): void => {
     this.updateProgress('Database CLOSED');
   };
 
-  deleteCB = () => {
+  deleteCB = (): void => {
     console.log('Database DELETED');
     this.updateProgress('Database DELETED');
   };
 
-  loadAndInitDB = () => {
+  loadAndInitDB = (): void => {
     this.updateProgress('Opening database ...');
     APP_SQLITE_DATABASE.DB_REFERENCE = SQLite.openDatabase(
       this.appDatabase.name,
@@ -84,7 +97,7 @@ class AppSQLiteDb {
     this.initDatabase(APP_SQLITE_DATABASE.DB_REFERENCE);
   };
 
-  initDatabase = (db) => {
+  initDatabase = (db: any): void => {
     this.updateProgress('Database integrity check');
 
     this.updateProgress('Check if db already setup');
@@ -104,7 +117,7 @@ class AppSQLiteDb {
           },
         );
       },
-      (error) => {
+      (error: any) => {
         //on error
         console.log('received version error:', error);
         this.updateProgress(
@@ -139,7 +152,7 @@ class AppSQLiteDb {
     }
   };
 
-  populateDB = (dbtx) => {
+  populateDB = (dbtx: any): void => {
     this.updateProgress('Executing Create stmts');
     //db bootstrap tables creation
     this.runInitialTablesCreation(dbtx);
@@ -151,7 +164,7 @@ class AppSQLiteDb {
     console.log('All SQL stmts done');
   };
 
-  runInitialTablesCreation = (dbtx) => {
+  runInitialTablesCreation = (dbtx: any): void => {
     dbtx.executeSql(
       'CREATE TABLE IF NOT EXISTS Version ( ' +
         'version_id INTEGER PRIMARY KEY NOT NULL); ',
@@ -262,7 +275,7 @@ class AppSQLiteDb {
     this.updateProgress('CREATE TABLE USER_RECIPE Success');
   };
 
-  runInitialInserts = (dbtx) => {
+  runInitialInserts = (dbtx: any): void => {
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.APP_REF_KEYS.name} (key, label, value) 
                   VALUES ("Status", "Active", "ACT")`,
@@ -280,9 +293,7 @@ class AppSQLiteDb {
     );
   };
 
-  runInitial;
-
-  addAppRefKeyStmt = (dbtx, data) => {
+  addAppRefKeyStmt = (dbtx: any, data: {key: string, value: string, label: string}): void => {
     let {key, value, label} = data;
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.APP_REF_KEYS.name} (key, value, label) 
@@ -293,7 +304,14 @@ class AppSQLiteDb {
     );
   };
 
-  addUserStmt = (dbtx, user) => {
+  addUserStmt = (dbtx: any, user: {
+    id: string,
+    name: string,
+    email: string,
+    username: string,
+    status_ref_key_key: string,
+    status_ref_key_value: string
+  }): any => {
     let {
       id,
       name,
@@ -312,7 +330,11 @@ class AppSQLiteDb {
     );
   };
 
-  addUserCredentialsStmt = (dbtx, data) => {
+  addUserCredentialsStmt = (dbtx: any, data: {
+    username: string,
+    password_hash: string,
+    salt: string
+  }): void => {
     let {username, password_hash, salt} = data;
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.USER_CREDENTIALS.name} (username, password_hash, salt)
@@ -323,7 +345,18 @@ class AppSQLiteDb {
     );
   };
 
-  addRecipeStmt = (dbtx, data) => {
+  addRecipeStmt = (dbtx: any, data: {
+    id: string,
+    name: string,
+    is_vegetarian: boolean | number,
+    is_vegan: boolean | number,
+    ingredients: string,
+    cooking_instructions: string,
+    groups_suitable: string,
+    date_created: string,
+    status_ref_key_key: string,
+    status_ref_key_value: string | number
+  }): void => {
     let {
       id,
       name,
@@ -348,7 +381,7 @@ class AppSQLiteDb {
     );
   };
 
-  addUserRecipeStmt = (dbtx, data) => {
+  addUserRecipeStmt = (dbtx: any, data: {user_id: string, recipe_id: string}): void => {
     let {user_id, recipe_id} = data;
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.USER_RECIPE.name} (user_id, recipe_id)
@@ -359,7 +392,12 @@ class AppSQLiteDb {
     );
   };
 
-  addRecipeImageStmt = (dbtx, data) => {
+  addRecipeImageStmt = (dbtx: any, data: {
+    id: string,
+    recipe_id: string,
+    image_url: string,
+    image_file: string
+  }): void => {
     let {id, recipe_id, image_url, image_file} = data;
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.RECIPE_IMAGE.name} (id, recipe_id, image_url, image_file)
@@ -370,37 +408,37 @@ class AppSQLiteDb {
     );
   };
 
-  getUserByEmailStmt = async (dbtx, email) => {
+  getUserByEmailStmt = async (dbtx: any, email: string): Promise<void> => {
     await dbtx.executeSql(
       `SELECT * FROM 
           ${this.appDatabaseTables.USER.name} WHERE email='${email}';`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(sqltx, results, this.appDatabaseTables.USER.name);
       },
       this.errorCB,
     );
   };
 
-  getUserByUsernameStmt = async (dbtx, username) => {
+  getUserByUsernameStmt = async (dbtx: any, username: string): Promise<void> => {
     await dbtx.executeSql(
       `SELECT * FROM 
           ${this.appDatabaseTables.USER.name} WHERE username='${username}';`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(sqltx, results, this.appDatabaseTables.USER.name);
       },
       this.errorCB,
     );
   };
 
-  runInitialQueriesAndLoadInitialData = async (dbtx) => {
+  runInitialQueriesAndLoadInitialData = async (dbtx: any): Promise<void> => {
     console.log('Executing queries...');
 
     await dbtx.executeSql(
       `SELECT * FROM ${this.appDatabaseTables.Version.name};`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(sqltx, results, this.appDatabaseTables.Version.name);
       },
       this.errorCB,
@@ -409,7 +447,7 @@ class AppSQLiteDb {
     await dbtx.executeSql(
       `SELECT * FROM ${this.appDatabaseTables.APP_REF_KEYS.name};`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(
           sqltx,
           results,
@@ -422,7 +460,7 @@ class AppSQLiteDb {
     await dbtx.executeSql(
       `SELECT * FROM ${this.appDatabaseTables.USER.name};`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(sqltx, results, this.appDatabaseTables.USER.name);
       },
       this.errorCB,
@@ -431,7 +469,7 @@ class AppSQLiteDb {
     await dbtx.executeSql(
       `SELECT * FROM ${this.appDatabaseTables.USER_CREDENTIALS.name};`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(
           sqltx,
           results,
@@ -444,7 +482,7 @@ class AppSQLiteDb {
     await dbtx.executeSql(
       `SELECT * FROM ${this.appDatabaseTables.RECIPE.name};`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(sqltx, results, this.appDatabaseTables.RECIPE.name);
       },
       this.errorCB,
@@ -453,7 +491,7 @@ class AppSQLiteDb {
     await dbtx.executeSql(
       `SELECT * FROM ${this.appDatabaseTables.RECIPE_IMAGE.name};`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(
           sqltx,
           results,
@@ -466,7 +504,7 @@ class AppSQLiteDb {
     await dbtx.executeSql(
       `SELECT * FROM ${this.appDatabaseTables.USER_RECIPE.name};`,
       [],
-      (sqltx, results) => {
+      (sqltx: any, results: any) => {
         this.querySuccess(
           sqltx,
           results,
@@ -477,7 +515,7 @@ class AppSQLiteDb {
     );
   };
 
-  querySuccess = (dbtx, results, type) => {
+  querySuccess = (dbtx: any, results: any, type: string): void => {
     console.log('querySuccess results: ', results);
     this.updateProgress('Query completed');
 
@@ -626,13 +664,13 @@ class AppSQLiteDb {
     console.log('this.queryResults', this.queryResults);
   };
 
-  deleteDatabase = () => {
+  deleteDatabase = (): void => {
     this.updateProgress('Deleting database');
     SQLite.deleteDatabase(this.appDatabase.name, this.deleteCB, this.errorCB);
   };
 
   //call this on exit of application
-  closeDatabase = () => {
+  closeDatabase = (): void => {
     if (APP_SQLITE_DATABASE.DB_REFERENCE) {
       console.log('Closing database ...');
       this.updateProgress('Closing database');
