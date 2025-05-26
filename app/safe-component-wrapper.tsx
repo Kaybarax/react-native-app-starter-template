@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -14,13 +12,13 @@ export default class SafeComponentWrapper extends React.Component {
   // @ts-ignore
   constructor(props) {
     super(props);
-    this.state = {hasError: false, error: null};
+    this.state = { hasError: false, error: null };
   }
 
   // @ts-ignore
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
-    return {hasError: true, error: error};
+    return { hasError: true, error: error };
   }
 
   // @ts-ignore

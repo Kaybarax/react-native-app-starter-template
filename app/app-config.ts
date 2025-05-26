@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -25,14 +23,11 @@ export const NETWORK_ERROR = 'NetworkError';
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_UP = 'SIGN_UP';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
-export const AWS_DYNAMODB_ACCESS_APIS_PREFIX =
-  'https://xxxxxxxxxx.execute-api.eu-west-1.amazonaws.com/latest';
-export const AWS_S3_SECURED_FILES_ACCESS_APIS_PREFIX =
-  'https://xxxxxxxxxx.execute-api.eu-west-1.amazonaws.com/latest';
+export const AWS_DYNAMODB_ACCESS_APIS_PREFIX = 'https://xxxxxxxxxx.execute-api.eu-west-1.amazonaws.com/latest';
+export const AWS_S3_SECURED_FILES_ACCESS_APIS_PREFIX = 'https://xxxxxxxxxx.execute-api.eu-west-1.amazonaws.com/latest';
 export const AWS_S3_UNSECURED_FILES_ACCESS_APIS_PREFIX =
   'https://xxxxxxxxxx.execute-api.eu-west-1.amazonaws.com/latest';
-export const AWS_COGNITO_ACCESS_APIS_PREFIX =
-  'https://xxxxxxxxxx.execute-api.eu-west-1.amazonaws.com/latest';
+export const AWS_COGNITO_ACCESS_APIS_PREFIX = 'https://xxxxxxxxxx.execute-api.eu-west-1.amazonaws.com/latest';
 export const AWS_EMAIL_WITH_MANDRILL_EMAIL_ACCESS_APIS_PREFIX =
   'https://xxxxxxxxxx.execute-api.eu-west-1.amazonaws.com/latest';
 export const NUMBER_OF_RECIPE_PHOTOS = 5;

@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -8,7 +6,7 @@
  */
 
 import React from 'react';
-import {Text} from 'react-native';
+import { Text } from 'react-native';
 
 export default class FallBackPage extends React.Component {
   render() {
