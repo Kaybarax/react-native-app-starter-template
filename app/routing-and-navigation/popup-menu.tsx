@@ -17,22 +17,36 @@ import appNavigation from './app-navigation';
 import WithStoresHoc from '../stores/with-stores-hoc';
 import {handleLogOut} from '../controllers/recipe-box-sub-app-controllers/recipe-box-login-controller';
 
-export class PopupMenu extends React.Component {
-  handleShowPopupError = () => {
+interface PopupMenuProps {
+  actions: string[];
+  onPress: (e: any, i: number) => void;
+  children?: React.ReactNode;
+  style?: RN.StyleProp<RN.ViewStyle>;
+}
+
+export class PopupMenu extends React.Component<PopupMenuProps> {
+  private menu: React.RefObject<RN.Text>;
+
+  constructor(props: PopupMenuProps) {
+    super(props);
+    this.menu = React.createRef();
+  }
+
+  handleShowPopupError = (): void => {
     // todo: show error here
   };
 
-  handleMenuPress = () => {
+  handleMenuPress = (): void => {
     const {actions, onPress} = this.props;
     RN.UIManager.showPopupMenu(
-      RN.findNodeHandle(this.refs.menu),
+      RN.findNodeHandle(this.menu.current as any),
       actions,
       this.handleShowPopupError,
       onPress,
     );
   };
 
-  render() {
+  render(): React.ReactNode {
     return (
       <RN.View style={[{paddingBottom: 10}]}>
         {this.props.children}
@@ -48,7 +62,7 @@ export class PopupMenu extends React.Component {
               borderColor: 'transparent',
             },
           ]}>
-          <RN.Text ref="menu">
+          <RN.Text ref={this.menu}>
             <FontAwesomeIcon
               icon={faEllipsisV}
               color={SECONDARY_COLOR}
@@ -61,13 +75,27 @@ export class PopupMenu extends React.Component {
   }
 }
 
+// PropTypes are kept for backward compatibility
 PopupMenu.propTypes = {
   actions: PropTypes.array.isRequired,
   onPress: PropTypes.func.isRequired,
   children: PropTypes.object,
 };
 
-export function RecipeBoxPopupMenu(props) {
+interface RecipeBoxStoreType {
+  // Add properties as needed
+}
+
+interface LoginStoreType {
+  // Add properties as needed
+}
+
+interface RecipeBoxPopupMenuProps {
+  recipeBoxStore: RecipeBoxStoreType;
+  loginStore: LoginStoreType;
+}
+
+export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): JSX.Element {
   console.log('RecipeBoxPopupMenu props', props);
   let {recipeBoxStore, loginStore} = props;
   let {
