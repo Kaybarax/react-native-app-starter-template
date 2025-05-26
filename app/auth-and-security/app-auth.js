@@ -17,7 +17,7 @@ import appStores from '../stores';
 export default class AppAuth {
   /**
    * Your frontend app, authentication logic for access: JWT, AWS Cognito, Google sign in,
-   * facebook sign in, Twitter sign in ...  your fancy
+   * facebook-sign-in, Twitter sign in ...  your fancy
    * @returns {Promise<*>}
    */
   isAuthenticated = async () => {
