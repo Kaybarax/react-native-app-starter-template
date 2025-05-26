@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax

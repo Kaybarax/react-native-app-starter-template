@@ -1,3 +1,9 @@
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,7 +25,7 @@ const namespace = 'AppStores_' + _StoreKey_;
 // Create individual zustand stores for each store in the application
 export const useAppStore = create(
   persist(
-    (set) => ({
+    set => ({
       ...new AppActivitySchema(namespace, StoreNames.appStore),
       // Add actions to update the store
       setLoading: (loading: boolean) => set({ loading }),
@@ -32,13 +38,13 @@ export const useAppStore = create(
     {
       name: namespace + StoreNames.appStore,
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 
 export const useLoginStore = create(
   persist(
-    (set) => ({
+    set => ({
       ...new LoginActivitySchema(namespace, StoreNames.loginStore),
       // Add actions to update the store
       setLoading: (loading: boolean) => set({ loading }),
@@ -54,13 +60,13 @@ export const useLoginStore = create(
     {
       name: namespace + StoreNames.loginStore,
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 
 export const usePage1ExampleStore = create(
   persist(
-    (set) => ({
+    set => ({
       ...new Page1ExampleActivitySchema(namespace, StoreNames.page1ExampleStore),
       // Add actions to update the store
       setLoading: (loading: boolean) => set({ loading }),
@@ -73,13 +79,13 @@ export const usePage1ExampleStore = create(
     {
       name: namespace + StoreNames.page1ExampleStore,
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 
 export const usePage2ExampleStore = create(
   persist(
-    (set) => ({
+    set => ({
       ...new Page2ExampleActivitySchema(namespace, StoreNames.page2ExampleStore),
       // Add actions to update the store
       setLoading: (loading: boolean) => set({ loading }),
@@ -92,13 +98,13 @@ export const usePage2ExampleStore = create(
     {
       name: namespace + StoreNames.page2ExampleStore,
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 
 export const usePage3ExampleStore = create(
   persist(
-    (set) => ({
+    set => ({
       ...new Page3ExampleActivitySchema(namespace, StoreNames.page3ExampleStore),
       // Add actions to update the store
       setLoading: (loading: boolean) => set({ loading }),
@@ -111,13 +117,13 @@ export const usePage3ExampleStore = create(
     {
       name: namespace + StoreNames.page3ExampleStore,
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 
 export const usePage4ExampleStore = create(
   persist(
-    (set) => ({
+    set => ({
       ...new Page4ExampleActivitySchema(namespace, StoreNames.page4ExampleStore),
       // Add actions to update the store
       setLoading: (loading: boolean) => set({ loading }),
@@ -130,13 +136,13 @@ export const usePage4ExampleStore = create(
     {
       name: namespace + StoreNames.page4ExampleStore,
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 
 export const useRecipeBoxStore = create(
   persist(
-    (set) => ({
+    set => ({
       ...new RecipeBoxActivitySchema(namespace, StoreNames.recipeBoxStore),
       // Add actions to update the store
       setLoading: (loading: boolean) => set({ loading }),
@@ -151,8 +157,8 @@ export const useRecipeBoxStore = create(
     {
       name: namespace + StoreNames.recipeBoxStore,
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 
 // Map store names to their respective hooks

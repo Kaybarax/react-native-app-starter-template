@@ -1,3 +1,9 @@
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 import React from 'react';
 import { storeHooks } from './zustand-stores';
 import { StoreNames } from './store-schemas';
@@ -20,7 +26,7 @@ export const useStores = (storeNames: string[]) => {
   const stores: Record<string, any> = {};
 
   // Add each requested store to the stores object
-  storeNames.forEach((storeName) => {
+  storeNames.forEach(storeName => {
     if (storeHooks[storeName]) {
       stores[storeName] = storeHooks[storeName]();
     } else {

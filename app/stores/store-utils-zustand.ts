@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -49,9 +47,7 @@ export async function persistStoresToAsyncStorage(stores: any[]): Promise<void> 
 export async function clearAllPersistedStoresToAsyncStorage(): Promise<void> {
   try {
     const keys = await AsyncStorage.getAllKeys();
-    const storeKeys = keys.filter(key => 
-      key.includes(_StoreKey_) || key.includes(_StoreSnapshot_)
-    );
+    const storeKeys = keys.filter(key => key.includes(_StoreKey_) || key.includes(_StoreSnapshot_));
 
     if (storeKeys.length > 0) {
       await AsyncStorage.multiRemove(storeKeys);
