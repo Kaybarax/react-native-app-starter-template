@@ -13,7 +13,7 @@
  * @param obj
  * @returns {string}
  */
-export function stringifyObject(obj) {
+export function stringifyObject(obj: any): string {
     return JSON.stringify(obj);
 }
 
@@ -22,7 +22,7 @@ export function stringifyObject(obj) {
  * @param obj
  * @returns {null}
  */
-export function deepCloneObject(obj) {
+export function deepCloneObject<T>(obj: T): T | null {
     try {
         return {...obj};
     } catch (err) {
@@ -36,7 +36,7 @@ export function deepCloneObject(obj) {
  * @param value
  * @returns {boolean}
  */
-export function isEmptyString(value) {
+export function isEmptyString(value: any): boolean {
     try {
         if (typeof value !== 'string') {
             return true;
@@ -52,7 +52,7 @@ export function isEmptyString(value) {
  * @param value
  * @returns {boolean}
  */
-export function isNumberType(value) {
+export function isNumberType(value: any): boolean {
     try {
         return !isNaN(parseInt(value));
     } catch (err) {
@@ -65,7 +65,7 @@ export function isNumberType(value) {
  * @param item
  * @returns {boolean}
  */
-export function isNullUndefined(item) {
+export function isNullUndefined(item: any): boolean {
     try {
         return item === null || item === undefined;
     } catch (err) {
@@ -78,7 +78,7 @@ export function isNullUndefined(item) {
  * @param item
  * @returns {boolean}
  */
-export function isStringDatatype(item) {
+export function isStringDatatype(item: any): boolean {
     try {
         if (typeof item === 'string') {
             return true;
@@ -86,6 +86,7 @@ export function isStringDatatype(item) {
     } catch (err) {
         return false;
     }
+    return false;
 }
 
 /**
@@ -93,7 +94,7 @@ export function isStringDatatype(item) {
  * @param item
  * @returns {boolean}
  */
-export function isArrayDatatype(item) {
+export function isArrayDatatype(item: any): boolean {
     try {
         if (Array.isArray(item)) {
             return true;
@@ -101,6 +102,7 @@ export function isArrayDatatype(item) {
     } catch (err) {
         return false;
     }
+    return false;
 }
 
 /**
@@ -108,7 +110,7 @@ export function isArrayDatatype(item) {
  * @param item
  * @returns {boolean}
  */
-export function isObject(item) {
+export function isObject(item: any): boolean {
     try {
         return item !== null && item !== undefined && typeof item === 'object';
     } catch (err) {
@@ -121,7 +123,7 @@ export function isObject(item) {
  * @param obj
  * @param key
  */
-export function objectKeyExists(obj, key) {
+export function objectKeyExists(obj: any, key: string): boolean {
     try {
         return obj.hasOwnProperty(key);
     } catch (err) {
@@ -133,7 +135,7 @@ export function objectKeyExists(obj, key) {
  * sd _ Kaybarax
  * @param item
  */
-export function isBoolean(item) {
+export function isBoolean(item: any): boolean {
     try {
         return typeof item === 'boolean';
     } catch (err) {
@@ -146,7 +148,7 @@ export function isBoolean(item) {
  * @param array
  * @returns {boolean}
  */
-export function isEmptyArray(array) {
+export function isEmptyArray(array: any): boolean {
     try {
         if (isNullUndefined(array)) {
             return true;
@@ -163,11 +165,11 @@ export function isEmptyArray(array) {
  * @param obj
  * @returns {*[]|any}
  */
-export function objectInstanceProvider(obj) {
+export function objectInstanceProvider<T>(obj: T): T {
     if (isArrayDatatype(obj)) {
-        return [...obj];
+        return [...(obj as any)] as unknown as T;
     }
-    return deepCloneObject(obj);
+    return deepCloneObject(obj) as T;
 }
 
 /**
@@ -175,7 +177,7 @@ export function objectInstanceProvider(obj) {
  * @param item
  * @returns {*|boolean|boolean}
  */
-export function isFalse(item) {
+export function isFalse(item: any): boolean {
     return isBoolean(item) && !item;
 }
 
@@ -184,7 +186,7 @@ export function isFalse(item) {
  * @param item
  * @returns {*|boolean|boolean}
  */
-export function isTrue(item) {
+export function isTrue(item: any): boolean {
     return isBoolean(item) && item;
 }
 
@@ -194,7 +196,7 @@ export function isTrue(item) {
  * @param objB
  * @returns {boolean}
  */
-export function objectAHasSameKeysAsObjectB(objA, objB) {
+export function objectAHasSameKeysAsObjectB(objA: Record<string, any>, objB: Record<string, any>): boolean {
 
     let allKeysMatch = true;
     let objA_keys = Object.keys(objA);
@@ -224,7 +226,7 @@ export function objectAHasSameKeysAsObjectB(objA, objB) {
  * @param obj
  * @returns {boolean}
  */
-export function isEmptyObject(obj) {
+export function isEmptyObject(obj: Record<string, any>): boolean {
     try {
         return isEmptyArray(Object.keys(obj));
     } catch (e) {
@@ -238,7 +240,7 @@ export function isEmptyObject(obj) {
  * @returns {*}
  * NOTE: This is just my declaration of a void item. You can have yours that is totally different from mine
  */
-export function isVoid(item) {
+export function isVoid(item: any): boolean {
     try {
         if (isNaN(parseInt(item))) {
             return (isNullUndefined(item) ||
@@ -256,7 +258,7 @@ export function isVoid(item) {
  * sd _ Kaybarax
  * @param length
  */
-export function makeId(length) {
+export function makeId(length: number): string {
     let result = '';
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let charactersLength = characters.length;
@@ -272,7 +274,7 @@ export function makeId(length) {
  * @param dateTime
  * @returns {Date}
  */
-export function utcToLocalDateTimeConverter(dateTime) {
+export function utcToLocalDateTimeConverter(dateTime: string | Date): Date {
 
     //enforce that is datetime object
     let utcDateTime = new Date('' + dateTime);
@@ -292,7 +294,7 @@ export function utcToLocalDateTimeConverter(dateTime) {
  * @param dateTime
  * @returns {string}
  */
-export function localeTimeStringFormatFromDatetime(dateTime) {
+export function localeTimeStringFormatFromDatetime(dateTime: string | Date): string {
     return utcToLocalDateTimeConverter(dateTime).toString().substring(16, 21);
 }
 
@@ -302,7 +304,7 @@ export function localeTimeStringFormatFromDatetime(dateTime) {
  * @param localeTimeFormat
  * @returns {string}
  */
-export function localeDateStringFormatFromDatetime(dateTime, localeTimeFormat = 'en-GB') {
+export function localeDateStringFormatFromDatetime(dateTime: string | Date, localeTimeFormat: string = 'en-GB'): string {
     let dateTimeObj = new Date(dateTime);//enforce that is datetime object
     // console.log(' ## localeDateStringFormat dateTimeObj ## ', dateTimeObj);//log
     let localeDateString;
@@ -322,7 +324,7 @@ export function localeDateStringFormatFromDatetime(dateTime, localeTimeFormat = 
  * @param dateTime
  * @returns {string}
  */
-export function localeTimeStringFormat(dateTime) {
+export function localeTimeStringFormat(dateTime: string | Date): string {
     let dateTimeObj = new Date('' + dateTime);//enforce that is datetime object
     // console.log(' ## localeTimeStringFormat dateTimeObj ## ', dateTimeObj);//log
     let localeTimeString = dateTimeObj.toLocaleTimeString();
@@ -336,7 +338,7 @@ export function localeTimeStringFormat(dateTime) {
  * @returns {number}
  * by Kaybarax
  */
-export function numberItem(numbersArray) {
+export function numberItem(numbersArray: number[]): number {
     let num = 1;
     if (numbersArray.length > 0) {
         num = (numbersArray[numbersArray.length - 1] + 1);

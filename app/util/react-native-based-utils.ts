@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-community/async-storage';
  * Also useful in ensuring imported components are loaded,
  * in the case in which they cannot be accessed
  */
-export function enforceReactNaturalStateUpdateBehavior(self) {
+export function enforceReactNaturalStateUpdateBehavior(self: any): void {
   if (isNullUndefined(self) || typeof self !== 'object') {
     console.log('State update failed');
     return;
@@ -31,10 +31,11 @@ export function enforceReactNaturalStateUpdateBehavior(self) {
  * @param classNames
  * @returns {*[]}
  */
-export default function className(...classNames) {
+export default function className(...classNames: string[]): string[] | undefined {
   if (!isEmptyArray(classNames)) {
     return [...classNames];
   }
+  return undefined;
 }
 
 /**
@@ -43,7 +44,7 @@ export default function className(...classNames) {
  * @param message - text to display
  * @param toastDuration - short (default), long
  */
-export function showToast(message, toastDuration = 'short') {
+export function showToast(message: string, toastDuration: 'short' | 'long' = 'short'): void {
   let duration = toastDuration === 'long' ? ToastAndroid.LONG : ToastAndroid.SHORT;
   ToastAndroid.show(message, duration);
 }
@@ -52,7 +53,7 @@ export function showToast(message, toastDuration = 'short') {
  * sd _ Kaybaarx
  * @param message
  */
-export function alertLog(message) {
+export function alertLog(message: string): void {
   Alert.alert('Alert Log', message);
 }
 
@@ -61,7 +62,7 @@ export function alertLog(message) {
  * @param key
  * @param item
  */
-export async function storeObjectToAsyncStorage(key, item) {
+export async function storeObjectToAsyncStorage(key: string, item: any): Promise<void> {
   await AsyncStorage.setItem(key, stringifyObject(item));
 }
 
@@ -70,7 +71,7 @@ export async function storeObjectToAsyncStorage(key, item) {
  * @param key
  * @param item
  */
-export async function storeItemToAsyncStorage(key, item) {
+export async function storeItemToAsyncStorage(key: string, item: string): Promise<void> {
   await AsyncStorage.setItem(key, item);
 }
 
@@ -78,7 +79,7 @@ export async function storeItemToAsyncStorage(key, item) {
  * sd _ Kaybarax
  * @param key
  */
-export async function removeItemFromAsyncStorage(key) {
+export async function removeItemFromAsyncStorage(key: string): Promise<void> {
   await AsyncStorage.removeItem('' + key);
 }
 
@@ -87,7 +88,7 @@ export async function removeItemFromAsyncStorage(key) {
  * @param key
  * @returns {string|null}
  */
-export async function getItemFromAsyncStorage(key) {
+export async function getItemFromAsyncStorage(key: string): Promise<string | null> {
   const value = await AsyncStorage.getItem('' + key);
   return value;
 }
@@ -97,11 +98,11 @@ export async function getItemFromAsyncStorage(key) {
  * @param key
  * @returns {Promise<null|any>}
  */
-export async function getObjectFromAsyncStorage(key) {
+export async function getObjectFromAsyncStorage(key: string): Promise<any | null> {
   let item = await getItemFromAsyncStorage(key);
   if (!isEmptyString(item)) {
     try {
-      let jsonItem = JSON.parse(item);
+      let jsonItem = JSON.parse(item as string);
       if (isObject(jsonItem)) {
         return jsonItem;
       }

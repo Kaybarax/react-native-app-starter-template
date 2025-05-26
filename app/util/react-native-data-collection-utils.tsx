@@ -27,7 +27,7 @@ import {toJS} from 'mobx';
  * @param key
  * @returns {*}
  */
-export function textValue(model, key) {
+export function textValue(model: any, key: string): any {
   let feedBack = null;
   if (isNullUndefined(model)) {
     console.log('No model');
@@ -51,7 +51,7 @@ export function textValue(model, key) {
  * @param activity
  * @returns {*}
  */
-export function textValueChanged(model, text, key, activity = null) {
+export function textValueChanged(model: any, text: string, key: string, activity: any = null): any {
   let feedBack = null;
   if (isNullUndefined(model)) {
     console.log('No model');
@@ -75,7 +75,7 @@ export function textValueChanged(model, text, key, activity = null) {
  * @param key
  * @returns {boolean}
  */
-export function checkboxItemChecked(model, key) {
+export function checkboxItemChecked(model: any, key: string): boolean {
   let isChecked = false;
   if (isNullUndefined(model)) {
     console.log('No model');
@@ -106,13 +106,13 @@ export function checkboxItemChecked(model, key) {
  * @returns {*}
  */
 export function checkboxItemValueChanged(
-  model,
-  checkedTrue,
-  key,
-  trueValue,
-  falseValue,
-  activity = null,
-) {
+  model: any,
+  checkedTrue: boolean,
+  key: string,
+  trueValue: any,
+  falseValue: any,
+  activity: any = null,
+): any {
   console.log(
     'key-> ',
     key,
@@ -149,7 +149,7 @@ export function checkboxItemValueChanged(
  * @param model
  * @returns {boolean}
  */
-export function radioButtonSelected(val, key, model) {
+export function radioButtonSelected(val: any, key: string, model: any): boolean {
   if (isNullUndefined(model)) {
     return false;
   }
@@ -174,12 +174,12 @@ export function radioButtonSelected(val, key, model) {
  * @returns {*}
  */
 export function radioButtonValueChanged(
-  checkedTrue,
-  value,
-  key,
-  model,
-  activity,
-) {
+  checkedTrue: boolean,
+  value: any,
+  key: string,
+  model: any,
+  activity: any,
+): any {
   let feedback = null;
   if (isNullUndefined(model)) {
     console.log('No model');
@@ -217,11 +217,11 @@ export function radioButtonValueChanged(
  * @returns {*}
  */
 export function spinnerSelectedValue(
-  model,
-  spinnerDefaultValue,
-  spinnerItemsArray,
-  key,
-) {
+  model: any,
+  spinnerDefaultValue: any,
+  spinnerItemsArray: Array<{value: any, text?: string, label?: string}>,
+  key: string,
+): any {
   // noinspection EqualityComparisonWithCoercionJS
   return isNullUndefined(model) || isEmptyArray(spinnerItemsArray)
     ? spinnerDefaultValue || null
@@ -245,7 +245,7 @@ export function spinnerSelectedValue(
  * @param key
  * @param activity
  */
-export function spinnerOnValueChanged(model, val, key, activity = null) {
+export function spinnerOnValueChanged(model: any, val: any, key: string, activity: any = null): void {
   if (isNullUndefined(model)) {
     return;
   }
@@ -268,14 +268,14 @@ export function spinnerOnValueChanged(model, val, key, activity = null) {
  * @param itemsArray
  * @returns {[]}
  */
-export function generateSpinnerOptions(itemsArray) {
-  let spinnerOptions = [];
+export function generateSpinnerOptions(itemsArray: Array<{value: any, text?: string, label?: string}>): React.ReactNode[] {
+  let spinnerOptions: React.ReactNode[] = [];
   !isEmptyArray(itemsArray) &&
     ((_) =>
       (spinnerOptions = itemsArray.map((item) => {
         return (
           <Picker.Item
-            label={item.text || item.label}
+            label={item.text || item.label || ''}
             value={item.value}
             key={item.value || makeId(16)}
           />
