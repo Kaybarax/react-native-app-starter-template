@@ -24,7 +24,7 @@ import {
   storeObjectToAsyncStorage,
 } from '../util/react-native-based-utils';
 import StoreProviders from './stores-providers';
-import { toJS } from 'mobx';
+import { toJS } from './store-utils-zustand';
 
 // Define types for store provider and store
 interface StoreProvider {

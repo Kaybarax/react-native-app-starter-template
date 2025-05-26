@@ -29,7 +29,7 @@ import { RecipeImage } from '../../app-management/data-manager/models-manager';
 import StarRatings from '../../shared-components-and-modules/form-controls/star-ratings';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faLeaf } from '@fortawesome/free-solid-svg-icons';
-import { toJS } from 'mobx';
+import { toJS } from '../../stores';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../App';
 import {
   editRecipeClick,

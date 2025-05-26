@@ -32,8 +32,7 @@
     "@react-navigation/material-top-tabs": "^6.6.5",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
-    "mobx": "^6.12.0",
-    "mobx-react": "^9.1.0",
+    "zustand": "^4.4.7",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-native": "0.73.2",
@@ -54,7 +53,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",
-    "@babel/plugin-proposal-decorators": "^7.23.7",
     "@babel/plugin-transform-optional-chaining": "^7.23.4",
     "@babel/preset-env": "^7.23.7",
     "@babel/runtime": "^7.23.7",

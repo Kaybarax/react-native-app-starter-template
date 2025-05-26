@@ -8,7 +8,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import { observable, toJS } from 'mobx';
+import { toJS } from './store-utils-zustand';
 import { persistedStoreFromAsyncStorage } from './store-utils';
 import StoreProviders from './stores-providers';
 import { _StoreKey_ } from './actions-and-stores-data';
@@ -40,7 +40,7 @@ export default class AppStores {
         let storeProvider = StoreProviders[key];
         let store = await persistedStoreFromAsyncStorage(storeKey, storeProvider, AppStores.namespace);
         isNullUndefined(store) && (store = storeProvider.storeProvidedBy(AppStores.namespace));
-        this.stores[key] = observable(store);
+        this.stores[key] = store;
         console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key]));
       }
 
@@ -56,7 +56,7 @@ export default class AppStores {
       for (let key in StoreProviders) {
         let storeProvider = StoreProviders[key];
         let store = storeProvider.storeProvidedBy(AppStores.namespace);
-        this.stores[key] = observable(store);
+        this.stores[key] = store;
         console.log('CREATED STORE -> ', key, ' -> ', toJS(this.stores[key]));
       }
 

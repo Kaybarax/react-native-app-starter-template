@@ -27,8 +27,8 @@ import {
 import className from '../../util/react-native-based-utils';
 import { UnderlinedTextCN } from '../../theme/app-text-styles-classnames';
 import WithStoresHoc from '../../stores/with-stores-hoc';
-import { toJS } from 'mobx';
-import { persistStoreToAsyncStorage } from '../../stores/store-utils';
+import { toJS } from '../../stores';
+import { persistStoreToAsyncStorage } from '../../stores';
 
 export default function Login(props) {
   console.log('props at login:', toJS(props));

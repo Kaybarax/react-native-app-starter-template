@@ -8,7 +8,7 @@
  */
 
 import { isEmptyArray, isEmptyString, isNullUndefined, isNumberType } from '../../util/util';
-import { toJS } from 'mobx';
+import { toJS } from '../../stores';
 import { Recipe, RecipeImage, UserRecipe } from '../../app-management/data-manager/models-manager';
 import { showToast } from '../../util/react-native-based-utils';
 import { APP_SQLITE_DATABASE } from '../../app-management/data-manager/db-config';

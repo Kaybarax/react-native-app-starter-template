@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { inject, observer } from 'mobx-react';
+import { useStores } from './with-stores-hook';
 
 /**
  * sd _ Kaybarax
@@ -17,10 +17,12 @@ import { inject, observer } from 'mobx-react';
  * @constructor
  */
 const WithStoresHoc = (Wrapped, stores: Array<string>) => {
-  let WithStores = inject(...stores)(observer(Wrapped));
-
   return function (props) {
-    return <WithStores {...props} />;
+    // Use the useStores hook to get the stores
+    const storeProps = useStores(stores);
+
+    // Pass the stores and the original props to the wrapped component
+    return <Wrapped {...props} {...storeProps} />;
   };
 };
 

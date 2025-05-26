@@ -14,7 +14,7 @@ import {
   FlexFluidRowContainerCN,
 } from '../../theme/app-layout-styles-classnames';
 import { isEmptyArray, isNullUndefined, isTrue, makeId } from '../../util/util';
-import { toJS } from 'mobx';
+import { toJS } from '../../stores';
 import { MAIN_BG_COLOR, SECONDARY_COLOR } from '../../theme/app-theme';
 import { SCREEN_HEIGHT } from '../../App';
 import { BlankSpaceDivider } from '../shared-components';

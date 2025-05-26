@@ -11,7 +11,7 @@ import React from 'react';
 import { isBoolean, isEmptyArray, isEmptyString, isNullUndefined, makeId, objectKeyExists } from './util';
 import { enforceReactNaturalStateUpdateBehavior } from './react-native-based-utils';
 import { Picker } from '@react-native-community/picker';
-import { toJS } from 'mobx';
+import { toJS } from '../stores';
 
 //TEXT-INPUTS
 /**

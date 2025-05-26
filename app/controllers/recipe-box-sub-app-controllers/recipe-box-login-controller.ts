@@ -8,7 +8,7 @@
  */
 
 import { notificationCallback } from '../../shared-components-and-modules/notification-center/notifications-controller';
-import { toJS } from 'mobx';
+import { toJS } from '../../stores';
 import { APP_SQLITE_DATABASE } from '../../app-management/data-manager/db-config';
 import { appSQLiteDb } from '../../app-management/data-manager/embeddedDb-manager';
 import { User, UserCredentials } from '../../app-management/data-manager/models-manager';

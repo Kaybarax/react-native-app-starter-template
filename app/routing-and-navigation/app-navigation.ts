@@ -22,7 +22,7 @@ import {
   RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE,
   RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE,
 } from './views-routes-declarations';
-import { toJS } from 'mobx';
+import { toJS } from '../stores';
 import { showToast } from '../util/react-native-based-utils';
 
 /**

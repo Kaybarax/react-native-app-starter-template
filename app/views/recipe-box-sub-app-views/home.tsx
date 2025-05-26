@@ -22,7 +22,7 @@ import {
 } from '../../theme/app-layout-styles-classnames';
 import WithStoresHoc from '../../stores/with-stores-hoc';
 import appNavigation from '../../routing-and-navigation/app-navigation';
-import { toJS } from 'mobx';
+import { toJS } from '../../stores';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { BlankSpaceDivider } from '../../shared-components-and-modules/shared-components';
@@ -31,7 +31,7 @@ import { notificationCallback } from '../../shared-components-and-modules/notifi
 import { RECIPE_BOX_VIEWS_ACTIONS_ENUM } from '../../stores/actions-and-stores-data';
 import { NEGATIVE_ACTION_COLOR } from '../../theme/app-theme';
 import { SCREEN_HEIGHT } from '../../App';
-import { persistStoreToAsyncStorage } from '../../stores/store-utils';
+import { persistStoreToAsyncStorage } from '../../stores';
 
 export default function RecipeHome(props) {
   console.log('props at RecipeHome:', toJS(props));

@@ -7,8 +7,23 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import AppStores from './app-stores';
+// Export all the zustand stores
+export {
+  useAppStore,
+  useLoginStore,
+  usePage1ExampleStore,
+  usePage2ExampleStore,
+  usePage3ExampleStore,
+  usePage4ExampleStore,
+  useRecipeBoxStore,
+  storeHooks,
+} from './zustand-stores';
 
-const appStores = new AppStores();
+// Export the useStores hook for accessing multiple stores
+export { useStores } from './with-stores-hook';
 
-export default appStores;
+// Export the WithStoresHoc for backward compatibility
+export { default } from './with-stores-hoc';
+
+// Export utility functions
+export { toJS, clearAllPersistedStoresToAsyncStorage, getPersistedStoreKey } from './store-utils-zustand';

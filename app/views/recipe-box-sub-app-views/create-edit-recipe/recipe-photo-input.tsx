@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import { toJS } from 'mobx';
+import { toJS } from '../../../stores';
 import { isEmptyArray, isEmptyString, isNullUndefined } from '../../../util/util';
 import RN from 'react-native';
 import className from '../../../util/react-native-based-utils';

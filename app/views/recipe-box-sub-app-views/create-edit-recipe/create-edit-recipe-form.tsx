@@ -46,7 +46,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { RecipeGroupsSuitable } from '../../../app-management/data-manager/list-manager';
 import { RecipeImage } from '../../../app-management/data-manager/models-manager';
-import { toJS } from 'mobx';
+import { toJS } from '../../../stores';
 import RnMultiSelectKaybarax from '../../../shared-components-and-modules/form-controls/rn-multi-select-kaybarax';
 import { RECIPE_BOX_VIEWS_ACTIONS_ENUM } from '../../../stores/actions-and-stores-data';
 import { POSITIVE_ACTION_COLOR } from '../../../theme/app-theme';

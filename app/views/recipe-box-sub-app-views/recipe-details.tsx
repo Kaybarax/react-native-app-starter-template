@@ -39,7 +39,7 @@ import { BlankSpaceDivider, Spacer } from '../../shared-components-and-modules/s
 import appNavigation from '../../routing-and-navigation/app-navigation';
 import { displayFieldExpectationSatisfied } from '../../controllers/app-controller';
 import AppNotificationToastAlert from '../../shared-components-and-modules/notification-center/app-notification-toast-alert';
-import { toJS } from 'mobx';
+import { toJS } from '../../stores';
 import {
   BackButtonCN,
   BackButtonTextCN,
