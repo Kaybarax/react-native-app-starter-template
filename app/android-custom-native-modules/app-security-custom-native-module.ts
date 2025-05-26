@@ -7,10 +7,10 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {DeviceEventEmitter} from 'react-native';
-import {AppSecurityModule} from './custom-native-modules';
-import {isEmptyString, isNullUndefined} from '../util/util';
-import {showToast} from '../util/react-native-based-utils';
+import { DeviceEventEmitter } from 'react-native';
+import { AppSecurityModule } from './custom-native-modules';
+import { isEmptyString, isNullUndefined } from '../util/util';
+import { showToast } from '../util/react-native-based-utils';
 
 interface UserCredentials {
   password_hash: string;
@@ -97,21 +97,11 @@ export function validatePasswordWithHashAndSalt(
   console.log('validatePasswordWithHashAndSalt');
 
   DeviceEventEmitter.addListener('password_validation_result', (eventResult: PasswordValidationResult) =>
-    validatePasswordWithHashAndSaltListener(
-      eventResult,
-      validatePasswordFeedback,
-    ),
+    validatePasswordWithHashAndSaltListener(eventResult, validatePasswordFeedback),
   );
 
-  AppSecurityModule.validatePasswordWithHashAndSalt(
-    passwordToValidate,
-    hash,
-    salt,
-    (message: string) =>
-      validatePasswordWithHashAndSaltCallback(
-        message,
-        validatePasswordFeedback,
-      ),
+  AppSecurityModule.validatePasswordWithHashAndSalt(passwordToValidate, hash, salt, (message: string) =>
+    validatePasswordWithHashAndSaltCallback(message, validatePasswordFeedback),
   );
 }
 
@@ -120,12 +110,7 @@ export function validatePasswordWithHashAndSaltListener(
   validatePasswordFeedback: ValidatePasswordFeedback,
 ): void {
   console.log('validatePasswordWithHashAndSaltListener');
-  console.log(
-    '\neventResult, ',
-    eventResult,
-    '\nvalidatePassword, ',
-    validatePasswordFeedback,
-  );
+  console.log('\neventResult, ', eventResult, '\nvalidatePassword, ', validatePasswordFeedback);
 
   if (isEmptyString(eventResult.passwordValidationPassed)) {
     showToast('Validate Password Result Indeterminate');

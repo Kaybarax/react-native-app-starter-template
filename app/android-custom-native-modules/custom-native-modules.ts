@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {NativeModules} from 'react-native';
+import { NativeModules } from 'react-native';
 
 export const AppIntentsModule = NativeModules.AppIntentsModule;
 export const AppSecurityModule = NativeModules.AppSecurityModule;
