@@ -5,38 +5,59 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React from 'react';
-import FallBackPage from './fall-back-page';
+import React, { ErrorInfo, ReactNode, useState } from 'react';
 
-export default class SafeComponentWrapper extends React.Component {
-  // @ts-ignore
-  constructor(props) {
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  fallback: ReactNode; // Fallback UI to show during an error
+}
+
+// Internal class component that handles the error boundary functionality
+class ErrorBoundaryInner extends React.Component<
+  ErrorBoundaryProps & { onError: (error: Error | null, hasError: boolean) => void },
+  { hasError: boolean }
+> {
+  constructor(props: ErrorBoundaryProps & { onError: (error: Error | null, hasError: boolean) => void }) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = {
+      hasError: false,
+    };
   }
 
-  // @ts-ignore
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true, error: error };
+  static getDerivedStateFromError(error: Error) {
+    // Update state so the next render shows the fallback UI.
+    return { hasError: true };
   }
 
-  // @ts-ignore
-  componentDidCatch(error, info) {
-    // You can also log the error to an error reporting service
-    // @ts-ignore
-    console.log('caught error --- ', this.state.error);
-    // @ts-ignore
-    console.log('has error --- ', this.state.hasError);
-    console.log('info --- ', info);
-    console.log('error --- ', error);
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // Log the error if needed, e.g., to an error reporting service
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    // Pass the error state to the parent functional component
+    this.props.onError(error, true);
   }
 
   render() {
-    // @ts-ignore
     if (this.state.hasError) {
-      return <FallBackPage />;
+      // Render the fallback UI if an error occurred
+      return this.props.fallback;
     }
-    return <React.Fragment>{this.props.children}</React.Fragment>;
+
+    // Otherwise, render children
+    return this.props.children;
   }
 }
+
+// Functional wrapper component
+const SafeComponentWrapper = (props: ErrorBoundaryProps) => {
+  const [error, setError] = useState<Error | null>(null);
+  const [hasError, setHasError] = useState(false);
+
+  const handleError = (error: Error | null, hasError: boolean) => {
+    setError(error);
+    setHasError(hasError);
+  };
+
+  return <ErrorBoundaryInner {...props} onError={handleError} />;
+};
+
+export default SafeComponentWrapper;
