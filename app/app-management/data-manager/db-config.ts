@@ -7,15 +7,8 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {
-  AppRefKeys,
-  Recipe,
-  RecipeImage,
-  User,
-  UserCredentials,
-  UserRecipe,
-} from './models-manager';
-import {makeId} from '../../util/util';
+import { AppRefKeys, Recipe, RecipeImage, User, UserCredentials, UserRecipe } from './models-manager';
+import { makeId } from '../../util/util';
 
 export const APP_SQLITE_DATABASE = {
   DATABASE_VERSION: '1.0',
@@ -45,21 +38,21 @@ export const APP_SQLITE_DATABASE = {
         USER: {
           name: 'USER',
           get schema() {
-            let schema: User = {id: makeId(32)};
+            let schema: User = { id: makeId(32) };
             return schema;
           },
         },
         USER_CREDENTIALS: {
           name: 'USER_CREDENTIALS',
           schema() {
-            let schema: UserCredentials = {username: makeId(32)};
+            let schema: UserCredentials = { username: makeId(32) };
             return schema;
           },
         },
         RECIPE: {
           name: 'RECIPE',
           schema() {
-            let schema: Recipe = {id: makeId(32)};
+            let schema: Recipe = { id: makeId(32) };
             return schema;
           },
         },

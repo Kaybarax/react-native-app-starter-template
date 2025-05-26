@@ -1,7 +1,7 @@
 //key
 //sd - self described
-import {MAIN_BG_COLOR, SECONDARY_COLOR} from './app-theme';
-import {SCREEN_HEIGHT} from '../App';
+import { MAIN_BG_COLOR, SECONDARY_COLOR } from './app-theme';
+import { SCREEN_HEIGHT } from '../App';
 
 /**
  * @authored by Kaybarax

@@ -7,8 +7,8 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {toJS} from 'mobx';
-import {isEmptyArray, isEmptyString, isNullUndefined} from '../../../util/util';
+import { toJS } from 'mobx';
+import { isEmptyArray, isEmptyString, isNullUndefined } from '../../../util/util';
 import RN from 'react-native';
 import className from '../../../util/react-native-based-utils';
 import {
@@ -16,13 +16,13 @@ import {
   FlexContainerChildItemFullWidthCN,
   FlexFluidRowContainerCN,
 } from '../../../theme/app-layout-styles-classnames';
-import {SCREEN_HEIGHT} from '../../../App';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faPlus, faTimes} from '@fortawesome/free-solid-svg-icons';
+import { SCREEN_HEIGHT } from '../../../App';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
 export default function PhotoInput(props) {
-  let {photoIndex, recipePhotos, removePhoto, showCameraModal} = props;
+  let { photoIndex, recipePhotos, removePhoto, showCameraModal } = props;
 
   let photoPlaceholder = '../../../media/images/image.png';
 
@@ -31,10 +31,10 @@ export default function PhotoInput(props) {
   let photo = isEmptyArray(recipePhotos)
     ? null
     : isNullUndefined(recipePhotos[photoIndex])
-    ? null
-    : isEmptyString(recipePhotos[photoIndex].image_file)
-    ? null
-    : 'data:image/jpeg;base64,' + recipePhotos[photoIndex].image_file;
+      ? null
+      : isEmptyString(recipePhotos[photoIndex].image_file)
+        ? null
+        : 'data:image/jpeg;base64,' + recipePhotos[photoIndex].image_file;
 
   return (
     <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
@@ -47,7 +47,8 @@ export default function PhotoInput(props) {
                 {
                   height: SCREEN_HEIGHT * 0.18,
                 },
-              ]}>
+              ]}
+            >
               <RN.Image
                 style={[
                   {
@@ -79,15 +80,17 @@ export default function PhotoInput(props) {
                   },
                   className(AlignCenterContentCN),
                 ]}
-                onPress={(_) => {
+                onPress={_ => {
                   showCameraModal(photoIndex);
-                }}>
+                }}
+              >
                 <RN.Text
                   style={[
                     {
                       padding: 5,
                     },
-                  ]}>
+                  ]}
+                >
                   <FontAwesomeIcon icon={faPlus} color={'white'} size={20} />
                 </RN.Text>
               </RN.TouchableOpacity>
@@ -106,15 +109,17 @@ export default function PhotoInput(props) {
                   },
                   className(AlignCenterContentCN),
                 ]}
-                onPress={(_) => {
+                onPress={_ => {
                   removePhoto(photoIndex);
-                }}>
+                }}
+              >
                 <RN.Text
                   style={[
                     {
                       padding: 5,
                     },
-                  ]}>
+                  ]}
+                >
                   <FontAwesomeIcon icon={faTimes} color={'white'} size={20} />
                 </RN.Text>
               </RN.TouchableOpacity>

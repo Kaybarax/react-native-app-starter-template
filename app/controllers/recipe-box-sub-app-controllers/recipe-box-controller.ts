@@ -2,20 +2,11 @@
 //key
 //sd - self described
 
-import {
-  isEmptyArray,
-  isEmptyString,
-  isNullUndefined,
-  makeId,
-} from '../../util/util';
-import {
-  Recipe,
-  RecipeImage,
-  UserRecipe,
-} from '../../app-management/data-manager/models-manager';
-import {NUMBER_OF_RECIPE_PHOTOS} from '../../app-config';
-import {showToast} from '../../util/react-native-based-utils';
-import {appSQLiteDb} from '../../app-management/data-manager/embeddedDb-manager';
+import { isEmptyArray, isEmptyString, isNullUndefined, makeId } from '../../util/util';
+import { Recipe, RecipeImage, UserRecipe } from '../../app-management/data-manager/models-manager';
+import { NUMBER_OF_RECIPE_PHOTOS } from '../../app-config';
+import { showToast } from '../../util/react-native-based-utils';
+import { appSQLiteDb } from '../../app-management/data-manager/embeddedDb-manager';
 
 /**
  * sd _ Kaybarax
@@ -24,7 +15,7 @@ import {appSQLiteDb} from '../../app-management/data-manager/embeddedDb-manager'
  */
 export function createRecipe(recipeBoxStore, activity = null) {
   //the recipe
-  let recipe: Recipe = {id: makeId(32)};
+  let recipe: Recipe = { id: makeId(32) };
   recipe.date_created = new Date().toISOString();
   recipe.ingredients = ['']; //add first initial entry
   recipe.cooking_instructions = ['']; //add first initial entry
@@ -106,20 +97,16 @@ export function fetchUserRecipes(userId) {
   }
   console.log('fetchUserRecipes userRecipes', userRecipes);
 
-  let recipes: Array<Recipe> = appSQLiteDb.recipesQueryResults.filter(
-    (item: Recipe) => {
-      return !isNullUndefined(
-        userRecipes.find((it) => it.recipe_id === item.id),
-      );
-    },
-  );
+  let recipes: Array<Recipe> = appSQLiteDb.recipesQueryResults.filter((item: Recipe) => {
+    return !isNullUndefined(userRecipes.find(it => it.recipe_id === item.id));
+  });
   console.log('fetchUserRecipes recipes', recipes);
 
   if (isEmptyArray(recipes)) {
     return recipeItems;
   }
 
-  recipeItems = recipes.map((item) => {
+  recipeItems = recipes.map(item => {
     let recipeItem = {};
     let recipeItemPhotos: Array<RecipeImage> = [];
     for (let it of appSQLiteDb.recipesPhotosQueryResults) {
@@ -132,8 +119,7 @@ export function fetchUserRecipes(userId) {
     // @ts-ignore
     let cooking_instructions: string = item.cooking_instructions;
     console.log('split cooking_instructions', cooking_instructions);
-    !isEmptyString(cooking_instructions) &&
-      (item.cooking_instructions = cooking_instructions.split(','));
+    !isEmptyString(cooking_instructions) && (item.cooking_instructions = cooking_instructions.split(','));
     // @ts-ignore
     let ingredients: string = item.ingredients;
     console.log('split ingredients', ingredients);
@@ -141,8 +127,7 @@ export function fetchUserRecipes(userId) {
     // @ts-ignore
     let groups_suitable: string = item.groups_suitable;
     console.log('split groups_suitable', groups_suitable);
-    !isEmptyString(groups_suitable) &&
-      (item.groups_suitable = groups_suitable.split(','));
+    !isEmptyString(groups_suitable) && (item.groups_suitable = groups_suitable.split(','));
 
     console.log('item.groups_suitable', item.groups_suitable);
 

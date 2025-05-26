@@ -8,10 +8,10 @@
  */
 
 import React from 'react';
-import {isEmptyArray, makeId} from '../util/util';
-import {SOs_and_Credits_List} from '../app-management/data-manager/list-manager';
+import { isEmptyArray, makeId } from '../util/util';
+import { SOs_and_Credits_List } from '../app-management/data-manager/list-manager';
 import appNavigation from '../routing-and-navigation/app-navigation';
-import RN, {Image, Text, View} from 'react-native';
+import RN, { Image, Text, View } from 'react-native';
 import {
   AlignCenterTextCN,
   AlignLeftFlexContainerContentCN,
@@ -20,34 +20,21 @@ import {
   FlexFluidRowContainerCN,
 } from '../theme/app-layout-styles-classnames';
 import className from '../util/react-native-based-utils';
-import {
-  BlankSpaceDivider,
-  NewLine,
-  Spacer,
-} from '../shared-components-and-modules/shared-components';
-import {
-  BoldTextCN,
-  ItalicizedTextCN,
-  LinkText,
-} from '../theme/app-text-styles-classnames';
+import { BlankSpaceDivider, NewLine, Spacer } from '../shared-components-and-modules/shared-components';
+import { BoldTextCN, ItalicizedTextCN, LinkText } from '../theme/app-text-styles-classnames';
 
 export default function Page4Example(props) {
-  const {navigation} = props;
+  const { navigation } = props;
 
-  const _viewAttributedPersonDetails = (person) => {
-    appNavigation.navigateToPage4SubItemExample(navigation, {item: person});
+  const _viewAttributedPersonDetails = person => {
+    appNavigation.navigateToPage4SubItemExample(navigation, { item: person });
   };
 
   return (
-    <RN.ScrollView
-      contentInsetAdjustmentBehavior={'automatic'}
-      style={[className(FlexColumnContainerCN)]}>
+    <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[className(FlexColumnContainerCN)]}>
       <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
         <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <Text
-            style={[
-              className(FlexContainerChildItemFullWidthCN, AlignCenterTextCN),
-            ]}>
+          <Text style={[className(FlexContainerChildItemFullWidthCN, AlignCenterTextCN)]}>
             Page 4 Example : About me, and S/Os and credits
           </Text>
         </RN.View>
@@ -57,72 +44,51 @@ export default function Page4Example(props) {
         <RN.View style={[className(FlexFluidRowContainerCN)]}>
           <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
             <RN.View style={[className(FlexFluidRowContainerCN)]}>
-              <Text
-                style={[
-                  className([
-                    FlexContainerChildItemFullWidthCN,
-                    AlignLeftFlexContainerContentCN,
-                  ]),
-                ]}>
+              <Text style={[className([FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN])]}>
                 <Text
                   style={[
                     {
                       fontWeight: 'bold',
                     },
-                  ]}>
+                  ]}
+                >
                   About me:
                 </Text>
                 <NewLine lines={3} />
-                Hi. I'm Kevin Barasa. A full stack software engineer currently
-                based in my hometown and&nbsp; country, Nairobi, Kenya. At this
-                time of this build and writing (September, 2020), I have 3
-                and&nbsp;a half years of professional (hired) software
-                engineering experience, and 5 to 6 yrs of total software
-                engineering experience, both professionally and personally.
+                Hi. I'm Kevin Barasa. A full stack software engineer currently based in my hometown and&nbsp; country,
+                Nairobi, Kenya. At this time of this build and writing (September, 2020), I have 3 and&nbsp;a half years
+                of professional (hired) software engineering experience, and 5 to 6 yrs of total software engineering
+                experience, both professionally and personally.
                 <NewLine lines={3} />
                 I'm especially, particularly well versed with
                 <Text style={[className(ItalicizedTextCN)]}>Java</Text>,
-                <Text style={[className(ItalicizedTextCN)]}>
-                  SQL (MySQL/OracleSQL)
-                </Text>
+                <Text style={[className(ItalicizedTextCN)]}>SQL (MySQL/OracleSQL)</Text>
                 ,&nbsp;
-                <Text style={[className(ItalicizedTextCN)]}>
-                  Javascript and web technologies
-                </Text>
-                ,
-                <Text style={[className(ItalicizedTextCN)]}>
-                  Mobile app development with React Native and Android
-                </Text>
-                ,&nbsp; and I have, and can as well work with other languages
-                and technologies like&nbsp;
-                <Text style={[className(ItalicizedTextCN)]}>
-                  Python, C++, C#, Dart, NoSQL Dbs, and AWS cloud
-                </Text>
+                <Text style={[className(ItalicizedTextCN)]}>Javascript and web technologies</Text>,
+                <Text style={[className(ItalicizedTextCN)]}>Mobile app development with React Native and Android</Text>
+                ,&nbsp; and I have, and can as well work with other languages and technologies like&nbsp;
+                <Text style={[className(ItalicizedTextCN)]}>Python, C++, C#, Dart, NoSQL Dbs, and AWS cloud</Text>
                 .
                 <NewLine lines={3} />
                 <Text>Let's connect:</Text>
                 <NewLine lines={3} />
                 <RN.Pressable
                   style={[className(FlexFluidRowContainerCN)]}
-                  onPress={(_) => {
-                    RN.Linking.openURL('https://linkedin.com/in/kaybarax').then(
-                      null,
-                    );
-                  }}>
+                  onPress={_ => {
+                    RN.Linking.openURL('https://linkedin.com/in/kaybarax').then(null);
+                  }}
+                >
                   <RN.Text>LinkedIn:</RN.Text>
                   <Spacer />
-                  <Text style={[className(LinkText)]}>
-                    Kevin Barasa (kaybarax)
-                  </Text>
+                  <Text style={[className(LinkText)]}>Kevin Barasa (kaybarax)</Text>
                 </RN.Pressable>
                 <NewLine lines={3} />
                 <RN.Pressable
                   style={[className(FlexFluidRowContainerCN)]}
-                  onPress={(_) => {
-                    RN.Linking.openURL('https://github.com/Kaybarax').then(
-                      null,
-                    );
-                  }}>
+                  onPress={_ => {
+                    RN.Linking.openURL('https://github.com/Kaybarax').then(null);
+                  }}
+                >
                   <RN.Text>Github:</RN.Text>
                   <Spacer />
                   <Text style={[className(LinkText)]}>Kaybarax</Text>
@@ -130,22 +96,19 @@ export default function Page4Example(props) {
                 <NewLine lines={3} />
                 <RN.Pressable
                   style={[className(FlexFluidRowContainerCN)]}
-                  onPress={(_) => {
-                    RN.Linking.openURL('https://twitter.com/Kaybarax').then(
-                      null,
-                    );
-                  }}>
+                  onPress={_ => {
+                    RN.Linking.openURL('https://twitter.com/Kaybarax').then(null);
+                  }}
+                >
                   <RN.Text>Twitter:</RN.Text>
                   <Spacer />
                   <Text style={[className(LinkText)]}>Kaybarax</Text>
                 </RN.Pressable>
                 <NewLine lines={3} />
-                <Text style={[className(BoldTextCN)]}>
-                  Shout out's and credits:
-                </Text>
+                <Text style={[className(BoldTextCN)]}>Shout out's and credits:</Text>
                 <NewLine lines={1} />
                 {!isEmptyArray(SOs_and_Credits_List) &&
-                  SOs_and_Credits_List.map((item) => {
+                  SOs_and_Credits_List.map(item => {
                     return (
                       <View key={makeId(16)} style={[]}>
                         <View style={[]}>
@@ -163,13 +126,11 @@ export default function Page4Example(props) {
                                 <BlankSpaceDivider />
                                 <View>
                                   <RN.Pressable
-                                    onPress={(_) => {
+                                    onPress={_ => {
                                       _viewAttributedPersonDetails(item.person);
-                                    }}>
-                                    <Text
-                                      style={[className(LinkText, BoldTextCN)]}>
-                                      {item.person}
-                                    </Text>
+                                    }}
+                                  >
+                                    <Text style={[className(LinkText, BoldTextCN)]}>{item.person}</Text>
                                   </RN.Pressable>
                                 </View>
                               </View>
@@ -180,13 +141,11 @@ export default function Page4Example(props) {
                             <RN.TouchableOpacity
                               activeOpacity={0.6}
                               style={[]}
-                              onPress={(_) => {
+                              onPress={_ => {
                                 _viewAttributedPersonDetails(item.person);
-                              }}>
-                              <Text>
-                                A little about {item.person}, click to view full
-                                details
-                              </Text>
+                              }}
+                            >
+                              <Text>A little about {item.person}, click to view full details</Text>
                               <Image
                                 source={require('../media/images/short-paragraph.png')}
                                 style={{

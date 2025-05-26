@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {isNullUndefined, isTrue, objectKeyExists} from '../util/util';
+import { isNullUndefined, isTrue, objectKeyExists } from '../util/util';
 
 /**
  * sd _ Kaybarax
@@ -16,11 +16,7 @@ import {isNullUndefined, isTrue, objectKeyExists} from '../util/util';
  * @param expectationFunction
  * @returns {*}
  */
-export function displayFieldExpectationSatisfied(
-  key,
-  model,
-  expectationFunction,
-) {
+export function displayFieldExpectationSatisfied(key, model, expectationFunction) {
   if (isNullUndefined(model)) {
     return false;
   }
@@ -59,11 +55,9 @@ export function serviceWorkerThread(
   let threadIndex = threadPool.length;
 
   threadPool.push(
-    setInterval((_) => {
+    setInterval(_ => {
       let runThread: boolean | Function =
-        typeof startOrJoinThread === 'boolean'
-          ? startOrJoinThread
-          : startOrJoinThread.call(null);
+        typeof startOrJoinThread === 'boolean' ? startOrJoinThread : startOrJoinThread.call(null);
 
       if (runThread) {
         //clear this top level thread
@@ -76,11 +70,9 @@ export function serviceWorkerThread(
         threadIndex = threadPool.length;
 
         threadPool.push(
-          setInterval((_) => {
+          setInterval(_ => {
             let done: boolean | Function =
-              typeof threadWorkRunSuccess === 'boolean'
-                ? threadWorkRunSuccess
-                : threadWorkRunSuccess.call(null);
+              typeof threadWorkRunSuccess === 'boolean' ? threadWorkRunSuccess : threadWorkRunSuccess.call(null);
             console.log('Thread work at -> ', countdown, done);
             if (isTrue(done)) {
               clearInterval(threadPool[threadIndex]);

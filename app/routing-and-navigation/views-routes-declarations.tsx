@@ -9,7 +9,7 @@
 
 import NotFound from '../views/not-found';
 import AppDevScratchPad from '../app-dev-scratch-pad/app-dev-scratch-pad';
-import {ViewRoute} from './routing-and-navigation-utils';
+import { ViewRoute } from './routing-and-navigation-utils';
 import WithStoresHoc from '../stores/with-stores-hoc';
 import RecipeRequests from '../views/recipe-box-sub-app-views/recipe-requests';
 import RecipeDetails from '../views/recipe-box-sub-app-views/recipe-details';
@@ -116,11 +116,7 @@ export const MY_RECIPE_LOGIN_VIEW_ROUTE: ViewRoute = {
 
 export const MY_RECIPE_HOME_VIEW_ROUTE: ViewRoute = {
   name: 'MY_RECIPE_HOME_VIEW_ROUTE',
-  screen: WithStoresHoc(RecipeHome, [
-    'loginStore',
-    'appStore',
-    'recipeBoxStore',
-  ]),
+  screen: WithStoresHoc(RecipeHome, ['loginStore', 'appStore', 'recipeBoxStore']),
   viewTitle: 'Home',
 };
 
@@ -132,11 +128,7 @@ export const MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE: ViewRoute = {
 
 export const MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE: ViewRoute = {
   name: 'MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE',
-  screen: WithStoresHoc(CreateEditRecipeForm, [
-    'loginStore',
-    'appStore',
-    'recipeBoxStore',
-  ]),
+  screen: WithStoresHoc(CreateEditRecipeForm, ['loginStore', 'appStore', 'recipeBoxStore']),
   viewTitle: '',
 };
 

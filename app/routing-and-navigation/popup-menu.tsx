@@ -8,14 +8,14 @@
  */
 
 import React from 'react';
-import RN, {Alert} from 'react-native';
+import RN, { Alert } from 'react-native';
 import PropTypes from 'prop-types';
-import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
-import {SECONDARY_COLOR} from '../theme/app-theme';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { SECONDARY_COLOR } from '../theme/app-theme';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import appNavigation from './app-navigation';
 import WithStoresHoc from '../stores/with-stores-hoc';
-import {handleLogOut} from '../controllers/recipe-box-sub-app-controllers/recipe-box-login-controller';
+import { handleLogOut } from '../controllers/recipe-box-sub-app-controllers/recipe-box-login-controller';
 
 interface PopupMenuProps {
   actions: string[];
@@ -37,7 +37,7 @@ export class PopupMenu extends React.Component<PopupMenuProps> {
   };
 
   handleMenuPress = (): void => {
-    const {actions, onPress} = this.props;
+    const { actions, onPress } = this.props;
     RN.UIManager.showPopupMenu(
       RN.findNodeHandle(this.menu.current as any),
       actions,
@@ -48,7 +48,7 @@ export class PopupMenu extends React.Component<PopupMenuProps> {
 
   render(): React.ReactNode {
     return (
-      <RN.View style={[{paddingBottom: 10}]}>
+      <RN.View style={[{ paddingBottom: 10 }]}>
         {this.props.children}
         <RN.TouchableOpacity
           onPress={this.handleMenuPress}
@@ -61,13 +61,10 @@ export class PopupMenu extends React.Component<PopupMenuProps> {
               borderRadius: 45,
               borderColor: 'transparent',
             },
-          ]}>
+          ]}
+        >
           <RN.Text ref={this.menu}>
-            <FontAwesomeIcon
-              icon={faEllipsisV}
-              color={SECONDARY_COLOR}
-              size={30}
-            />
+            <FontAwesomeIcon icon={faEllipsisV} color={SECONDARY_COLOR} size={30} />
           </RN.Text>
         </RN.TouchableOpacity>
       </RN.View>
@@ -97,16 +94,9 @@ interface RecipeBoxPopupMenuProps {
 
 export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): JSX.Element {
   console.log('RecipeBoxPopupMenu props', props);
-  let {recipeBoxStore, loginStore} = props;
-  let {
-    drawerProps,
-    executeHaltedBackNavigation,
-    navigator,
-  } = appNavigation.globalNavigationProps;
-  console.log(
-    'RecipeBoxPopupMenu globalNavigationProps',
-    appNavigation.globalNavigationProps,
-  );
+  let { recipeBoxStore, loginStore } = props;
+  let { drawerProps, executeHaltedBackNavigation, navigator } = appNavigation.globalNavigationProps;
+  console.log('RecipeBoxPopupMenu globalNavigationProps', appNavigation.globalNavigationProps);
 
   return (
     <RN.View
@@ -114,9 +104,10 @@ export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): JSX.Element 
         {
           marginTop: 30,
         },
-      ]}>
+      ]}
+    >
       <PopupMenu
-        style={{backgroundColor: '#A880A1'}}
+        style={{ backgroundColor: '#A880A1' }}
         actions={['Anything', 'Logout']}
         onPress={(e, i) => {
           if (i === 0) {
@@ -132,10 +123,7 @@ export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): JSX.Element 
               //logout
               handleLogOut(recipeBoxStore, loginStore, navigator);
             } catch (err) {
-              Alert.alert(
-                'Go back error!',
-                'Custom back navigation, after halting, not registered!',
-              );
+              Alert.alert('Go back error!', 'Custom back navigation, after halting, not registered!');
             }
           }
         }}
@@ -144,9 +132,6 @@ export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): JSX.Element 
   );
 }
 
-export const RecipeBoxPopupMenuWithStores = WithStoresHoc(RecipeBoxPopupMenu, [
-  'recipeBoxStore',
-  'loginStore',
-]);
+export const RecipeBoxPopupMenuWithStores = WithStoresHoc(RecipeBoxPopupMenu, ['recipeBoxStore', 'loginStore']);
 
 export default PopupMenu;

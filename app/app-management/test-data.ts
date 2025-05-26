@@ -1,5 +1,5 @@
-import {Recipe, RecipeImage} from './data-manager/models-manager';
-import {RecipeGroupsSuitable} from './data-manager/list-manager';
+import { Recipe, RecipeImage } from './data-manager/models-manager';
+import { RecipeGroupsSuitable } from './data-manager/list-manager';
 
 export const TEST_RECIPES: Array<Recipe> = [
   {
@@ -7,23 +7,9 @@ export const TEST_RECIPES: Array<Recipe> = [
     name: 'Jolof',
     is_vegetarian: false,
     is_vegan: false,
-    ingredients: [
-      'Ingredient A',
-      'Ingredient B',
-      'Ingredient C',
-      'Ingredient D',
-    ],
-    cooking_instructions: [
-      'Instruction A',
-      'Instruction B',
-      'Instruction C',
-      'Instruction D',
-    ],
-    groups_suitable: [
-      RecipeGroupsSuitable[0].label,
-      RecipeGroupsSuitable[1].label,
-      RecipeGroupsSuitable[2].label,
-    ],
+    ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C', 'Ingredient D'],
+    cooking_instructions: ['Instruction A', 'Instruction B', 'Instruction C', 'Instruction D'],
+    groups_suitable: [RecipeGroupsSuitable[0].label, RecipeGroupsSuitable[1].label, RecipeGroupsSuitable[2].label],
     date_created: new Date(2020, 5, 13).toISOString(),
     rating: 0,
     status_ref_key_key: 'STATUS',
@@ -34,23 +20,9 @@ export const TEST_RECIPES: Array<Recipe> = [
     name: 'Lacatte',
     is_vegetarian: true,
     is_vegan: false,
-    ingredients: [
-      'Ingredient A',
-      'Ingredient B',
-      'Ingredient C',
-      'Ingredient D',
-    ],
-    cooking_instructions: [
-      'Instruction A',
-      'Instruction B',
-      'Instruction C',
-      'Instruction D',
-    ],
-    groups_suitable: [
-      RecipeGroupsSuitable[2].label,
-      RecipeGroupsSuitable[3].label,
-      RecipeGroupsSuitable[4].label,
-    ],
+    ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C', 'Ingredient D'],
+    cooking_instructions: ['Instruction A', 'Instruction B', 'Instruction C', 'Instruction D'],
+    groups_suitable: [RecipeGroupsSuitable[2].label, RecipeGroupsSuitable[3].label, RecipeGroupsSuitable[4].label],
     date_created: new Date(2020, 5, 13).toISOString(),
     rating: 0,
     status_ref_key_key: 'STATUS',
@@ -61,23 +33,9 @@ export const TEST_RECIPES: Array<Recipe> = [
     name: 'Postir',
     is_vegetarian: true,
     is_vegan: true,
-    ingredients: [
-      'Ingredient A',
-      'Ingredient B',
-      'Ingredient C',
-      'Ingredient D',
-    ],
-    cooking_instructions: [
-      'Instruction A',
-      'Instruction B',
-      'Instruction C',
-      'Instruction D',
-    ],
-    groups_suitable: [
-      RecipeGroupsSuitable[0].label,
-      RecipeGroupsSuitable[4].label,
-      RecipeGroupsSuitable[1].label,
-    ],
+    ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C', 'Ingredient D'],
+    cooking_instructions: ['Instruction A', 'Instruction B', 'Instruction C', 'Instruction D'],
+    groups_suitable: [RecipeGroupsSuitable[0].label, RecipeGroupsSuitable[4].label, RecipeGroupsSuitable[1].label],
     date_created: new Date(2020, 5, 13).toISOString(),
     rating: 0,
     status_ref_key_key: 'STATUS',
@@ -88,22 +46,9 @@ export const TEST_RECIPES: Array<Recipe> = [
     name: 'Casserole',
     is_vegetarian: false,
     is_vegan: false,
-    ingredients: [
-      'Ingredient A',
-      'Ingredient B',
-      'Ingredient C',
-      'Ingredient D',
-    ],
-    cooking_instructions: [
-      'Instruction A',
-      'Instruction B',
-      'Instruction C',
-      'Instruction D',
-    ],
-    groups_suitable: [
-      RecipeGroupsSuitable[4].label,
-      RecipeGroupsSuitable[5].label,
-    ],
+    ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C', 'Ingredient D'],
+    cooking_instructions: ['Instruction A', 'Instruction B', 'Instruction C', 'Instruction D'],
+    groups_suitable: [RecipeGroupsSuitable[4].label, RecipeGroupsSuitable[5].label],
     date_created: new Date(2020, 5, 13).toISOString(),
     rating: 0,
     status_ref_key_key: 'STATUS',
@@ -114,18 +59,8 @@ export const TEST_RECIPES: Array<Recipe> = [
     name: 'Frijoles',
     is_vegetarian: true,
     is_vegan: true,
-    ingredients: [
-      'Ingredient A',
-      'Ingredient B',
-      'Ingredient C',
-      'Ingredient D',
-    ],
-    cooking_instructions: [
-      'Instruction A',
-      'Instruction B',
-      'Instruction C',
-      'Instruction D',
-    ],
+    ingredients: ['Ingredient A', 'Ingredient B', 'Ingredient C', 'Ingredient D'],
+    cooking_instructions: ['Instruction A', 'Instruction B', 'Instruction C', 'Instruction D'],
     groups_suitable: [],
     date_created: new Date(2020, 5, 13).toISOString(),
     rating: 0,

@@ -8,13 +8,8 @@
  */
 
 import SQLite from 'react-native-sqlite-storage';
-import {APP_SQLITE_DATABASE} from './db-config';
-import {
-  isBoolean,
-  isEmptyArray,
-  isNullUndefined,
-  stringifyObject,
-} from '../../util/util';
+import { APP_SQLITE_DATABASE } from './db-config';
+import { isBoolean, isEmptyArray, isNullUndefined, stringifyObject } from '../../util/util';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(false);
@@ -107,42 +102,30 @@ class AppSQLiteDb {
       () => {
         //on success
         this.updateProgress('Database is ready ... executing test query ...');
-        db.transaction(
-          this.runInitialQueriesAndLoadInitialData,
-          this.errorCB,
-          () => {
-            //on success
-            this.updateProgress('Processing completed');
-            this.dbLoadedAndInitialized = true;
-          },
-        );
+        db.transaction(this.runInitialQueriesAndLoadInitialData, this.errorCB, () => {
+          //on success
+          this.updateProgress('Processing completed');
+          this.dbLoadedAndInitialized = true;
+        });
       },
       (error: any) => {
         //on error
         console.log('received version error:', error);
-        this.updateProgress(
-          'received version error: ' + stringifyObject(error),
-        );
-        this.updateProgress(
-          'Database not yet ready ... will try to populate db',
-        );
+        this.updateProgress('received version error: ' + stringifyObject(error));
+        this.updateProgress('Database not yet ready ... will try to populate db');
         //populate db
         this.updateProgress('Populate db');
         db.transaction(this.populateDB, this.errorCB, () => {
           //on success
           this.updateProgress('Database populated ... executing query ...');
           //attempt again the initial queries
-          db.transaction(
-            this.runInitialQueriesAndLoadInitialData,
-            this.errorCB,
-            () => {
-              //on success
-              this.updateProgress('Transaction is now finished');
-              this.updateProgress('Processing completed');
-              this.dbLoadedAndInitialized = true;
-              this.closeDatabase();
-            },
-          );
+          db.transaction(this.runInitialQueriesAndLoadInitialData, this.errorCB, () => {
+            //on success
+            this.updateProgress('Transaction is now finished');
+            this.updateProgress('Processing completed');
+            this.dbLoadedAndInitialized = true;
+            this.closeDatabase();
+          });
         });
       },
     );
@@ -166,8 +149,7 @@ class AppSQLiteDb {
 
   runInitialTablesCreation = (dbtx: any): void => {
     dbtx.executeSql(
-      'CREATE TABLE IF NOT EXISTS Version ( ' +
-        'version_id INTEGER PRIMARY KEY NOT NULL); ',
+      'CREATE TABLE IF NOT EXISTS Version ( ' + 'version_id INTEGER PRIMARY KEY NOT NULL); ',
       [],
       this.successCB,
       this.errorCB,
@@ -293,8 +275,8 @@ class AppSQLiteDb {
     );
   };
 
-  addAppRefKeyStmt = (dbtx: any, data: {key: string, value: string, label: string}): void => {
-    let {key, value, label} = data;
+  addAppRefKeyStmt = (dbtx: any, data: { key: string; value: string; label: string }): void => {
+    let { key, value, label } = data;
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.APP_REF_KEYS.name} (key, value, label) 
                     VALUES ("${key}", "${label}", "${value}")`,
@@ -304,22 +286,18 @@ class AppSQLiteDb {
     );
   };
 
-  addUserStmt = (dbtx: any, user: {
-    id: string,
-    name: string,
-    email: string,
-    username: string,
-    status_ref_key_key: string,
-    status_ref_key_value: string
-  }): any => {
-    let {
-      id,
-      name,
-      email,
-      username,
-      status_ref_key_key,
-      status_ref_key_value,
-    } = user;
+  addUserStmt = (
+    dbtx: any,
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      username: string;
+      status_ref_key_key: string;
+      status_ref_key_value: string;
+    },
+  ): any => {
+    let { id, name, email, username, status_ref_key_key, status_ref_key_value } = user;
     return dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.USER.name} (id, name, email, username, status_ref_key_key, 
                     status_ref_key_value) VALUES ("${id}", "${name}", "${email}", "${username}", 
@@ -330,12 +308,15 @@ class AppSQLiteDb {
     );
   };
 
-  addUserCredentialsStmt = (dbtx: any, data: {
-    username: string,
-    password_hash: string,
-    salt: string
-  }): void => {
-    let {username, password_hash, salt} = data;
+  addUserCredentialsStmt = (
+    dbtx: any,
+    data: {
+      username: string;
+      password_hash: string;
+      salt: string;
+    },
+  ): void => {
+    let { username, password_hash, salt } = data;
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.USER_CREDENTIALS.name} (username, password_hash, salt)
                     VALUES ("${username}", "${password_hash}", "${salt}")`,
@@ -345,18 +326,21 @@ class AppSQLiteDb {
     );
   };
 
-  addRecipeStmt = (dbtx: any, data: {
-    id: string,
-    name: string,
-    is_vegetarian: boolean | number,
-    is_vegan: boolean | number,
-    ingredients: string,
-    cooking_instructions: string,
-    groups_suitable: string,
-    date_created: string,
-    status_ref_key_key: string,
-    status_ref_key_value: string | number
-  }): void => {
+  addRecipeStmt = (
+    dbtx: any,
+    data: {
+      id: string;
+      name: string;
+      is_vegetarian: boolean | number;
+      is_vegan: boolean | number;
+      ingredients: string;
+      cooking_instructions: string;
+      groups_suitable: string;
+      date_created: string;
+      status_ref_key_key: string;
+      status_ref_key_value: string | number;
+    },
+  ): void => {
     let {
       id,
       name,
@@ -381,8 +365,8 @@ class AppSQLiteDb {
     );
   };
 
-  addUserRecipeStmt = (dbtx: any, data: {user_id: string, recipe_id: string}): void => {
-    let {user_id, recipe_id} = data;
+  addUserRecipeStmt = (dbtx: any, data: { user_id: string; recipe_id: string }): void => {
+    let { user_id, recipe_id } = data;
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.USER_RECIPE.name} (user_id, recipe_id)
                     VALUES ("${user_id}", "${recipe_id}")`,
@@ -392,13 +376,16 @@ class AppSQLiteDb {
     );
   };
 
-  addRecipeImageStmt = (dbtx: any, data: {
-    id: string,
-    recipe_id: string,
-    image_url: string,
-    image_file: string
-  }): void => {
-    let {id, recipe_id, image_url, image_file} = data;
+  addRecipeImageStmt = (
+    dbtx: any,
+    data: {
+      id: string;
+      recipe_id: string;
+      image_url: string;
+      image_file: string;
+    },
+  ): void => {
+    let { id, recipe_id, image_url, image_file } = data;
     dbtx.executeSql(
       `INSERT INTO ${this.appDatabaseTables.RECIPE_IMAGE.name} (id, recipe_id, image_url, image_file)
                     VALUES ("${id}", "${recipe_id}", "${image_url}", "${image_file}")`,
@@ -448,11 +435,7 @@ class AppSQLiteDb {
       `SELECT * FROM ${this.appDatabaseTables.APP_REF_KEYS.name};`,
       [],
       (sqltx: any, results: any) => {
-        this.querySuccess(
-          sqltx,
-          results,
-          this.appDatabaseTables.APP_REF_KEYS.name,
-        );
+        this.querySuccess(sqltx, results, this.appDatabaseTables.APP_REF_KEYS.name);
       },
       this.errorCB,
     );
@@ -470,11 +453,7 @@ class AppSQLiteDb {
       `SELECT * FROM ${this.appDatabaseTables.USER_CREDENTIALS.name};`,
       [],
       (sqltx: any, results: any) => {
-        this.querySuccess(
-          sqltx,
-          results,
-          this.appDatabaseTables.USER_CREDENTIALS.name,
-        );
+        this.querySuccess(sqltx, results, this.appDatabaseTables.USER_CREDENTIALS.name);
       },
       this.errorCB,
     );
@@ -492,11 +471,7 @@ class AppSQLiteDb {
       `SELECT * FROM ${this.appDatabaseTables.RECIPE_IMAGE.name};`,
       [],
       (sqltx: any, results: any) => {
-        this.querySuccess(
-          sqltx,
-          results,
-          this.appDatabaseTables.RECIPE_IMAGE.name,
-        );
+        this.querySuccess(sqltx, results, this.appDatabaseTables.RECIPE_IMAGE.name);
       },
       this.errorCB,
     );
@@ -505,11 +480,7 @@ class AppSQLiteDb {
       `SELECT * FROM ${this.appDatabaseTables.USER_RECIPE.name};`,
       [],
       (sqltx: any, results: any) => {
-        this.querySuccess(
-          sqltx,
-          results,
-          this.appDatabaseTables.USER_RECIPE.name,
-        );
+        this.querySuccess(sqltx, results, this.appDatabaseTables.USER_RECIPE.name);
       },
       this.errorCB,
     );
@@ -572,94 +543,56 @@ class AppSQLiteDb {
 
     //clear duplicates that come up from buggy sqlite
     let usersQueryResults =
-      !isEmptyArray(this.usersQueryResults) &&
-      this.usersQueryResults.map((item) => stringifyObject(item));
-    let dataset =
-      !isEmptyArray(usersQueryResults) && new Set(usersQueryResults);
+      !isEmptyArray(this.usersQueryResults) && this.usersQueryResults.map(item => stringifyObject(item));
+    let dataset = !isEmptyArray(usersQueryResults) && new Set(usersQueryResults);
     usersQueryResults = !isBoolean(dataset) && Array.from(dataset);
-    usersQueryResults =
-      !isEmptyArray(usersQueryResults) &&
-      usersQueryResults.map((item) => JSON.parse(item));
-    this.usersQueryResults = !isEmptyArray(usersQueryResults)
-      ? [...usersQueryResults]
-      : [];
+    usersQueryResults = !isEmptyArray(usersQueryResults) && usersQueryResults.map(item => JSON.parse(item));
+    this.usersQueryResults = !isEmptyArray(usersQueryResults) ? [...usersQueryResults] : [];
     console.log('this.usersQueryResults', this.usersQueryResults);
 
     let usersCredentialsQueryResults =
       !isEmptyArray(this.usersCredentialsQueryResults) &&
-      this.usersCredentialsQueryResults.map((item) => stringifyObject(item));
-    dataset =
-      !isEmptyArray(usersCredentialsQueryResults) &&
-      new Set(usersCredentialsQueryResults);
+      this.usersCredentialsQueryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(usersCredentialsQueryResults) && new Set(usersCredentialsQueryResults);
     usersCredentialsQueryResults = !isBoolean(dataset) && Array.from(dataset);
     usersCredentialsQueryResults =
-      !isEmptyArray(usersCredentialsQueryResults) &&
-      usersCredentialsQueryResults.map((item) => JSON.parse(item));
-    this.usersCredentialsQueryResults = !isEmptyArray(
-      usersCredentialsQueryResults,
-    )
+      !isEmptyArray(usersCredentialsQueryResults) && usersCredentialsQueryResults.map(item => JSON.parse(item));
+    this.usersCredentialsQueryResults = !isEmptyArray(usersCredentialsQueryResults)
       ? [...usersCredentialsQueryResults]
       : [];
-    console.log(
-      'this.usersCredentialsQueryResults',
-      this.usersCredentialsQueryResults,
-    );
+    console.log('this.usersCredentialsQueryResults', this.usersCredentialsQueryResults);
 
     let recipesQueryResults =
-      !isEmptyArray(this.recipesQueryResults) &&
-      this.recipesQueryResults.map((item) => stringifyObject(item));
-    dataset =
-      !isEmptyArray(recipesQueryResults) && new Set(recipesQueryResults);
+      !isEmptyArray(this.recipesQueryResults) && this.recipesQueryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(recipesQueryResults) && new Set(recipesQueryResults);
     recipesQueryResults = !isBoolean(dataset) && Array.from(dataset);
-    recipesQueryResults =
-      !isEmptyArray(recipesQueryResults) &&
-      recipesQueryResults.map((item) => JSON.parse(item));
-    this.recipesQueryResults = !isEmptyArray(recipesQueryResults)
-      ? [...recipesQueryResults]
-      : [];
+    recipesQueryResults = !isEmptyArray(recipesQueryResults) && recipesQueryResults.map(item => JSON.parse(item));
+    this.recipesQueryResults = !isEmptyArray(recipesQueryResults) ? [...recipesQueryResults] : [];
     console.log('this.recipesQueryResults', this.recipesQueryResults);
 
     let recipesPhotosQueryResults =
       !isEmptyArray(this.recipesPhotosQueryResults) &&
-      this.recipesPhotosQueryResults.map((item) => stringifyObject(item));
-    dataset =
-      !isEmptyArray(recipesPhotosQueryResults) &&
-      new Set(recipesPhotosQueryResults);
+      this.recipesPhotosQueryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(recipesPhotosQueryResults) && new Set(recipesPhotosQueryResults);
     recipesPhotosQueryResults = !isBoolean(dataset) && Array.from(dataset);
     recipesPhotosQueryResults =
-      !isEmptyArray(recipesPhotosQueryResults) &&
-      recipesPhotosQueryResults.map((item) => JSON.parse(item));
-    this.recipesPhotosQueryResults = !isEmptyArray(recipesPhotosQueryResults)
-      ? [...recipesPhotosQueryResults]
-      : [];
-    console.log(
-      'this.recipesPhotosQueryResults',
-      this.recipesPhotosQueryResults,
-    );
+      !isEmptyArray(recipesPhotosQueryResults) && recipesPhotosQueryResults.map(item => JSON.parse(item));
+    this.recipesPhotosQueryResults = !isEmptyArray(recipesPhotosQueryResults) ? [...recipesPhotosQueryResults] : [];
+    console.log('this.recipesPhotosQueryResults', this.recipesPhotosQueryResults);
 
     let usersRecipesQueryResults =
-      !isEmptyArray(this.usersRecipesQueryResults) &&
-      this.usersRecipesQueryResults.map((item) => stringifyObject(item));
-    dataset =
-      !isEmptyArray(usersRecipesQueryResults) &&
-      new Set(usersRecipesQueryResults);
+      !isEmptyArray(this.usersRecipesQueryResults) && this.usersRecipesQueryResults.map(item => stringifyObject(item));
+    dataset = !isEmptyArray(usersRecipesQueryResults) && new Set(usersRecipesQueryResults);
     usersRecipesQueryResults = !isBoolean(dataset) && Array.from(dataset);
     usersRecipesQueryResults =
-      !isEmptyArray(usersRecipesQueryResults) &&
-      usersRecipesQueryResults.map((item) => JSON.parse(item));
-    this.usersRecipesQueryResults = !isEmptyArray(usersRecipesQueryResults)
-      ? [...usersRecipesQueryResults]
-      : [];
+      !isEmptyArray(usersRecipesQueryResults) && usersRecipesQueryResults.map(item => JSON.parse(item));
+    this.usersRecipesQueryResults = !isEmptyArray(usersRecipesQueryResults) ? [...usersRecipesQueryResults] : [];
     console.log('this.usersRecipesQueryResults', this.usersRecipesQueryResults);
 
-    let queryResults =
-      !isEmptyArray(this.queryResults) &&
-      this.queryResults.map((item) => stringifyObject(item));
+    let queryResults = !isEmptyArray(this.queryResults) && this.queryResults.map(item => stringifyObject(item));
     dataset = !isEmptyArray(queryResults) && new Set(queryResults);
     queryResults = !isBoolean(dataset) && Array.from(dataset);
-    queryResults =
-      !isEmptyArray(queryResults) &&
-      queryResults.map((item) => JSON.parse(item));
+    queryResults = !isEmptyArray(queryResults) && queryResults.map(item => JSON.parse(item));
     this.queryResults = !isEmptyArray(queryResults) ? [...queryResults] : [];
     console.log('this.queryResults', this.queryResults);
   };

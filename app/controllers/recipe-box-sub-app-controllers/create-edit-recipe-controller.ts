@@ -7,27 +7,18 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {
-  isEmptyArray,
-  isEmptyString,
-  isNullUndefined,
-  isNumberType,
-} from '../../util/util';
-import {toJS} from 'mobx';
-import {
-  Recipe,
-  RecipeImage,
-  UserRecipe,
-} from '../../app-management/data-manager/models-manager';
-import {showToast} from '../../util/react-native-based-utils';
-import {APP_SQLITE_DATABASE} from '../../app-management/data-manager/db-config';
-import {notificationCallback} from '../../shared-components-and-modules/notification-center/notifications-controller';
-import {appSQLiteDb} from '../../app-management/data-manager/embeddedDb-manager';
-import {serviceWorkerThread} from '../app-controller';
-import {TIME_OUT} from '../../app-config';
+import { isEmptyArray, isEmptyString, isNullUndefined, isNumberType } from '../../util/util';
+import { toJS } from 'mobx';
+import { Recipe, RecipeImage, UserRecipe } from '../../app-management/data-manager/models-manager';
+import { showToast } from '../../util/react-native-based-utils';
+import { APP_SQLITE_DATABASE } from '../../app-management/data-manager/db-config';
+import { notificationCallback } from '../../shared-components-and-modules/notification-center/notifications-controller';
+import { appSQLiteDb } from '../../app-management/data-manager/embeddedDb-manager';
+import { serviceWorkerThread } from '../app-controller';
+import { TIME_OUT } from '../../app-config';
 import appNavigation from '../../routing-and-navigation/app-navigation';
-import {fetchUserRecipes} from './recipe-box-controller';
-import {invokeLoader} from '../../shared-components-and-modules/loaders';
+import { fetchUserRecipes } from './recipe-box-controller';
+import { invokeLoader } from '../../shared-components-and-modules/loaders';
 
 /**
  * sd _ Kaybarax
@@ -35,20 +26,10 @@ import {invokeLoader} from '../../shared-components-and-modules/loaders';
  * @param onUpdate
  * @param recipeFormValidityTree
  */
-export const isValidRecipeFormData = (
-  formData,
-  onUpdate = false,
-  recipeFormValidityTree,
-) => {
-  let {
-    recipe,
-    recipePhotos,
-  }: {recipe: Recipe; recipePhotos: Array<RecipeImage>} = formData;
+export const isValidRecipeFormData = (formData, onUpdate = false, recipeFormValidityTree) => {
+  let { recipe, recipePhotos }: { recipe: Recipe; recipePhotos: Array<RecipeImage> } = formData;
 
-  console.log(
-    'recipeFormValidityTree at isValidRecipeFormData:',
-    recipeFormValidityTree,
-  );
+  console.log('recipeFormValidityTree at isValidRecipeFormData:', recipeFormValidityTree);
 
   let validForm = true;
 
@@ -64,8 +45,7 @@ export const isValidRecipeFormData = (
 
   if (
     isEmptyArray(recipe.cooking_instructions) ||
-    (!isEmptyArray(recipe.cooking_instructions) &&
-      recipe.cooking_instructions?.includes(''))
+    (!isEmptyArray(recipe.cooking_instructions) && recipe.cooking_instructions?.includes(''))
   ) {
     console.log('cooking_instructions');
     recipeFormValidityTree.cooking_instructions = false;
@@ -74,10 +54,7 @@ export const isValidRecipeFormData = (
     return validForm;
   }
 
-  if (
-    isEmptyArray(recipe.ingredients) ||
-    (!isEmptyArray(recipe.ingredients) && recipe.ingredients?.includes(''))
-  ) {
+  if (isEmptyArray(recipe.ingredients) || (!isEmptyArray(recipe.ingredients) && recipe.ingredients?.includes(''))) {
     console.log('ingredients');
     recipeFormValidityTree.ingredients = false;
     console.log('recipeFormValidityTree', recipeFormValidityTree);
@@ -85,10 +62,7 @@ export const isValidRecipeFormData = (
     return validForm;
   }
 
-  if (
-    !isEmptyArray(recipe.groups_suitable) &&
-    recipe.groups_suitable?.includes('')
-  ) {
+  if (!isEmptyArray(recipe.groups_suitable) && recipe.groups_suitable?.includes('')) {
     console.log('ingredients');
     recipeFormValidityTree.groups_suitable = false;
     console.log('recipeFormValidityTree', recipeFormValidityTree);
@@ -100,12 +74,7 @@ export const isValidRecipeFormData = (
   if (
     isEmptyArray(recipePhotos) ||
     (!isEmptyArray(recipePhotos) &&
-      isNullUndefined(
-        recipePhotos.find(
-          (item) =>
-            !isEmptyString(item.image_url) || !isEmptyString(item.image_file),
-        ),
-      ))
+      isNullUndefined(recipePhotos.find(item => !isEmptyString(item.image_url) || !isEmptyString(item.image_file))))
   ) {
     console.log('recipePhotos', toJS(recipePhotos));
     recipeFormValidityTree.recipePhotos = false;
@@ -201,25 +170,14 @@ export function removeCookingInstruction(recipe, index, activity = null) {
   recipe.cooking_instructions.splice(index, 1);
 }
 
-export function submitRecipeClick(
-  formData,
-  notificationAlert,
-  recipeBoxStore,
-  navigator,
-  activity = null,
-) {
+export function submitRecipeClick(formData, notificationAlert, recipeBoxStore, navigator, activity = null) {
   console.log('submitRecipeClick');
-  let {
-    recipe,
-    recipePhotos,
-  }: {recipe: Recipe; recipePhotos: Array<RecipeImage>} = formData;
+  let { recipe, recipePhotos }: { recipe: Recipe; recipePhotos: Array<RecipeImage> } = formData;
   let userId = recipeBoxStore.user.id;
 
   invokeLoader(recipeBoxStore);
 
-  let validPhotos = recipePhotos.filter(
-    (item) => !isEmptyString(item.image_file) || !isEmptyString(item.image_url),
-  );
+  let validPhotos = recipePhotos.filter(item => !isEmptyString(item.image_file) || !isEmptyString(item.image_url));
 
   let threadWorkListener = {
     recipeSaved: false,
@@ -336,16 +294,16 @@ export function submitRecipeClick(
 
   //reload db
   serviceWorkerThread(
-    (_) => {
+    _ => {
       invokeLoader(recipeBoxStore);
       console.log('Recipe Transaction complete, start reload');
       appSQLiteDb.dbLoadedAndInitialized = false;
       appSQLiteDb.loadAndInitDB();
     },
-    (_) => {
+    _ => {
       return appSQLiteDb.dbLoadedAndInitialized;
     },
-    (_) => {
+    _ => {
       let workMessage = 'Save recipe transaction success!';
       showToast(workMessage);
       notificationCallback('succ', workMessage, notificationAlert);
@@ -354,7 +312,7 @@ export function submitRecipeClick(
       // appNavigation.navigateBack(navigator)
       appNavigation.navigateToRecipeBoxHome(navigator);
     },
-    (_) => {
+    _ => {
       let workMessage = 'Failed to reload data';
       showToast(workMessage);
       notificationCallback('err', workMessage, notificationAlert);
@@ -369,14 +327,6 @@ export function submitRecipeClick(
   );
 }
 
-export const updateRecipeClick = (
-  formData,
-  notificationAlert,
-  activity: object | any = null,
-) => {
-  notificationCallback(
-    'succ',
-    "Hey mate! You've gotten the gist by now from this starter template",
-    notificationAlert,
-  );
+export const updateRecipeClick = (formData, notificationAlert, activity: object | any = null) => {
+  notificationCallback('succ', "Hey mate! You've gotten the gist by now from this starter template", notificationAlert);
 };

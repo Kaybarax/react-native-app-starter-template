@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import {inject, observer} from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 /**
  * sd _ Kaybarax

@@ -8,11 +8,11 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {observable, toJS} from 'mobx';
-import {persistedStoreFromAsyncStorage} from './store-utils';
+import { observable, toJS } from 'mobx';
+import { persistedStoreFromAsyncStorage } from './store-utils';
 import StoreProviders from './stores-providers';
-import {_StoreKey_} from './actions-and-stores-data';
-import {isNullUndefined} from '../util/util';
+import { _StoreKey_ } from './actions-and-stores-data';
+import { isNullUndefined } from '../util/util';
 
 /**
  * sd _ Kaybarax
@@ -31,9 +31,7 @@ export default class AppStores {
   static namespace = 'AppStores_' + _StoreKey_;
 
   loadAppStores = async (): Promise<void> => {
-
     try {
-
       this.stores = {};
       this.appStoresLoaded = false;
 
@@ -47,9 +45,7 @@ export default class AppStores {
       }
 
       this.appStoresLoaded = true;
-
     } catch (err) {
-
       console.log('loadAppStores err', err);
 
       //create brand new stores
@@ -65,9 +61,6 @@ export default class AppStores {
       }
 
       this.appStoresLoaded = true;
-
     }
-
   };
-
 }

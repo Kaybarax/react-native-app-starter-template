@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {PermissionsAndroid} from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 
 export const CAMERA_PERMISSION = PermissionsAndroid.PERMISSIONS.CAMERA;
 
@@ -18,20 +18,14 @@ export const CAMERA_PERMISSION = PermissionsAndroid.PERMISSIONS.CAMERA;
  * @param message
  * @returns {Promise<boolean>}
  */
-export async function requestPermission(
-  permission: string, 
-  title: string, 
-  message: string
-): Promise<boolean> {
+export async function requestPermission(permission: string, title: string, message: string): Promise<boolean> {
   try {
-    const granted = await PermissionsAndroid.request(
-        permission,
-        {
-          'title': title,
-          'message': message,
-        },
-    );
-    if (granted === true) {   // already got permissions from manifest
+    const granted = await PermissionsAndroid.request(permission, {
+      title: title,
+      message: message,
+    });
+    if (granted === true) {
+      // already got permissions from manifest
       return true;
     } else {
       return granted === PermissionsAndroid.RESULTS.GRANTED;

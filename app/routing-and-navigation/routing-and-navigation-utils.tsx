@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {Animated, Easing} from 'react-native';
+import { Animated, Easing } from 'react-native';
 
 /**
  * sd _ Kaybarax

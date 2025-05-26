@@ -14,7 +14,7 @@
  * @returns {string}
  */
 export function stringifyObject(obj: any): string {
-    return JSON.stringify(obj);
+  return JSON.stringify(obj);
 }
 
 /**
@@ -23,12 +23,12 @@ export function stringifyObject(obj: any): string {
  * @returns {null}
  */
 export function deepCloneObject<T>(obj: T): T | null {
-    try {
-        return {...obj};
-    } catch (err) {
-        console.log('operation error');
-        return null;
-    }
+  try {
+    return { ...obj };
+  } catch (err) {
+    console.log('operation error');
+    return null;
+  }
 }
 
 /**
@@ -37,14 +37,14 @@ export function deepCloneObject<T>(obj: T): T | null {
  * @returns {boolean}
  */
 export function isEmptyString(value: any): boolean {
-    try {
-        if (typeof value !== 'string') {
-            return true;
-        }
-        return value.trim() === '';
-    } catch (err) {
-        return true;
+  try {
+    if (typeof value !== 'string') {
+      return true;
     }
+    return value.trim() === '';
+  } catch (err) {
+    return true;
+  }
 }
 
 /**
@@ -53,11 +53,11 @@ export function isEmptyString(value: any): boolean {
  * @returns {boolean}
  */
 export function isNumberType(value: any): boolean {
-    try {
-        return !isNaN(parseInt(value));
-    } catch (err) {
-        return false;
-    }
+  try {
+    return !isNaN(parseInt(value));
+  } catch (err) {
+    return false;
+  }
 }
 
 /**
@@ -66,11 +66,11 @@ export function isNumberType(value: any): boolean {
  * @returns {boolean}
  */
 export function isNullUndefined(item: any): boolean {
-    try {
-        return item === null || item === undefined;
-    } catch (err) {
-        return true;
-    }
+  try {
+    return item === null || item === undefined;
+  } catch (err) {
+    return true;
+  }
 }
 
 /**
@@ -79,14 +79,14 @@ export function isNullUndefined(item: any): boolean {
  * @returns {boolean}
  */
 export function isStringDatatype(item: any): boolean {
-    try {
-        if (typeof item === 'string') {
-            return true;
-        }
-    } catch (err) {
-        return false;
+  try {
+    if (typeof item === 'string') {
+      return true;
     }
+  } catch (err) {
     return false;
+  }
+  return false;
 }
 
 /**
@@ -95,14 +95,14 @@ export function isStringDatatype(item: any): boolean {
  * @returns {boolean}
  */
 export function isArrayDatatype(item: any): boolean {
-    try {
-        if (Array.isArray(item)) {
-            return true;
-        }
-    } catch (err) {
-        return false;
+  try {
+    if (Array.isArray(item)) {
+      return true;
     }
+  } catch (err) {
     return false;
+  }
+  return false;
 }
 
 /**
@@ -111,11 +111,11 @@ export function isArrayDatatype(item: any): boolean {
  * @returns {boolean}
  */
 export function isObject(item: any): boolean {
-    try {
-        return item !== null && item !== undefined && typeof item === 'object';
-    } catch (err) {
-        return false;
-    }
+  try {
+    return item !== null && item !== undefined && typeof item === 'object';
+  } catch (err) {
+    return false;
+  }
 }
 
 /**
@@ -124,11 +124,11 @@ export function isObject(item: any): boolean {
  * @param key
  */
 export function objectKeyExists(obj: any, key: string): boolean {
-    try {
-        return obj.hasOwnProperty(key);
-    } catch (err) {
-        return false;
-    }
+  try {
+    return obj.hasOwnProperty(key);
+  } catch (err) {
+    return false;
+  }
 }
 
 /**
@@ -136,11 +136,11 @@ export function objectKeyExists(obj: any, key: string): boolean {
  * @param item
  */
 export function isBoolean(item: any): boolean {
-    try {
-        return typeof item === 'boolean';
-    } catch (err) {
-        return false;
-    }
+  try {
+    return typeof item === 'boolean';
+  } catch (err) {
+    return false;
+  }
 }
 
 /**
@@ -149,15 +149,15 @@ export function isBoolean(item: any): boolean {
  * @returns {boolean}
  */
 export function isEmptyArray(array: any): boolean {
-    try {
-        if (isNullUndefined(array)) {
-            return true;
-        } else {
-            return !(array instanceof Array && array.length > 0);
-        }
-    } catch (err) {
-        return true;
+  try {
+    if (isNullUndefined(array)) {
+      return true;
+    } else {
+      return !(array instanceof Array && array.length > 0);
     }
+  } catch (err) {
+    return true;
+  }
 }
 
 /**
@@ -166,10 +166,10 @@ export function isEmptyArray(array: any): boolean {
  * @returns {*[]|any}
  */
 export function objectInstanceProvider<T>(obj: T): T {
-    if (isArrayDatatype(obj)) {
-        return [...(obj as any)] as unknown as T;
-    }
-    return deepCloneObject(obj) as T;
+  if (isArrayDatatype(obj)) {
+    return [...(obj as any)] as unknown as T;
+  }
+  return deepCloneObject(obj) as T;
 }
 
 /**
@@ -178,7 +178,7 @@ export function objectInstanceProvider<T>(obj: T): T {
  * @returns {*|boolean|boolean}
  */
 export function isFalse(item: any): boolean {
-    return isBoolean(item) && !item;
+  return isBoolean(item) && !item;
 }
 
 /**
@@ -187,7 +187,7 @@ export function isFalse(item: any): boolean {
  * @returns {*|boolean|boolean}
  */
 export function isTrue(item: any): boolean {
-    return isBoolean(item) && item;
+  return isBoolean(item) && item;
 }
 
 /**
@@ -197,28 +197,27 @@ export function isTrue(item: any): boolean {
  * @returns {boolean}
  */
 export function objectAHasSameKeysAsObjectB(objA: Record<string, any>, objB: Record<string, any>): boolean {
+  let allKeysMatch = true;
+  let objA_keys = Object.keys(objA);
+  let objB_keys = Object.keys(objB);
 
-    let allKeysMatch = true;
-    let objA_keys = Object.keys(objA);
-    let objB_keys = Object.keys(objB);
+  if (objA_keys.length !== objB_keys.length) {
+    return false;
+  }
 
-    if (objA_keys.length !== objB_keys.length) {
-        return false;
+  for (let key in objA) {
+    let keyInObjAExistsInObjB = true;
+    if (!objectKeyExists(objB, key)) {
+      keyInObjAExistsInObjB = false;
     }
 
-    for (let key in objA) {
-        let keyInObjAExistsInObjB = true;
-        if (!objectKeyExists(objB, key)) {
-            keyInObjAExistsInObjB = false;
-        }
-
-        if (!keyInObjAExistsInObjB) {
-            allKeysMatch = false;
-            break;
-        }
+    if (!keyInObjAExistsInObjB) {
+      allKeysMatch = false;
+      break;
     }
+  }
 
-    return allKeysMatch;
+  return allKeysMatch;
 }
 
 /**
@@ -227,11 +226,11 @@ export function objectAHasSameKeysAsObjectB(objA: Record<string, any>, objB: Rec
  * @returns {boolean}
  */
 export function isEmptyObject(obj: Record<string, any>): boolean {
-    try {
-        return isEmptyArray(Object.keys(obj));
-    } catch (e) {
-        return true;
-    }
+  try {
+    return isEmptyArray(Object.keys(obj));
+  } catch (e) {
+    return true;
+  }
 }
 
 /**
@@ -241,17 +240,14 @@ export function isEmptyObject(obj: Record<string, any>): boolean {
  * NOTE: This is just my declaration of a void item. You can have yours that is totally different from mine
  */
 export function isVoid(item: any): boolean {
-    try {
-        if (isNaN(parseInt(item))) {
-            return (isNullUndefined(item) ||
-                isEmptyArray(item) ||
-                isEmptyString(item) ||
-                isFalse(item));
-        }
-        return false;
-    } catch (e) {
-        return true;
+  try {
+    if (isNaN(parseInt(item))) {
+      return isNullUndefined(item) || isEmptyArray(item) || isEmptyString(item) || isFalse(item);
     }
+    return false;
+  } catch (e) {
+    return true;
+  }
 }
 
 /**
@@ -259,15 +255,14 @@ export function isVoid(item: any): boolean {
  * @param length
  */
 export function makeId(length: number): string {
-    let result = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+  let result = '';
+  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
-
 
 /**
  * sd _ Kaybarax
@@ -275,18 +270,17 @@ export function makeId(length: number): string {
  * @returns {Date}
  */
 export function utcToLocalDateTimeConverter(dateTime: string | Date): Date {
+  //enforce that is datetime object
+  let utcDateTime = new Date('' + dateTime);
 
-    //enforce that is datetime object
-    let utcDateTime = new Date('' + dateTime);
+  let localDateTime = new Date(utcDateTime.getTime() + utcDateTime.getTimezoneOffset() * 60 * 1000);
 
-    let localDateTime = new Date(utcDateTime.getTime() + utcDateTime.getTimezoneOffset() * 60 * 1000);
+  let offset = utcDateTime.getTimezoneOffset() / 60;
+  let hours = utcDateTime.getHours();
 
-    let offset = utcDateTime.getTimezoneOffset() / 60;
-    let hours = utcDateTime.getHours();
+  localDateTime.setHours(hours - offset);
 
-    localDateTime.setHours(hours - offset);
-
-    return localDateTime;
+  return localDateTime;
 }
 
 /**
@@ -295,7 +289,7 @@ export function utcToLocalDateTimeConverter(dateTime: string | Date): Date {
  * @returns {string}
  */
 export function localeTimeStringFormatFromDatetime(dateTime: string | Date): string {
-    return utcToLocalDateTimeConverter(dateTime).toString().substring(16, 21);
+  return utcToLocalDateTimeConverter(dateTime).toString().substring(16, 21);
 }
 
 /**
@@ -304,19 +298,22 @@ export function localeTimeStringFormatFromDatetime(dateTime: string | Date): str
  * @param localeTimeFormat
  * @returns {string}
  */
-export function localeDateStringFormatFromDatetime(dateTime: string | Date, localeTimeFormat: string = 'en-GB'): string {
-    let dateTimeObj = new Date(dateTime);//enforce that is datetime object
-    // console.log(' ## localeDateStringFormat dateTimeObj ## ', dateTimeObj);//log
-    let localeDateString;
-    localeDateString = dateTimeObj.toLocaleDateString();
-    //for US Time format orientation
-    if (localeTimeFormat === 'en-US') {
-        localeDateString = localeDateString.split('/').join('-');
-        localeDateString = localeDateString.split('-');
-        localeDateString = localeDateString[1] + '-' + localeDateString[0] + '-' + localeDateString[2];
-    }
-    // console.log(' ## localeDateStringFormat ## ', localeDateString);//log
-    return localeDateString;
+export function localeDateStringFormatFromDatetime(
+  dateTime: string | Date,
+  localeTimeFormat: string = 'en-GB',
+): string {
+  let dateTimeObj = new Date(dateTime); //enforce that is datetime object
+  // console.log(' ## localeDateStringFormat dateTimeObj ## ', dateTimeObj);//log
+  let localeDateString;
+  localeDateString = dateTimeObj.toLocaleDateString();
+  //for US Time format orientation
+  if (localeTimeFormat === 'en-US') {
+    localeDateString = localeDateString.split('/').join('-');
+    localeDateString = localeDateString.split('-');
+    localeDateString = localeDateString[1] + '-' + localeDateString[0] + '-' + localeDateString[2];
+  }
+  // console.log(' ## localeDateStringFormat ## ', localeDateString);//log
+  return localeDateString;
 }
 
 /**
@@ -325,11 +322,11 @@ export function localeDateStringFormatFromDatetime(dateTime: string | Date, loca
  * @returns {string}
  */
 export function localeTimeStringFormat(dateTime: string | Date): string {
-    let dateTimeObj = new Date('' + dateTime);//enforce that is datetime object
-    // console.log(' ## localeTimeStringFormat dateTimeObj ## ', dateTimeObj);//log
-    let localeTimeString = dateTimeObj.toLocaleTimeString();
-    // console.log(' ## localeTimeStringFormat ## ', localeTimeString);//log
-    return localeTimeString;
+  let dateTimeObj = new Date('' + dateTime); //enforce that is datetime object
+  // console.log(' ## localeTimeStringFormat dateTimeObj ## ', dateTimeObj);//log
+  let localeTimeString = dateTimeObj.toLocaleTimeString();
+  // console.log(' ## localeTimeStringFormat ## ', localeTimeString);//log
+  return localeTimeString;
 }
 
 /**
@@ -339,10 +336,10 @@ export function localeTimeStringFormat(dateTime: string | Date): string {
  * by Kaybarax
  */
 export function numberItem(numbersArray: number[]): number {
-    let num = 1;
-    if (numbersArray.length > 0) {
-        num = (numbersArray[numbersArray.length - 1] + 1);
-    }
-    numbersArray.push(num);
-    return num;
+  let num = 1;
+  if (numbersArray.length > 0) {
+    num = numbersArray[numbersArray.length - 1] + 1;
+  }
+  numbersArray.push(num);
+  return num;
 }

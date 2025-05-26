@@ -3,8 +3,8 @@
 //sd - self described
 //@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
 
-import {Alert, ToastAndroid} from 'react-native';
-import {isEmptyArray, isEmptyString, isNullUndefined, isObject, stringifyObject} from './util';
+import { Alert, ToastAndroid } from 'react-native';
+import { isEmptyArray, isEmptyString, isNullUndefined, isObject, stringifyObject } from './util';
 import AsyncStorage from '@react-native-community/async-storage';
 
 /**
@@ -21,9 +21,9 @@ export function enforceReactNaturalStateUpdateBehavior(self: any): void {
     return;
   }
   if (typeof self.state !== 'object') {
-    self.state = {updated: false};
+    self.state = { updated: false };
   }
-  self.setState({updated: true});
+  self.setState({ updated: true });
 }
 
 /**

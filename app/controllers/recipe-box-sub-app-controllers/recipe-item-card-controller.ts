@@ -8,7 +8,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from '../../stores/actions-and-stores-data';
+import { RECIPE_BOX_VIEWS_ACTIONS_ENUM } from '../../stores/actions-and-stores-data';
 import appNavigation from '../../routing-and-navigation/app-navigation';
 
 /**
@@ -19,13 +19,7 @@ import appNavigation from '../../routing-and-navigation/app-navigation';
  * @param activity
  * @param recipeBoxStore
  */
-export function viewRecipeFullDetailsClick(
-  recipeDetails,
-  recipeBoxStore,
-  navigation,
-  navStore,
-  activity = null,
-) {
+export function viewRecipeFullDetailsClick(recipeDetails, recipeBoxStore, navigation, navStore, activity = null) {
   recipeBoxStore.selectedRecipe = recipeDetails.recipe;
   recipeBoxStore.selectedRecipePhotos = recipeDetails.recipePhotos;
   recipeBoxStore.viewAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.VIEW_SINGLE_RECIPE;
@@ -39,13 +33,7 @@ export function viewRecipeFullDetailsClick(
  * @param navigation
  * @param recipeBoxStore
  */
-export function editRecipeClick(
-  recipe,
-  recipePhotos,
-  recipeBoxStore,
-  navigation,
-  activity = null,
-) {
+export function editRecipeClick(recipe, recipePhotos, recipeBoxStore, navigation, activity = null) {
   recipeBoxStore.selectedRecipe = recipe;
   recipeBoxStore.selectedRecipePhotos = recipePhotos;
   recipeBoxStore.viewAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.EDIT_RECIPE;

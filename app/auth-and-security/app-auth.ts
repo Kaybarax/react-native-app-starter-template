@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {isNullUndefined} from '../util/util';
+import { isNullUndefined } from '../util/util';
 import appStores from '../stores';
 
 /**

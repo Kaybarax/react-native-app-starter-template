@@ -7,22 +7,19 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import {notificationCallback} from '../../shared-components-and-modules/notification-center/notifications-controller';
-import {toJS} from 'mobx';
-import {APP_SQLITE_DATABASE} from '../../app-management/data-manager/db-config';
-import {appSQLiteDb} from '../../app-management/data-manager/embeddedDb-manager';
-import {
-  User,
-  UserCredentials,
-} from '../../app-management/data-manager/models-manager';
-import {createPasswordHash} from '../../android-custom-native-modules/app-security-custom-native-module';
-import {isNullUndefined} from '../../util/util';
-import {showToast} from '../../util/react-native-based-utils';
-import {TIME_OUT} from '../../app-config';
-import {invokeLoader} from '../../shared-components-and-modules/loaders';
-import {serviceWorkerThread} from '../app-controller';
+import { notificationCallback } from '../../shared-components-and-modules/notification-center/notifications-controller';
+import { toJS } from 'mobx';
+import { APP_SQLITE_DATABASE } from '../../app-management/data-manager/db-config';
+import { appSQLiteDb } from '../../app-management/data-manager/embeddedDb-manager';
+import { User, UserCredentials } from '../../app-management/data-manager/models-manager';
+import { createPasswordHash } from '../../android-custom-native-modules/app-security-custom-native-module';
+import { isNullUndefined } from '../../util/util';
+import { showToast } from '../../util/react-native-based-utils';
+import { TIME_OUT } from '../../app-config';
+import { invokeLoader } from '../../shared-components-and-modules/loaders';
+import { serviceWorkerThread } from '../app-controller';
 import appNavigation from '../../routing-and-navigation/app-navigation';
-import {fetchUserRecipes} from './recipe-box-controller';
+import { fetchUserRecipes } from './recipe-box-controller';
 
 /**
  * sd _ Kaybarax
@@ -32,13 +29,7 @@ import {fetchUserRecipes} from './recipe-box-controller';
  * @param notificationAlert
  * @param showLoginForm
  */
-export function handleSignUp(
-  userModel,
-  password,
-  loginStore,
-  notificationAlert,
-  showLoginForm,
-) {
+export function handleSignUp(userModel, password, loginStore, notificationAlert, showLoginForm) {
   console.log('userModel:', toJS(userModel));
   // return;
 
@@ -68,9 +59,7 @@ export function handleSignUp(
   //create password hash
   serviceWorkerThread(
     () => {
-      createPasswordHash(password, userCredentials, threadWorkListener).then(
-        null,
-      );
+      createPasswordHash(password, userCredentials, threadWorkListener).then(null);
     },
     () => {
       invokeLoader(loginStore);
@@ -81,11 +70,7 @@ export function handleSignUp(
       //threadWorkListener.createPasswordHash set to true by hash function
     },
     () => {
-      notificationCallback(
-        'err',
-        'Sign up failed, cannot perform password hashing',
-        notificationAlert,
-      );
+      notificationCallback('err', 'Sign up failed, cannot perform password hashing', notificationAlert);
     },
     TIME_OUT,
     1000,
@@ -107,11 +92,7 @@ export function handleSignUp(
       threadWorkListener.saveUser = true;
     },
     () => {
-      notificationCallback(
-        'err',
-        'Sign up failed, cannot save user',
-        notificationAlert,
-      );
+      notificationCallback('err', 'Sign up failed, cannot save user', notificationAlert);
     },
     TIME_OUT * 2,
     1000,
@@ -136,11 +117,7 @@ export function handleSignUp(
       threadWorkListener.saveUserCredentials = true;
     },
     () => {
-      notificationCallback(
-        'err',
-        'Sign up failed, cannot save credentials',
-        notificationAlert,
-      );
+      notificationCallback('err', 'Sign up failed, cannot save credentials', notificationAlert);
     },
     TIME_OUT * 3,
     1000,
@@ -164,14 +141,10 @@ export function handleSignUp(
       showToast('Sign up user transaction success');
       notificationCallback('succ', 'Sgn up user success', notificationAlert);
       // some time for alert feedback
-      setTimeout((_) => showLoginForm(), 2000);
+      setTimeout(_ => showLoginForm(), 2000);
     },
     () => {
-      notificationCallback(
-        'warn',
-        'User signed, but please restart app to get latest data',
-        notificationAlert,
-      );
+      notificationCallback('warn', 'User signed, but please restart app to get latest data', notificationAlert);
     },
     TIME_OUT * 4,
     1000,
@@ -191,14 +164,7 @@ export function handleSignUp(
  * @param loginStore
  * @param navigation
  */
-export function handleLogin(
-  loginForm,
-  password,
-  notificationAlert,
-  recipeBoxStore,
-  loginStore,
-  navigation,
-) {
+export function handleLogin(loginForm, password, notificationAlert, recipeBoxStore, loginStore, navigation) {
   console.log('handleLogin');
   console.log('loginForm:', toJS(loginForm));
   // return;
@@ -207,9 +173,7 @@ export function handleLogin(
 
   //check username/email
   let user: User = appSQLiteDb.usersQueryResults.find(
-    (item) =>
-      item.username === loginForm.usernameOrEmail ||
-      item.email === loginForm.usernameOrEmail,
+    item => item.username === loginForm.usernameOrEmail || item.email === loginForm.usernameOrEmail,
   );
 
   if (isNullUndefined(user)) {
@@ -221,15 +185,11 @@ export function handleLogin(
 
   //check credentials
   let userCredentials: UserCredentials = appSQLiteDb.usersCredentialsQueryResults.find(
-    (item) => item.username === user.id,
+    item => item.username === user.id,
   );
 
   if (isNullUndefined(userCredentials)) {
-    notificationCallback(
-      'err',
-      "User doesn't have access right!",
-      notificationAlert,
-    );
+    notificationCallback('err', "User doesn't have access right!", notificationAlert);
     return;
   }
 
@@ -284,11 +244,7 @@ export function handleLogin(
  */
 export function handleResetPassword(notificationAlert) {
   // todo: ... your logic ... you get the drill by now
-  notificationCallback(
-    'succ',
-    'I will leave this one for you))',
-    notificationAlert,
-  );
+  notificationCallback('succ', 'I will leave this one for you))', notificationAlert);
 }
 
 /**
@@ -302,11 +258,7 @@ export function handleLogOut(recipeBoxStore, loginStore, navigator) {
   recipeBoxStore.selectedRecipe = null;
   recipeBoxStore.recipeItems = [];
   appNavigation.navigateToRecipeBoxLogin(navigator);
-  notificationCallback(
-    'info',
-    'You have been logged out',
-    loginStore.notificationAlert,
-  );
+  notificationCallback('info', 'You have been logged out', loginStore.notificationAlert);
   //turn back off logout
   appNavigation.globalNavigationProps.internalLogout = false;
 }

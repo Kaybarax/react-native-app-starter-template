@@ -11,8 +11,8 @@ import React from 'react';
 import RN from 'react-native';
 import RecipeListItemCard from './recipe-list-item-card';
 import AppNotificationToastAlert from '../../shared-components-and-modules/notification-center/app-notification-toast-alert';
-import {displayFieldExpectationSatisfied} from '../../controllers/app-controller';
-import {isEmptyArray, isNullUndefined, isTrue, makeId} from '../../util/util';
+import { displayFieldExpectationSatisfied } from '../../controllers/app-controller';
+import { isEmptyArray, isNullUndefined, isTrue, makeId } from '../../util/util';
 import className from '../../util/react-native-based-utils';
 import {
   AlignCenterTextCN,
@@ -22,16 +22,16 @@ import {
 } from '../../theme/app-layout-styles-classnames';
 import WithStoresHoc from '../../stores/with-stores-hoc';
 import appNavigation from '../../routing-and-navigation/app-navigation';
-import {toJS} from 'mobx';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {BlankSpaceDivider} from '../../shared-components-and-modules/shared-components';
-import {createRecipe} from '../../controllers/recipe-box-sub-app-controllers/recipe-box-controller';
-import {notificationCallback} from '../../shared-components-and-modules/notification-center/notifications-controller';
-import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from '../../stores/actions-and-stores-data';
-import {NEGATIVE_ACTION_COLOR} from '../../theme/app-theme';
-import {SCREEN_HEIGHT} from '../../App';
-import {persistStoreToAsyncStorage} from '../../stores/store-utils';
+import { toJS } from 'mobx';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { BlankSpaceDivider } from '../../shared-components-and-modules/shared-components';
+import { createRecipe } from '../../controllers/recipe-box-sub-app-controllers/recipe-box-controller';
+import { notificationCallback } from '../../shared-components-and-modules/notification-center/notifications-controller';
+import { RECIPE_BOX_VIEWS_ACTIONS_ENUM } from '../../stores/actions-and-stores-data';
+import { NEGATIVE_ACTION_COLOR } from '../../theme/app-theme';
+import { SCREEN_HEIGHT } from '../../App';
+import { persistStoreToAsyncStorage } from '../../stores/store-utils';
 
 export default function RecipeHome(props) {
   console.log('props at RecipeHome:', toJS(props));
@@ -39,18 +39,15 @@ export default function RecipeHome(props) {
   let {
     recipeBoxStore,
     navigation,
-    recipeBoxStore: {notificationAlert},
+    recipeBoxStore: { notificationAlert },
   } = props;
 
-  let {recipeItems} = recipeBoxStore;
+  let { recipeItems } = recipeBoxStore;
 
   console.log('recipeItems!', recipeItems);
 
   //inject needed appStore and recipeBoxStore
-  let RecipeListItemCardWithStores = WithStoresHoc(RecipeListItemCard, [
-    'recipeBoxStore',
-    'appStore',
-  ]);
+  let RecipeListItemCardWithStores = WithStoresHoc(RecipeListItemCard, ['recipeBoxStore', 'appStore']);
 
   //persist this store
   persistStoreToAsyncStorage(recipeBoxStore).then(null);
@@ -59,7 +56,7 @@ export default function RecipeHome(props) {
   //to handle going back on your own, for logout cleanliness
   React.useEffect(
     () =>
-      navigation.addListener('beforeRemove', (e) => {
+      navigation.addListener('beforeRemove', e => {
         e.preventDefault();
         //logout if only doing so without back button
         if (appNavigation.globalNavigationProps.internalLogout) {
@@ -84,7 +81,7 @@ export default function RecipeHome(props) {
                 navigation={navigation}
               />
             )}
-            keyExtractor={(_) => makeId(16)}
+            keyExtractor={_ => makeId(16)}
           />
           <BlankSpaceDivider height={SCREEN_HEIGHT * 0.1} />
         </RN.View>
@@ -102,30 +99,23 @@ export default function RecipeHome(props) {
             right: 20,
           },
         ]}
-        onPress={(_) => {
+        onPress={_ => {
           //clear former
           recipeBoxStore.selectedRecipe = null;
           recipeBoxStore.selectedRecipePhotos = [];
           //create new
           createRecipe(recipeBoxStore);
-          if (
-            isNullUndefined(recipeBoxStore.selectedRecipe) ||
-            isEmptyArray(recipeBoxStore.selectedRecipePhotos)
-          ) {
-            notificationCallback(
-              'warn',
-              'Failed to create new recipe',
-              notificationAlert,
-            );
+          if (isNullUndefined(recipeBoxStore.selectedRecipe) || isEmptyArray(recipeBoxStore.selectedRecipePhotos)) {
+            notificationCallback('warn', 'Failed to create new recipe', notificationAlert);
             return;
           }
-          recipeBoxStore.viewAction =
-            RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE;
+          recipeBoxStore.viewAction = RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE;
           appNavigation.navigateToCreateEditRecipe(navigation, {
             recipe: recipeBoxStore.selectedRecipe,
             recipePhotos: recipeBoxStore.selectedRecipePhotos,
           });
-        }}>
+        }}
+      >
         <RN.Text
           style={[
             {
@@ -133,14 +123,13 @@ export default function RecipeHome(props) {
               top: 24,
               right: 25,
             },
-          ]}>
+          ]}
+        >
           <FontAwesomeIcon icon={faPlus} color={'white'} size={30} />
         </RN.Text>
       </RN.TouchableOpacity>
 
-      {displayFieldExpectationSatisfied('alert', notificationAlert, (eOfX) =>
-        isTrue(eOfX),
-      ) && (
+      {displayFieldExpectationSatisfied('alert', notificationAlert, eOfX => isTrue(eOfX)) && (
         <RN.View
           style={[
             {
@@ -148,7 +137,8 @@ export default function RecipeHome(props) {
               top: 0,
               width: '100%',
             },
-          ]}>
+          ]}
+        >
           <AppNotificationToastAlert dropDownProps={notificationAlert} />
         </RN.View>
       )}
@@ -169,7 +159,8 @@ export function NoRecipesDisplay() {
                 fontWeight: 'bold',
                 color: NEGATIVE_ACTION_COLOR,
               },
-            ]}>
+            ]}
+          >
             You don't have any recipes!
           </RN.Text>
         </RN.View>

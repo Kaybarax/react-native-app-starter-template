@@ -7,9 +7,9 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import SafeComponentWrapper from '../safe-component-wrapper';
-import {Button, ImageBackground, Text, View} from 'react-native';
+import { Button, ImageBackground, Text, View } from 'react-native';
 import {
   AlignCenterTextCN,
   FlexColumnContainerCN,
@@ -17,9 +17,9 @@ import {
   FlexFluidRowContainerCN,
 } from '../theme/app-layout-styles-classnames';
 import className from '../util/react-native-based-utils';
-import {SCREEN_HEIGHT} from '../App';
-import {BlankSpaceDivider} from '../shared-components-and-modules/shared-components';
-import {SECONDARY_COLOR} from '../theme/app-theme';
+import { SCREEN_HEIGHT } from '../App';
+import { BlankSpaceDivider } from '../shared-components-and-modules/shared-components';
+import { SECONDARY_COLOR } from '../theme/app-theme';
 
 export default class NotFound extends Component {
   render() {
@@ -32,7 +32,8 @@ export default class NotFound extends Component {
             {
               height: SCREEN_HEIGHT,
             },
-          ]}>
+          ]}
+        >
           <View style={[className(FlexFluidRowContainerCN)]}>
             <View style={[className(FlexContainerChildItemFullWidthCN)]}>
               <View
@@ -41,7 +42,8 @@ export default class NotFound extends Component {
                   {
                     marginTop: SCREEN_HEIGHT * 0.8,
                   },
-                ]}>
+                ]}
+              >
                 <View
                   style={[
                     className(FlexContainerChildItemFullWidthCN),
@@ -50,7 +52,8 @@ export default class NotFound extends Component {
                       borderRadius: 10,
                       padding: 5,
                     },
-                  ]}>
+                  ]}
+                >
                   <Text
                     style={[
                       className(AlignCenterTextCN),
@@ -58,7 +61,8 @@ export default class NotFound extends Component {
                         color: 'black',
                         fontSize: 24,
                       },
-                    ]}>
+                    ]}
+                  >
                     Oops! View, Not Found!
                   </Text>
                   <BlankSpaceDivider />

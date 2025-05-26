@@ -21,10 +21,7 @@ import {
 export default function RecipeRequests(props) {
   return (
     <RN.View style={[className(FlexColumnContainerCN)]}>
-      <RN.View
-        style={[
-          className(FlexContainerChildItemFullWidthCN, AlignCenterContentCN),
-        ]}>
+      <RN.View style={[className(FlexContainerChildItemFullWidthCN, AlignCenterContentCN)]}>
         <RN.Text
           style={[
             className(AlignCenterTextCN),
@@ -32,7 +29,8 @@ export default function RecipeRequests(props) {
               fontSize: 18,
               fontWeight: 'bold',
             },
-          ]}>
+          ]}
+        >
           Recipe requests, for example.
         </RN.Text>
       </RN.View>

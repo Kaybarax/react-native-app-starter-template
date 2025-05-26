@@ -9,23 +9,14 @@
  */
 
 import React from 'react';
-import RN, {Alert} from 'react-native';
-import {
-  BlankSpaceDivider,
-  Spacer,
-} from '../../../shared-components-and-modules/shared-components';
+import RN, { Alert } from 'react-native';
+import { BlankSpaceDivider, Spacer } from '../../../shared-components-and-modules/shared-components';
 import AppNotificationToastAlert from '../../../shared-components-and-modules/notification-center/app-notification-toast-alert';
-import {Checkbox} from '../../../shared-components-and-modules/form-controls/checkboxes-and-radio-buttons';
+import { Checkbox } from '../../../shared-components-and-modules/form-controls/checkboxes-and-radio-buttons';
 import AppTextInput from '../../../shared-components-and-modules/form-controls/app-text-input';
-import {displayFieldExpectationSatisfied} from '../../../controllers/app-controller';
-import {
-  isEmptyArray,
-  isEmptyObject,
-  isEmptyString,
-  isTrue,
-  makeId,
-} from '../../../util/util';
-import className, {showToast} from '../../../util/react-native-based-utils';
+import { displayFieldExpectationSatisfied } from '../../../controllers/app-controller';
+import { isEmptyArray, isEmptyObject, isEmptyString, isTrue, makeId } from '../../../util/util';
+import className, { showToast } from '../../../util/react-native-based-utils';
 import {
   AlignCenterContentCN,
   AlignCenterTextCN,
@@ -51,22 +42,22 @@ import {
   submitRecipeClick,
   updateRecipeClick,
 } from '../../../controllers/recipe-box-sub-app-controllers/create-edit-recipe-controller';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {RecipeGroupsSuitable} from '../../../app-management/data-manager/list-manager';
-import {RecipeImage} from '../../../app-management/data-manager/models-manager';
-import {toJS} from 'mobx';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { RecipeGroupsSuitable } from '../../../app-management/data-manager/list-manager';
+import { RecipeImage } from '../../../app-management/data-manager/models-manager';
+import { toJS } from 'mobx';
 import RnMultiSelectKaybarax from '../../../shared-components-and-modules/form-controls/rn-multi-select-kaybarax';
-import {RECIPE_BOX_VIEWS_ACTIONS_ENUM} from '../../../stores/actions-and-stores-data';
-import {POSITIVE_ACTION_COLOR} from '../../../theme/app-theme';
+import { RECIPE_BOX_VIEWS_ACTIONS_ENUM } from '../../../stores/actions-and-stores-data';
+import { POSITIVE_ACTION_COLOR } from '../../../theme/app-theme';
 import ReactNativeCameraModule from '../../../shared-components-and-modules/camera-photo-capture-module/react-native-camera-module';
 import {
   CAMERA_PERMISSION,
   requestPermission,
 } from '../../../shared-components-and-modules/camera-photo-capture-module/camera-capture-util';
 import PhotoInput from './recipe-photo-input';
-import {NUMBER_OF_RECIPE_PHOTOS} from '../../../app-config';
-import {addRecipePhoto} from '../../../controllers/recipe-box-sub-app-controllers/recipe-box-controller';
+import { NUMBER_OF_RECIPE_PHOTOS } from '../../../app-config';
+import { addRecipePhoto } from '../../../controllers/recipe-box-sub-app-controllers/recipe-box-controller';
 import Loader from '../../../shared-components-and-modules/loaders';
 
 export default function CreateEditRecipeForm(props) {
@@ -75,22 +66,17 @@ export default function CreateEditRecipeForm(props) {
 
   let {
     recipeBoxStore,
-    route: {params},
+    route: { params },
     navigation,
   } = props;
-  let {
-    recipe,
-    recipePhotos,
-  }: {recipe: any; recipePhotos: Array<RecipeImage>} = params;
-  let {notificationAlert, viewAction} = recipeBoxStore;
+  let { recipe, recipePhotos }: { recipe: any; recipePhotos: Array<RecipeImage> } = params;
+  let { notificationAlert, viewAction } = recipeBoxStore;
 
   let [submitPressed, setSubmitPressed] = React.useState(false);
   let [recipeFormValidityTree, updateFormValidityTree] = React.useState({
     ...recipe,
   });
-  let [multiSelectDialogIsOpen, toggleOpenMultiSelectDialog] = React.useState(
-    false,
-  );
+  let [multiSelectDialogIsOpen, toggleOpenMultiSelectDialog] = React.useState(false);
   //camera-photo-capture state
   let [cameraModuleProps, updateCameraModule] = React.useState({
     //basic props
@@ -103,18 +89,15 @@ export default function CreateEditRecipeForm(props) {
     // identified by their assigned numbers, and other parameters as needed
     photoFor: 0,
   });
-  let [
-    photoCaptureModuleTrigger,
-    InvokePhotoCaptureModuleTrigger,
-  ] = React.useState(1);
+  let [photoCaptureModuleTrigger, InvokePhotoCaptureModuleTrigger] = React.useState(1);
 
-  let updateCameraModuleProps = (props) => {
+  let updateCameraModuleProps = props => {
     updateCameraModule(props);
     photoCaptureModuleTrigger += 1;
     InvokePhotoCaptureModuleTrigger(photoCaptureModuleTrigger);
   };
 
-  let setCapturedImage = (photo) => {
+  let setCapturedImage = photo => {
     if (isEmptyArray(recipePhotos)) {
       let photo: RecipeImage = {
         id: makeId(32),
@@ -140,7 +123,7 @@ export default function CreateEditRecipeForm(props) {
       CAMERA_PERMISSION,
       'Application needs access to the camera',
       'Application needs access to the camera to take person photo.',
-    ).then((accessGranted) => {
+    ).then(accessGranted => {
       if (accessGranted) {
         cameraModuleProps.cameraLaunched = true;
         cameraModuleProps.imagePreview = null;
@@ -170,10 +153,10 @@ export default function CreateEditRecipeForm(props) {
   let ingredients: any = [];
   if (!isEmptyArray(recipe.ingredients)) {
     for (let ing of recipe.ingredients) {
-      ingredients.push({txt: ing});
+      ingredients.push({ txt: ing });
     }
   } else {
-    ingredients.push({txt: ''});
+    ingredients.push({ txt: '' });
   }
 
   let setupFormValidation = () => {
@@ -190,46 +173,29 @@ export default function CreateEditRecipeForm(props) {
     recipeFormValidityTree.recipePhotos = true;
 
     updateFormValidityTree(recipeFormValidityTree);
-    console.log(
-      'empty obj recipeFormValidityTree:',
-      isEmptyObject(recipeFormValidityTree),
-    );
+    console.log('empty obj recipeFormValidityTree:', isEmptyObject(recipeFormValidityTree));
   };
 
   //for initial
   React.useEffect(() => {
     setupFormValidation();
-    console.log(
-      'recipeFormValidityTree at CreateEditRecipeForm:',
-      recipeFormValidityTree,
-    );
+    console.log('recipeFormValidityTree at CreateEditRecipeForm:', recipeFormValidityTree);
     console.log('VALIDITY CALLED:', submitPressed);
     console.log('NAME VALIDITY:', recipeFormValidityTree.name);
   }, [recipeFormValidityTree, setupFormValidation, submitPressed]);
 
-  const FormFieldIsRequiredMessage = (props) => (
-    <RN.Text
-      style={[
-        {color: 'red'},
-        className(
-          FlexContainerChildItemFullWidthCN,
-          AlignLeftFlexContainerContentCN,
-        ),
-      ]}>
+  const FormFieldIsRequiredMessage = props => (
+    <RN.Text style={[{ color: 'red' }, className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}>
       {props?.message || '* This field is required.'}
     </RN.Text>
   );
 
-  let photoCount = !isEmptyArray(recipePhotos)
-    ? recipePhotos.length
-    : NUMBER_OF_RECIPE_PHOTOS;
+  let photoCount = !isEmptyArray(recipePhotos) ? recipePhotos.length : NUMBER_OF_RECIPE_PHOTOS;
 
   return (
     <RN.ScrollView style={[className(FlexColumnContainerCN)]}>
       <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        {displayFieldExpectationSatisfied('alert', notificationAlert, (eOfX) =>
-          isTrue(eOfX),
-        ) && (
+        {displayFieldExpectationSatisfied('alert', notificationAlert, eOfX => isTrue(eOfX)) && (
           <RN.View
             style={[
               className(FlexRowContainerCN),
@@ -238,7 +204,8 @@ export default function CreateEditRecipeForm(props) {
                 top: 0,
                 width: '100%',
               },
-            ]}>
+            ]}
+          >
             <AppNotificationToastAlert dropDownProps={notificationAlert} />
           </RN.View>
         )}
@@ -251,15 +218,15 @@ export default function CreateEditRecipeForm(props) {
             backgroundColor: '#dedede',
           },
         ]}
-        contentInsetAdjustmentBehavior={'automatic'}>
+        contentInsetAdjustmentBehavior={'automatic'}
+      >
         <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
           <RN.View style={[className(FlexFluidRowContainerCN)]}>
             <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
               <RN.View style={[className(FlexFluidRowContainerCN)]}>
                 <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                   <RN.View style={[className(FlexFluidRowContainerCN)]}>
-                    <RN.View
-                      style={[className(FlexContainerChildItemFullWidthCN)]}>
+                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                       {submitPressed && !recipeFormValidityTree.name && (
                         <React.Fragment>
                           <FormFieldIsRequiredMessage />
@@ -269,7 +236,7 @@ export default function CreateEditRecipeForm(props) {
 
                       <AppTextInput
                         label="Name"
-                        onChangeText={(text) => {
+                        onChangeText={text => {
                           console.log('TEXT IS CHANGING', text);
                           textValueChanged(recipe, text, 'name');
                         }}
@@ -279,27 +246,18 @@ export default function CreateEditRecipeForm(props) {
 
                     {submitPressed && !recipeFormValidityTree.recipePhotos && (
                       <React.Fragment>
-                        <FormFieldIsRequiredMessage
-                          message={'Please upload one or more recipe photos!'}
-                        />
+                        <FormFieldIsRequiredMessage message={'Please upload one or more recipe photos!'} />
                         <BlankSpaceDivider />
                       </React.Fragment>
                     )}
 
-                    <RN.View
-                      style={[className(FlexContainerChildItemFullWidthCN)]}>
+                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                       <RN.View style={[className(FlexFluidRowContainerCN)]}>
-                        {((_) => {
+                        {(_ => {
                           let photos: Array<Element> = [];
                           for (let i = 0; i < photoCount; i++) {
                             photos.push(
-                              <RN.View
-                                style={[
-                                  className(
-                                    FlexContainerChildItemOneThirdWidthCN,
-                                  ),
-                                ]}
-                                key={makeId(16)}>
+                              <RN.View style={[className(FlexContainerChildItemOneThirdWidthCN)]} key={makeId(16)}>
                                 <PhotoInput
                                   photoIndex={i}
                                   recipePhotos={recipePhotos}
@@ -312,13 +270,7 @@ export default function CreateEditRecipeForm(props) {
                           return photos;
                         })()}
 
-                        <RN.View
-                          style={[
-                            className(
-                              FlexContainerChildItemOneThirdWidthCN,
-                              AlignCenterContentCN,
-                            ),
-                          ]}>
+                        <RN.View style={[className(FlexContainerChildItemOneThirdWidthCN, AlignCenterContentCN)]}>
                           <RN.TouchableOpacity
                             activeOpacity={0.6}
                             style={[
@@ -328,15 +280,12 @@ export default function CreateEditRecipeForm(props) {
                                 padding: 15,
                               },
                             ]}
-                            onPress={(_) => {
+                            onPress={_ => {
                               addRecipePhoto(recipePhotos, recipe);
-                            }}>
+                            }}
+                          >
                             <RN.Text>
-                              <FontAwesomeIcon
-                                icon={faPlus}
-                                color={'white'}
-                                size={30}
-                              />
+                              <FontAwesomeIcon icon={faPlus} color={'white'} size={30} />
                             </RN.Text>
                           </RN.TouchableOpacity>
                         </RN.View>
@@ -350,18 +299,11 @@ export default function CreateEditRecipeForm(props) {
                       </React.Fragment>
                     )}
 
-                    <RN.View
-                      style={[className(FlexContainerChildItemFullWidthCN)]}>
+                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                       <Checkbox
                         label={'Is vegetarian'}
-                        onCheckBoxChange={(check) => {
-                          checkboxItemValueChanged(
-                            recipe,
-                            check,
-                            'is_vegetarian',
-                            1,
-                            0,
-                          );
+                        onCheckBoxChange={check => {
+                          checkboxItemValueChanged(recipe, check, 'is_vegetarian', 1, 0);
                         }}
                         value={recipe.is_vegetarian}
                       />
@@ -374,18 +316,11 @@ export default function CreateEditRecipeForm(props) {
                       </React.Fragment>
                     )}
 
-                    <RN.View
-                      style={[className(FlexContainerChildItemFullWidthCN)]}>
+                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                       <Checkbox
                         label={'Is Vegan'}
-                        onCheckBoxChange={(check) => {
-                          checkboxItemValueChanged(
-                            recipe,
-                            check,
-                            'is_vegan',
-                            1,
-                            0,
-                          );
+                        onCheckBoxChange={check => {
+                          checkboxItemValueChanged(recipe, check, 'is_vegan', 1, 0);
                         }}
                         value={recipe.is_vegan}
                       />
@@ -393,36 +328,22 @@ export default function CreateEditRecipeForm(props) {
 
                     {submitPressed && isEmptyArray(recipe.ingredients) && (
                       <React.Fragment>
-                        <FormFieldIsRequiredMessage
-                          message={'Please fill out ingredients'}
-                        />
+                        <FormFieldIsRequiredMessage message={'Please fill out ingredients'} />
                         <BlankSpaceDivider />
                       </React.Fragment>
                     )}
 
-                    <RN.Text
-                      style={[
-                        className(
-                          FlexContainerChildItemFullWidthCN,
-                          AlignLeftFlexContainerContentCN,
-                        ),
-                      ]}>
+                    <RN.Text style={[className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}>
                       Ingredients
                     </RN.Text>
 
                     {!isEmptyArray(recipe.ingredients) && (
-                      <RN.View
-                        style={[className(FlexContainerChildItemFullWidthCN)]}>
+                      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                         {recipe.ingredients?.map((item, i) => {
                           let ingredient = recipe.ingredients[i];
                           return (
-                            <RN.View
-                              style={[className(FlexFluidRowContainerCN)]}
-                              key={makeId(16)}>
-                              <RN.View
-                                style={[
-                                  className(FlexContainerChildItemFullWidthCN),
-                                ]}>
+                            <RN.View style={[className(FlexFluidRowContainerCN)]} key={makeId(16)}>
+                              <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                                 {submitPressed && isEmptyString(ingredient) && (
                                   <React.Fragment>
                                     <FormFieldIsRequiredMessage />
@@ -433,35 +354,26 @@ export default function CreateEditRecipeForm(props) {
                                 <AppTextInput
                                   label={`${'' + (i + 1) + '. '}`}
                                   value={recipe.ingredients[i]}
-                                  onChangeText={(text) => {
-                                    textValueChanged(
-                                      ingredients[i],
-                                      text,
-                                      'txt',
-                                    );
+                                  onChangeText={text => {
+                                    textValueChanged(ingredients[i], text, 'txt');
                                     recipe.ingredients[i] = ingredients[i].txt;
                                   }}
                                 />
                               </RN.View>
 
-                              <RN.View
-                                style={[
-                                  className(FlexContainerChildItemFullWidthCN),
-                                ]}>
+                              <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                                 <RN.View
                                   style={[
-                                    className(
-                                      FlexFluidRowContainerCN,
-                                      AlignLeftFlexContainerContentCN,
-                                    ),
+                                    className(FlexFluidRowContainerCN, AlignLeftFlexContainerContentCN),
                                     {
                                       flexDirection: 'row-reverse',
                                     },
-                                  ]}>
+                                  ]}
+                                >
                                   {i === recipe.ingredients.length - 1 && (
                                     <RN.TouchableOpacity
                                       activeOpacity={0.6}
-                                      onPress={(_) => {
+                                      onPress={_ => {
                                         addIngredient(recipe);
                                       }}
                                       style={[
@@ -470,18 +382,16 @@ export default function CreateEditRecipeForm(props) {
                                           backgroundColor: 'forestgreen',
                                         },
                                         className(AlignCenterContentCN),
-                                      ]}>
+                                      ]}
+                                    >
                                       <RN.Text
                                         style={[
                                           {
                                             padding: 5,
                                           },
-                                        ]}>
-                                        <FontAwesomeIcon
-                                          icon={faPlus}
-                                          color={'white'}
-                                          size={30}
-                                        />
+                                        ]}
+                                      >
+                                        <FontAwesomeIcon icon={faPlus} color={'white'} size={30} />
                                       </RN.Text>
                                     </RN.TouchableOpacity>
                                   )}
@@ -491,7 +401,7 @@ export default function CreateEditRecipeForm(props) {
                                   {recipe.ingredients.length >= 2 && (
                                     <RN.TouchableOpacity
                                       activeOpacity={0.6}
-                                      onPress={(_) => {
+                                      onPress={_ => {
                                         removeIngredient(recipe, i);
                                       }}
                                       style={[
@@ -500,18 +410,16 @@ export default function CreateEditRecipeForm(props) {
                                           backgroundColor: 'maroon',
                                         },
                                         className(AlignCenterContentCN),
-                                      ]}>
+                                      ]}
+                                    >
                                       <RN.Text
                                         style={[
                                           {
                                             padding: 5,
                                           },
-                                        ]}>
-                                        <FontAwesomeIcon
-                                          icon={faMinus}
-                                          color={'white'}
-                                          size={30}
-                                        />
+                                        ]}
+                                      >
+                                        <FontAwesomeIcon icon={faMinus} color={'white'} size={30} />
                                       </RN.Text>
                                     </RN.TouchableOpacity>
                                   )}
@@ -523,61 +431,37 @@ export default function CreateEditRecipeForm(props) {
                       </RN.View>
                     )}
 
-                    {submitPressed &&
-                      isEmptyArray(recipe.cooking_instructions) && (
-                        <React.Fragment>
-                          <FormFieldIsRequiredMessage
-                            message={'Please fill out preparation instructions'}
-                          />
-                          <BlankSpaceDivider />
-                        </React.Fragment>
-                      )}
+                    {submitPressed && isEmptyArray(recipe.cooking_instructions) && (
+                      <React.Fragment>
+                        <FormFieldIsRequiredMessage message={'Please fill out preparation instructions'} />
+                        <BlankSpaceDivider />
+                      </React.Fragment>
+                    )}
 
-                    <RN.Text
-                      style={[
-                        className(
-                          FlexContainerChildItemFullWidthCN,
-                          AlignLeftTextCN,
-                        ),
-                      ]}>
+                    <RN.Text style={[className(FlexContainerChildItemFullWidthCN, AlignLeftTextCN)]}>
                       Preparation Instructions
                     </RN.Text>
 
                     {!isEmptyArray(recipe.cooking_instructions) && (
-                      <RN.View
-                        style={[className(FlexContainerChildItemFullWidthCN)]}>
+                      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                         {recipe.cooking_instructions?.map((item, i) => {
-                          let cooking_instruction =
-                            recipe.cooking_instructions[i];
-                          console.log(
-                            'cooking_instruction',
-                            cooking_instruction,
-                          );
+                          let cooking_instruction = recipe.cooking_instructions[i];
+                          console.log('cooking_instruction', cooking_instruction);
                           return (
-                            <RN.View
-                              style={[className(FlexFluidRowContainerCN)]}
-                              key={makeId(16)}>
-                              <RN.View
-                                style={[
-                                  className(FlexContainerChildItemFullWidthCN),
-                                ]}>
-                                {submitPressed &&
-                                  isEmptyString(cooking_instruction) && (
-                                    <React.Fragment>
-                                      <FormFieldIsRequiredMessage />
-                                      <BlankSpaceDivider />
-                                    </React.Fragment>
-                                  )}
+                            <RN.View style={[className(FlexFluidRowContainerCN)]} key={makeId(16)}>
+                              <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
+                                {submitPressed && isEmptyString(cooking_instruction) && (
+                                  <React.Fragment>
+                                    <FormFieldIsRequiredMessage />
+                                    <BlankSpaceDivider />
+                                  </React.Fragment>
+                                )}
 
                                 <AppTextInput
                                   label={`${'' + (i + 1) + '. '}`}
                                   value={recipe.cooking_instructions[i]}
-                                  onChangeText={(text) => {
-                                    textValueChanged(
-                                      {text: item},
-                                      text,
-                                      'text',
-                                    );
+                                  onChangeText={text => {
+                                    textValueChanged({ text: item }, text, 'text');
                                     recipe.cooking_instructions[i] = text;
                                   }}
                                 />
@@ -585,19 +469,16 @@ export default function CreateEditRecipeForm(props) {
 
                               <RN.View
                                 style={[
-                                  className(
-                                    FlexContainerChildItemFullWidthCN,
-                                    AlignLeftFlexContainerContentCN,
-                                  ),
+                                  className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN),
                                   {
                                     flexDirection: 'row-reverse',
                                   },
-                                ]}>
-                                {i ===
-                                  recipe.cooking_instructions.length - 1 && (
+                                ]}
+                              >
+                                {i === recipe.cooking_instructions.length - 1 && (
                                   <RN.TouchableOpacity
                                     activeOpacity={0.6}
-                                    onPress={(_) => {
+                                    onPress={_ => {
                                       addCookingInstruction(recipe);
                                     }}
                                     style={[
@@ -606,13 +487,10 @@ export default function CreateEditRecipeForm(props) {
                                         backgroundColor: 'forestgreen',
                                       },
                                       className(AlignCenterContentCN),
-                                    ]}>
-                                    <RN.Text style={[{padding: 5}]}>
-                                      <FontAwesomeIcon
-                                        icon={faPlus}
-                                        color={'white'}
-                                        size={30}
-                                      />
+                                    ]}
+                                  >
+                                    <RN.Text style={[{ padding: 5 }]}>
+                                      <FontAwesomeIcon icon={faPlus} color={'white'} size={30} />
                                     </RN.Text>
                                   </RN.TouchableOpacity>
                                 )}
@@ -622,7 +500,7 @@ export default function CreateEditRecipeForm(props) {
                                 {recipe.cooking_instructions.length >= 2 && (
                                   <RN.TouchableOpacity
                                     activeOpacity={0.6}
-                                    onPress={(_) => {
+                                    onPress={_ => {
                                       removeCookingInstruction(recipe, i);
                                     }}
                                     style={[
@@ -631,13 +509,10 @@ export default function CreateEditRecipeForm(props) {
                                         backgroundColor: 'maroon',
                                       },
                                       className(AlignCenterContentCN),
-                                    ]}>
-                                    <RN.Text style={[{padding: 5}]}>
-                                      <FontAwesomeIcon
-                                        icon={faMinus}
-                                        color={'white'}
-                                        size={30}
-                                      />
+                                    ]}
+                                  >
+                                    <RN.Text style={[{ padding: 5 }]}>
+                                      <FontAwesomeIcon icon={faMinus} color={'white'} size={30} />
                                     </RN.Text>
                                   </RN.TouchableOpacity>
                                 )}
@@ -650,45 +525,27 @@ export default function CreateEditRecipeForm(props) {
 
                     <BlankSpaceDivider />
 
-                    <RN.View
-                      style={[className(FlexContainerChildItemFullWidthCN)]}>
+                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                       <RN.View style={[className(FlexFluidRowContainerCN)]}>
                         <RN.Text
-                          style={[
-                            className(
-                              FlexContainerChildItemFullWidthCN,
-                              AlignLeftFlexContainerContentCN,
-                            ),
-                          ]}>
+                          style={[className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}
+                        >
                           Okay for
                         </RN.Text>
 
-                        <RN.View
-                          style={[
-                            className(FlexContainerChildItemFullWidthCN),
-                          ]}>
+                        <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                           <RnMultiSelectKaybarax
-                            style={{zIndex: 100}}
+                            style={{ zIndex: 100 }}
                             itemsList={
                               isEmptyArray(recipe.groups_suitable)
                                 ? [...RecipeGroupsSuitable]
-                                : [
-                                    ...RecipeGroupsSuitable.filter(
-                                      (item) =>
-                                        !recipe.groups_suitable.includes(
-                                          item.value,
-                                        ),
-                                    ),
-                                  ]
+                                : [...RecipeGroupsSuitable.filter(item => !recipe.groups_suitable.includes(item.value))]
                             }
                             selectedItems={[
-                              ...RecipeGroupsSuitable.filter((item) =>
-                                recipe.groups_suitable.includes(item.value),
-                              ),
+                              ...RecipeGroupsSuitable.filter(item => recipe.groups_suitable.includes(item.value)),
                             ]}
-                            onItemSelected={(value) => {
-                              isEmptyArray(recipe.groups_suitable) &&
-                                (recipe.groups_suitable = []); //ensure array
+                            onItemSelected={value => {
+                              isEmptyArray(recipe.groups_suitable) && (recipe.groups_suitable = []); //ensure array
                               //if was there, do nothing
                               let idx = recipe.groups_suitable.indexOf(value);
                               if (idx != -1) {
@@ -697,15 +554,13 @@ export default function CreateEditRecipeForm(props) {
                               }
                               recipe.groups_suitable.push(value);
                             }}
-                            onItemRemoved={(value) => {
-                              isEmptyArray(recipe.groups_suitable) &&
-                                (recipe.groups_suitable = []); //ensure array
+                            onItemRemoved={value => {
+                              isEmptyArray(recipe.groups_suitable) && (recipe.groups_suitable = []); //ensure array
                               let idx = recipe.groups_suitable.indexOf(value);
-                              idx != -1 &&
-                                recipe.groups_suitable.splice(idx, 1);
+                              idx != -1 && recipe.groups_suitable.splice(idx, 1);
                             }}
                             multiSelectDialogIsOpen={multiSelectDialogIsOpen}
-                            toggleOpenMultiSelectDialog={(value) => {
+                            toggleOpenMultiSelectDialog={value => {
                               toggleOpenMultiSelectDialog(value);
                             }}
                           />
@@ -713,20 +568,12 @@ export default function CreateEditRecipeForm(props) {
                       </RN.View>
                     </RN.View>
 
-                    <RN.View
-                      style={[className(FlexContainerChildItemFullWidthCN)]}>
-                      <RN.View
-                        style={[
-                          className(
-                            FlexFluidRowContainerCN,
-                            AlignCenterContentCN,
-                          ),
-                        ]}>
-                        {viewAction ===
-                          RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE && (
+                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
+                      <RN.View style={[className(FlexFluidRowContainerCN, AlignCenterContentCN)]}>
+                        {viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE && (
                           <RN.TouchableOpacity
                             activeOpacity={0.6}
-                            onPress={(_) => {
+                            onPress={_ => {
                               Alert.alert('Confirm!', 'Confirm Submit?', [
                                 {
                                   text: 'Submit',
@@ -743,34 +590,16 @@ export default function CreateEditRecipeForm(props) {
                                     setupFormValidation();
 
                                     //validate
-                                    if (
-                                      !isEmptyObject(recipeFormValidityTree)
-                                    ) {
-                                      if (
-                                        !isValidRecipeFormData(
-                                          formData,
-                                          false,
-                                          recipeFormValidityTree,
-                                        )
-                                      ) {
+                                    if (!isEmptyObject(recipeFormValidityTree)) {
+                                      if (!isValidRecipeFormData(formData, false, recipeFormValidityTree)) {
                                         setSubmitPressed(true);
-                                        updateFormValidityTree(
-                                          recipeFormValidityTree,
-                                        );
+                                        updateFormValidityTree(recipeFormValidityTree);
                                         return;
                                       }
 
-                                      submitRecipeClick(
-                                        formData,
-                                        notificationAlert,
-                                        recipeBoxStore,
-                                        navigation,
-                                      );
+                                      submitRecipeClick(formData, notificationAlert, recipeBoxStore, navigation);
                                     } else {
-                                      Alert.alert(
-                                        '',
-                                        'Form validation delayed!',
-                                      );
+                                      Alert.alert('', 'Form validation delayed!');
                                     }
                                   },
                                 },
@@ -788,7 +617,8 @@ export default function CreateEditRecipeForm(props) {
                                 backgroundColor: POSITIVE_ACTION_COLOR,
                                 borderRadius: 5,
                               },
-                            ]}>
+                            ]}
+                          >
                             <RN.Text
                               style={[
                                 {
@@ -797,17 +627,17 @@ export default function CreateEditRecipeForm(props) {
                                   color: 'white',
                                 },
                                 className(AlignCenterTextCN),
-                              ]}>
+                              ]}
+                            >
                               Save Recipe
                             </RN.Text>
                           </RN.TouchableOpacity>
                         )}
 
-                        {viewAction ===
-                          RECIPE_BOX_VIEWS_ACTIONS_ENUM.EDIT_RECIPE && (
+                        {viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.EDIT_RECIPE && (
                           <RN.TouchableOpacity
                             activeOpacity={0.6}
-                            onPress={(_) => {
+                            onPress={_ => {
                               updateRecipeClick(recipe, notificationAlert);
                             }}
                             style={[
@@ -816,7 +646,8 @@ export default function CreateEditRecipeForm(props) {
                                 backgroundColor: POSITIVE_ACTION_COLOR,
                                 borderRadius: 5,
                               },
-                            ]}>
+                            ]}
+                          >
                             <RN.Text
                               style={[
                                 {
@@ -825,7 +656,8 @@ export default function CreateEditRecipeForm(props) {
                                   color: 'white',
                                 },
                                 className(AlignCenterTextCN),
-                              ]}>
+                              ]}
+                            >
                               Update Recipe
                             </RN.Text>
                           </RN.TouchableOpacity>
@@ -842,11 +674,11 @@ export default function CreateEditRecipeForm(props) {
         </RN.View>
 
         <ReactNativeCameraModule
-          setCapturedImage={(photo) => {
+          setCapturedImage={photo => {
             console.log('base64StringPhoto: ', photo);
             setCapturedImage(photo);
           }}
-          hideCameraModal={(_) => {
+          hideCameraModal={_ => {
             cameraModuleProps.cameraLaunched = false;
             updateCameraModuleProps(cameraModuleProps);
           }}
@@ -855,9 +687,7 @@ export default function CreateEditRecipeForm(props) {
         />
       </RN.ScrollView>
 
-      {recipeBoxStore.loading && (
-        <Loader message={recipeBoxStore.loadingMessage} />
-      )}
+      {recipeBoxStore.loading && <Loader message={recipeBoxStore.loadingMessage} />}
     </RN.ScrollView>
   );
 }
