@@ -9,13 +9,20 @@
     "twitter": "https://twitter.com/Kaybarax"
   },
   "repository": "https://github.com/Kaybarax/react-native-app-starter-template",
+  "packageManager": "pnpm@8.6.0",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write \"app/app-dev-scratch-pad/**/*.{js,jsx,ts,tsx}\" \"app/app-management/**/*.{js,jsx,ts,tsx}\" \"app/auth-and-security/**/*.{js,jsx,ts,tsx}\" \"app/controllers/**/*.{js,jsx,ts,tsx}\" \"app/routing-and-navigation/**/*.{js,jsx,ts,tsx}\" \"app/shared-components-and-modules/**/*.{js,jsx,ts,tsx}\" \"app/stores/**/*.{js,jsx,ts,tsx}\" \"app/theme/**/*.{js,jsx,ts,tsx}\" \"app/util/**/*.{js,jsx,ts,tsx}\" \"app/views/**/*.{js,jsx,ts,tsx}\""
+    "format": "prettier --write \"app/app-dev-scratch-pad/**/*.{js,jsx,ts,tsx}\" \"app/app-management/**/*.{js,jsx,ts,tsx}\" \"app/auth-and-security/**/*.{js,jsx,ts,tsx}\" \"app/controllers/**/*.{js,jsx,ts,tsx}\" \"app/routing-and-navigation/**/*.{js,jsx,ts,tsx}\" \"app/shared-components-and-modules/**/*.{js,jsx,ts,tsx}\" \"app/stores/**/*.{js,jsx,ts,tsx}\" \"app/theme/**/*.{js,jsx,ts,tsx}\" \"app/util/**/*.{js,jsx,ts,tsx}\" \"app/views/**/*.{js,jsx,ts,tsx}\"",
+    "install": "pnpm install",
+    "update": "pnpm update",
+    "clean": "rm -rf node_modules && rm -rf pnpm-lock.yaml && pnpm install"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
@@ -32,7 +39,6 @@
     "@react-navigation/material-top-tabs": "^6.6.5",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
-    "zustand": "^4.4.7",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-native": "0.73.2",
@@ -49,7 +55,8 @@
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-svg": "^14.1.0",
-    "react-native-tab-view": "^3.5.2"
+    "react-native-tab-view": "^3.5.2",
+    "zustand": "^4.5.7"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",

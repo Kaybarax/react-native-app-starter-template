@@ -1,0 +1,32 @@
+# Development files
+__tests__/
+.github/
+.vscode/
+.idea/
+.git/
+
+# Build artifacts
+android/build/
+ios/build/
+build/
+
+# Configuration files
+.buckconfig
+.eslintrc.js
+.prettierrc
+.watchmanconfig
+babel.config.js
+metro.config.js
+tsconfig.json
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Package manager files
+yarn.lock
+package-lock.json
+
+# Documentation
+*.md
+!README.md
