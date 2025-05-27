@@ -12,7 +12,7 @@ import { toJS } from '../../stores';
 import { APP_SQLITE_DATABASE } from '../../app-management/data-manager/db-config';
 import { appSQLiteDb } from '../../app-management/data-manager/embeddedDb-manager';
 import { User, UserCredentials } from '../../app-management/data-manager/models-manager';
-import { createPasswordHash } from '../../android-custom-native-modules/app-security-custom-native-module';
+import { createPasswordHash } from '../../auth-and-security/expo-security-module';
 import { isNullUndefined } from '../../util/util';
 import { showToast } from '../../util/react-native-based-utils';
 import { TIME_OUT } from '../../app-config';

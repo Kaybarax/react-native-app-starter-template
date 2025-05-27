@@ -7,12 +7,9 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import SQLite from 'react-native-sqlite-storage';
+import * as SQLite from 'expo-sqlite';
 import { APP_SQLITE_DATABASE } from './db-config';
 import { isBoolean, isEmptyArray, isNullUndefined, stringifyObject } from '../../util/util';
-
-SQLite.DEBUG(true);
-SQLite.enablePromise(false);
 
 /**
  * sd _ Kaybarax
@@ -81,14 +78,8 @@ class AppSQLiteDb {
 
   loadAndInitDB = (): void => {
     this.updateProgress('Opening database ...');
-    APP_SQLITE_DATABASE.DB_REFERENCE = SQLite.openDatabase(
-      this.appDatabase.name,
-      APP_SQLITE_DATABASE.DATABASE_VERSION,
-      this.appDatabase.name,
-      APP_SQLITE_DATABASE.DATABASE_SIZE,
-      this.openCB,
-      this.errorCB,
-    );
+    APP_SQLITE_DATABASE.DB_REFERENCE = SQLite.openDatabase(this.appDatabase.name);
+    this.openCB();
     this.initDatabase(APP_SQLITE_DATABASE.DB_REFERENCE);
   };
 
@@ -96,55 +87,58 @@ class AppSQLiteDb {
     this.updateProgress('Database integrity check');
 
     this.updateProgress('Check if db already setup');
-    db.executeSql(
-      'SELECT 1 FROM ' + this.appDatabaseTables.Version.name + ' LIMIT 1',
-      [],
-      () => {
-        //on success
-        this.updateProgress('Database is ready ... executing test query ...');
-        db.transaction(this.runInitialQueriesAndLoadInitialData, this.errorCB, () => {
-          //on success
-          this.updateProgress('Processing completed');
-          this.dbLoadedAndInitialized = true;
-        });
-      },
-      (error: any) => {
-        //on error
-        console.log('received version error:', error);
-        this.updateProgress('received version error: ' + stringifyObject(error));
-        this.updateProgress('Database not yet ready ... will try to populate db');
-        //populate db
-        this.updateProgress('Populate db');
-        db.transaction(this.populateDB, this.errorCB, () => {
-          //on success
-          this.updateProgress('Database populated ... executing query ...');
-          //attempt again the initial queries
-          db.transaction(this.runInitialQueriesAndLoadInitialData, this.errorCB, () => {
+    try {
+      db.transaction(tx => {
+        tx.executeSql(
+          'SELECT 1 FROM ' + this.appDatabaseTables.Version.name + ' LIMIT 1',
+          [],
+          () => {
             //on success
+            this.updateProgress('Database is ready ... executing test query ...');
+            this.runInitialQueriesAndLoadInitialData(db);
+            this.updateProgress('Processing completed');
+            this.dbLoadedAndInitialized = true;
+          },
+          (_, error) => {
+            //on error
+            console.log('received version error:', error);
+            this.updateProgress('received version error: ' + stringifyObject(error));
+            this.updateProgress('Database not yet ready ... will try to populate db');
+            //populate db
+            this.updateProgress('Populate db');
+            this.populateDB(db);
+            this.updateProgress('Database populated ... executing query ...');
+            //attempt again the initial queries
+            this.runInitialQueriesAndLoadInitialData(db);
             this.updateProgress('Transaction is now finished');
             this.updateProgress('Processing completed');
             this.dbLoadedAndInitialized = true;
             this.closeDatabase();
-          });
-        });
-      },
-    );
+            return false; // Return false to roll back the transaction
+          }
+        );
+      });
+    } catch (error) {
+      this.errorCB(error);
+    }
 
     if (this.dbLoadedAndInitialized) {
       console.log('## DATABASE INITIALIZED AND LOADED ##');
     }
   };
 
-  populateDB = (dbtx: any): void => {
+  populateDB = (db: any): void => {
     this.updateProgress('Executing Create stmts');
     //db bootstrap tables creation
-    this.runInitialTablesCreation(dbtx);
+    db.transaction(tx => {
+      this.runInitialTablesCreation(tx);
 
-    this.updateProgress('Executing INSERT stmts');
-    //db bootstrap inserts
-    this.runInitialInserts(dbtx);
+      this.updateProgress('Executing INSERT stmts');
+      //db bootstrap inserts
+      this.runInitialInserts(tx);
 
-    console.log('All SQL stmts done');
+      console.log('All SQL stmts done');
+    }, this.errorCB);
   };
 
   runInitialTablesCreation = (dbtx: any): void => {
@@ -419,71 +413,94 @@ class AppSQLiteDb {
     );
   };
 
-  runInitialQueriesAndLoadInitialData = async (dbtx: any): Promise<void> => {
+  runInitialQueriesAndLoadInitialData = async (db: any): Promise<void> => {
     console.log('Executing queries...');
 
-    await dbtx.executeSql(
-      `SELECT * FROM ${this.appDatabaseTables.Version.name};`,
-      [],
-      (sqltx: any, results: any) => {
-        this.querySuccess(sqltx, results, this.appDatabaseTables.Version.name);
-      },
-      this.errorCB,
-    );
+    db.transaction(async tx => {
+      tx.executeSql(
+        `SELECT * FROM ${this.appDatabaseTables.Version.name};`,
+        [],
+        (_, results) => {
+          this.querySuccess(tx, results, this.appDatabaseTables.Version.name);
+        },
+        (_, error) => {
+          this.errorCB(error);
+          return false;
+        }
+      );
 
-    await dbtx.executeSql(
-      `SELECT * FROM ${this.appDatabaseTables.APP_REF_KEYS.name};`,
-      [],
-      (sqltx: any, results: any) => {
-        this.querySuccess(sqltx, results, this.appDatabaseTables.APP_REF_KEYS.name);
-      },
-      this.errorCB,
-    );
+      tx.executeSql(
+        `SELECT * FROM ${this.appDatabaseTables.APP_REF_KEYS.name};`,
+        [],
+        (_, results) => {
+          this.querySuccess(tx, results, this.appDatabaseTables.APP_REF_KEYS.name);
+        },
+        (_, error) => {
+          this.errorCB(error);
+          return false;
+        }
+      );
 
-    await dbtx.executeSql(
-      `SELECT * FROM ${this.appDatabaseTables.USER.name};`,
-      [],
-      (sqltx: any, results: any) => {
-        this.querySuccess(sqltx, results, this.appDatabaseTables.USER.name);
-      },
-      this.errorCB,
-    );
+      tx.executeSql(
+        `SELECT * FROM ${this.appDatabaseTables.USER.name};`,
+        [],
+        (_, results) => {
+          this.querySuccess(tx, results, this.appDatabaseTables.USER.name);
+        },
+        (_, error) => {
+          this.errorCB(error);
+          return false;
+        }
+      );
 
-    await dbtx.executeSql(
-      `SELECT * FROM ${this.appDatabaseTables.USER_CREDENTIALS.name};`,
-      [],
-      (sqltx: any, results: any) => {
-        this.querySuccess(sqltx, results, this.appDatabaseTables.USER_CREDENTIALS.name);
-      },
-      this.errorCB,
-    );
+      tx.executeSql(
+        `SELECT * FROM ${this.appDatabaseTables.USER_CREDENTIALS.name};`,
+        [],
+        (_, results) => {
+          this.querySuccess(tx, results, this.appDatabaseTables.USER_CREDENTIALS.name);
+        },
+        (_, error) => {
+          this.errorCB(error);
+          return false;
+        }
+      );
 
-    await dbtx.executeSql(
-      `SELECT * FROM ${this.appDatabaseTables.RECIPE.name};`,
-      [],
-      (sqltx: any, results: any) => {
-        this.querySuccess(sqltx, results, this.appDatabaseTables.RECIPE.name);
-      },
-      this.errorCB,
-    );
+      tx.executeSql(
+        `SELECT * FROM ${this.appDatabaseTables.RECIPE.name};`,
+        [],
+        (_, results) => {
+          this.querySuccess(tx, results, this.appDatabaseTables.RECIPE.name);
+        },
+        (_, error) => {
+          this.errorCB(error);
+          return false;
+        }
+      );
 
-    await dbtx.executeSql(
-      `SELECT * FROM ${this.appDatabaseTables.RECIPE_IMAGE.name};`,
-      [],
-      (sqltx: any, results: any) => {
-        this.querySuccess(sqltx, results, this.appDatabaseTables.RECIPE_IMAGE.name);
-      },
-      this.errorCB,
-    );
+      tx.executeSql(
+        `SELECT * FROM ${this.appDatabaseTables.RECIPE_IMAGE.name};`,
+        [],
+        (_, results) => {
+          this.querySuccess(tx, results, this.appDatabaseTables.RECIPE_IMAGE.name);
+        },
+        (_, error) => {
+          this.errorCB(error);
+          return false;
+        }
+      );
 
-    await dbtx.executeSql(
-      `SELECT * FROM ${this.appDatabaseTables.USER_RECIPE.name};`,
-      [],
-      (sqltx: any, results: any) => {
-        this.querySuccess(sqltx, results, this.appDatabaseTables.USER_RECIPE.name);
-      },
-      this.errorCB,
-    );
+      tx.executeSql(
+        `SELECT * FROM ${this.appDatabaseTables.USER_RECIPE.name};`,
+        [],
+        (_, results) => {
+          this.querySuccess(tx, results, this.appDatabaseTables.USER_RECIPE.name);
+        },
+        (_, error) => {
+          this.errorCB(error);
+          return false;
+        }
+      );
+    }, this.errorCB);
   };
 
   querySuccess = (dbtx: any, results: any, type: string): void => {
@@ -599,7 +616,9 @@ class AppSQLiteDb {
 
   deleteDatabase = (): void => {
     this.updateProgress('Deleting database');
-    SQLite.deleteDatabase(this.appDatabase.name, this.deleteCB, this.errorCB);
+    // Note: expo-sqlite doesn't provide a direct method to delete a database
+    // The database will be deleted when the app is uninstalled
+    this.deleteCB();
   };
 
   //call this on exit of application
@@ -607,7 +626,9 @@ class AppSQLiteDb {
     if (APP_SQLITE_DATABASE.DB_REFERENCE) {
       console.log('Closing database ...');
       this.updateProgress('Closing database');
-      APP_SQLITE_DATABASE.DB_REFERENCE.close(this.closeCB, this.errorCB);
+      // Note: expo-sqlite automatically closes the database connection
+      // when it's no longer needed
+      this.closeCB();
     } else {
       this.updateProgress('Database was not OPENED');
     }
