@@ -74,15 +74,19 @@ export function createPasswordHashCallback(
     return;
   }
 
-  if (resp.message === 'SUCCESS') {
+  // Ensure the message property exists and is a string
+  const message = !isNullUndefined(resp?.message) ? resp?.message : '';
+
+  if (message === 'SUCCESS') {
     showToast('Password hashed successfully');
 
-    userCredentials.password_hash = resp.passwordHash;
-    userCredentials.salt = resp.passwordSalt;
+    // Add null/undefined checks for optional properties
+    userCredentials.password_hash = resp?.passwordHash ?? '';
+    userCredentials.salt = resp?.passwordSalt ?? '';
 
     callbackResListener.done = true;
     callbackResListener.createPasswordHash = true;
-  } else if (resp.message === 'FAILURE') {
+  } else if (message === 'FAILURE') {
     callbackResListener.done = true;
     showToast('Password hashing failed');
   }
@@ -116,21 +120,21 @@ export function validatePasswordWithHashAndSaltListener(
     showToast('Validate Password Result Indeterminate');
     validatePasswordFeedback.done = true;
     //and unregister listener
-    DeviceEventEmitter.removeListener('password_validation_result');
+    DeviceEventEmitter.removeAllListeners('password_validation_result');
   } else {
     if (eventResult.passwordValidationPassed === 'true') {
       showToast('Correct password');
       //and unregister listener
-      DeviceEventEmitter.removeListener('password_validation_result');
+      DeviceEventEmitter.removeAllListeners('password_validation_result');
       validatePasswordFeedback.isValidPassword = true;
     } else if (eventResult.passwordValidationPassed === 'false') {
       showToast('Incorrect password');
       //and unregister listener
-      DeviceEventEmitter.removeListener('password_validation_result');
+      DeviceEventEmitter.removeAllListeners('password_validation_result');
     } else {
       showToast('Validate Password Result Unknown');
       //and unregister listener
-      DeviceEventEmitter.removeListener('password_validation_result');
+      DeviceEventEmitter.removeAllListeners('password_validation_result');
     }
     validatePasswordFeedback.done = true;
   }
@@ -142,14 +146,15 @@ export function validatePasswordWithHashAndSaltCallback(
 ): void {
   if (message === 'SUCCESS') {
     showToast('Validate password process successful');
-    // validatePasswordFeedback.done = true;
+    DeviceEventEmitter.removeAllListeners('password_validation_result');
+    validatePasswordFeedback.done = true;
   } else if (message === 'FAILURE') {
     showToast('Password validation process failed');
-    DeviceEventEmitter.removeListener('password_validation_result', null);
+    DeviceEventEmitter.removeAllListeners('password_validation_result');
     validatePasswordFeedback.done = true;
   } else {
     showToast('Cannot perform password validation');
-    DeviceEventEmitter.removeListener('password_validation_result', null);
+    DeviceEventEmitter.removeAllListeners('password_validation_result');
     validatePasswordFeedback.done = true;
   }
 }
