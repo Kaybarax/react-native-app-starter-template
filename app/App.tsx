@@ -51,7 +51,7 @@ const App = () => {
           };
     }
   } else {
-    //disable all warnings, errors, and logs in release
+    //disable all warnings, errors, and logs in the release
     console.warn =
       console.error =
       console.log =
@@ -89,7 +89,7 @@ const App = () => {
 
   if (!dbLoaded) {
     return (
-      <RN.ScrollView style={[className(FlexColumnContainerCN)]}>
+      <RN.ScrollView style={FlexColumnContainerCN}>
         <NotFound />
         <Loader message={isEmptyString(dbLoadFeedback) ? appSQLiteDb.latestProgressUpdate : dbLoadFeedback} />
       </RN.ScrollView>
@@ -97,7 +97,7 @@ const App = () => {
   }
 
   return (
-    <SafeComponentWrapper>
+    <SafeComponentWrapper fallback={<NotFound />}>
       <AppEntry />
     </SafeComponentWrapper>
   );

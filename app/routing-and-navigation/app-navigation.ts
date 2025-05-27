@@ -38,7 +38,12 @@ export class AppNavigation {
   navigatedToParams = null;
   navigatedTo = null;
   navigatedFrom: string | any = null;
-  navStore = null;
+  navStore: {
+    navigationTrail: any[];
+    currentNavigationTrailIndex: number;
+    navigatedTo: any;
+    navigatedFrom: any;
+  } | null = null;
   globalNavigationProps = {
     drawerProps: null,
     navigator: null,
