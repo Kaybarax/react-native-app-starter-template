@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -19,7 +17,7 @@ export function openWebPageIntent(url: string, notificationAlert: any): void {
   AppIntentsModule.openWebPageIntent(url, (message: string) => openWebPageIntentCallback(message, notificationAlert));
 }
 
-export function openWebPageIntentListener(passwordToValidate: any, hash: any, salt: any): void {
+export function openWebPageIntentListener(eventResult: any, notificationAlert: any, salt?: any): void {
   // TODO: will be done
 }
 
@@ -29,10 +27,10 @@ export function openWebPageIntentCallback(message: string, notificationAlert: an
   } else if (message === 'FAILURE') {
     notificationCallback('warn', 'Password failed validation', notificationAlert);
     //and unregister listener
-    DeviceEventEmitter.removeListener('password_validation_result', null);
+    DeviceEventEmitter.removeAllListeners('password_validation_result');
   } else {
     notificationCallback('err', 'Cannot perform password validation', notificationAlert);
     //and unregister listener
-    DeviceEventEmitter.removeListener('password_validation_result', null);
+    DeviceEventEmitter.removeAllListeners('password_validation_result');
   }
 }
