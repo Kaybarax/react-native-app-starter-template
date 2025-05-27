@@ -2,7 +2,6 @@ import React from 'react';
 import RN from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
-import className from '../../util/react-native-based-utils';
 import {
   AlignCenterContentCN,
   AlignCenterTextCN,
@@ -14,11 +13,10 @@ import {
   FlexFluidRowContainerCN,
 } from '../../theme/app-layout-styles-classnames';
 import { isEmptyArray, isNullUndefined, isTrue, makeId } from '../../util/util';
-import { toJS } from '../../stores';
 import { MAIN_BG_COLOR, SECONDARY_COLOR } from '../../theme/app-theme';
 import { SCREEN_HEIGHT } from '../../App';
 import { BlankSpaceDivider } from '../shared-components';
-import { NegativeButtonCN, NegativeButtonTextCN } from '../../theme/component-themes';
+import { NegativeButtonCN } from '../../theme/component-themes';
 
 interface RnMultiSelectKaybaraxProps {
   selectedItems: Array<SelectedItem>;
@@ -37,7 +35,7 @@ type SelectedItem = {
 };
 
 export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps) {
-  console.log('PROPS IN RnMultiSelectKaybarax', toJS(props));
+  console.log('PROPS IN RnMultiSelectKaybarax', props);
 
   let [state, set_state] = React.useState({
     selectedItems: isEmptyArray(props.selectedItems) ? [] : [...props.selectedItems],
@@ -98,7 +96,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
   return (
     <RN.ScrollView
       style={[
-        className(FlexColumnContainerCN),
+        FlexColumnContainerCN,
         {
           backgroundColor: SECONDARY_COLOR,
           borderRadius: 15,
@@ -109,7 +107,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
         activeOpacity={0.6}
         onPress={openMultiSelectDialog}
         style={[
-          className(FlexFluidRowContainerCN),
+          FlexFluidRowContainerCN,
           {
             backgroundColor: 'white',
             borderRadius: 15,
@@ -120,7 +118,8 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
           activeOpacity={0.6}
           onPress={openMultiSelectDialog}
           style={[
-            className(FlexColumnContainerCN, FlexContainerChildItemWidthCN('80%')),
+            FlexColumnContainerCN,
+            FlexContainerChildItemWidthCN('80%'),
             {
               backgroundColor: SECONDARY_COLOR,
               borderTopLeftRadius: 15,
@@ -128,15 +127,15 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
             },
           ]}
         >
-          <RN.View style={[className(FlexFluidRowContainerCN)]}>
+          <RN.View style={[FlexFluidRowContainerCN]}>
             {!isEmptyArray(state.selectedItems) && (
-              <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-                <RN.View style={[className(FlexFluidRowContainerCN)]}>
+              <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+                <RN.View style={[FlexFluidRowContainerCN]}>
                   <RN.View
-                    style={[className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}
+                    style={[FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN]}
                     key={makeId(16)}
                   >
-                    <RN.View style={[className(FlexFluidRowContainerCN)]}>
+                    <RN.View style={[FlexFluidRowContainerCN]}>
                       <RN.View
                         style={[
                           {
@@ -190,7 +189,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
             {isEmptyArray(state.selectedItems) && (
               <RN.TouchableOpacity
                 activeOpacity={0.6}
-                style={[className(FlexContainerChildItemFullWidthCN)]}
+                style={[FlexContainerChildItemFullWidthCN]}
                 onPress={openMultiSelectDialog}
               >
                 <RN.Text
@@ -200,7 +199,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
                       fontSize: 16,
                       paddingTop: 10,
                     },
-                    className(AlignLeftTextCN),
+                    AlignLeftTextCN,
                   ]}
                 >
                   Select
@@ -217,7 +216,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
           >
             <RN.View
               style={[
-                className(FlexColumnContainerCN),
+                FlexColumnContainerCN,
                 {
                   backgroundColor: SECONDARY_COLOR,
                   padding: 2,
@@ -227,7 +226,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
                 },
               ]}
             >
-              <RN.ScrollView style={[className(FlexContainerChildItemFullWidthCN)]}>
+              <RN.ScrollView style={[FlexContainerChildItemFullWidthCN]}>
                 {isTrue(state.multiSelectDialogIsOpen) &&
                   !isEmptyArray(state.itemsList) &&
                   state.itemsList.map((item, i) => {
@@ -253,7 +252,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
                               fontWeight: 'bold',
                               paddingTop: 10,
                             },
-                            className(AlignLeftTextCN),
+                            AlignLeftTextCN,
                           ]}
                         >
                           {item.label || item.text}
@@ -265,7 +264,6 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
 
               <RN.View
                 style={[
-                  className(FlexContainerChildItemFullWidthCN),
                   {
                     position: 'absolute',
                     bottom: 10,
@@ -278,7 +276,7 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
                   <RN.View>
                     <RN.Text
                       style={[
-                        className(AlignCenterTextCN),
+                        AlignCenterTextCN,
                         {
                           color: '#929fb2',
                           fontSize: 15,
@@ -293,8 +291,8 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
                   </RN.View>
                 )}
 
-                <RN.TouchableOpacity style={[className(NegativeButtonCN)]} activeOpacity={0.6} onPress={closeDropdown}>
-                  <RN.Text style={[className(AlignCenterTextCN, NegativeButtonTextCN)]}>EXIT SELECTION</RN.Text>
+                <RN.TouchableOpacity style={[NegativeButtonCN]} activeOpacity={0.6} onPress={closeDropdown}>
+                  <RN.Text>EXIT SELECTION</RN.Text>
                 </RN.TouchableOpacity>
               </RN.View>
             </RN.View>
@@ -309,7 +307,8 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
               borderTopRightRadius: 15,
               borderBottomRightRadius: 15,
             },
-            className(FlexContainerChildItemWidthCN('20%'), AlignCenterContentCN),
+            FlexContainerChildItemWidthCN('20%'),
+            AlignCenterContentCN,
           ]}
           onPress={openMultiSelectDialog}
         >
@@ -320,19 +319,16 @@ export default function RnMultiSelectKaybarax(props: RnMultiSelectKaybaraxProps)
       </RN.TouchableOpacity>
 
       {!isEmptyArray(state.selectedItems) && (
-        <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-          <RN.View style={[className(FlexFluidRowContainerCN)]}>
+        <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+          <RN.View style={[FlexFluidRowContainerCN]}>
             {state.selectedItems.map((item, i) => {
               if (i === 0) {
                 return null;
               }
               let boundOnClearItem = onItemRemoved.bind(null, item.value);
               return (
-                <RN.View
-                  style={[className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}
-                  key={makeId(16)}
-                >
-                  <RN.View style={[className(FlexFluidRowContainerCN)]}>
+                <RN.View style={[FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN]} key={makeId(16)}>
+                  <RN.View style={[FlexFluidRowContainerCN]}>
                     <RN.View
                       style={[
                         {

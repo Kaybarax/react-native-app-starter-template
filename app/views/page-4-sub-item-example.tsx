@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -42,22 +40,22 @@ export default function Page4SubItemExample(props) {
 
   if (isNullUndefined(person)) {
     return (
-      <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[className(FlexColumnContainerCN)]}>
-        <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-          <RN.View style={[className(FlexFluidRowContainerCN)]}>
-            <Text style={[className(FlexContainerChildItemFullWidthCN, AlignCenterTextCN)]}>No user details</Text>
+      <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[FlexColumnContainerCN]}>
+        <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+          <RN.View style={[FlexFluidRowContainerCN]}>
+            <Text style={[FlexContainerChildItemFullWidthCN, AlignCenterTextCN]}>No user details</Text>
           </RN.View>
 
-          <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-            <RN.View style={[className(FlexFluidRowContainerCN)]}>
+          <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+            <RN.View style={[FlexFluidRowContainerCN]}>
               <RN.TouchableOpacity
                 activeOpacity={0.6}
-                style={[className(FlexContainerChildItemFullWidthCN)]}
+                style={[FlexContainerChildItemFullWidthCN]}
                 onPress={_ => {
                   appNavigation.navigateBack(navigation);
                 }}
               >
-                <Text style={[className(AlignCenterContentCN)]}>Go back</Text>
+                <Text style={[AlignCenterContentCN]}>Go back</Text>
               </RN.TouchableOpacity>
             </RN.View>
           </RN.View>
@@ -68,18 +66,18 @@ export default function Page4SubItemExample(props) {
   }
 
   return (
-    <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[className(FlexColumnContainerCN)]}>
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <Text style={[className(FlexContainerChildItemFullWidthCN, AlignCenterTextCN)]}>
+    <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[FlexColumnContainerCN]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+        <RN.View style={[FlexFluidRowContainerCN]}>
+          <Text style={[FlexContainerChildItemFullWidthCN, AlignCenterTextCN]}>
             Page 4 Item Example : Accredited Details
           </Text>
         </RN.View>
       </RN.View>
 
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+        <RN.View style={[FlexFluidRowContainerCN]}>
+          <RN.View style={[FlexContainerChildItemFullWidthCN]}>
             <Image
               source={require('../media/images/image.png')}
               style={[
@@ -94,9 +92,9 @@ export default function Page4SubItemExample(props) {
         </RN.View>
       </RN.View>
 
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <Text style={[className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+        <RN.View style={[FlexFluidRowContainerCN]}>
+          <Text style={[FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN]}>
             {person && person.person}
           </Text>
           {!isEmptyArray(person?.links) &&
@@ -108,16 +106,14 @@ export default function Page4SubItemExample(props) {
                   }}
                   key={makeId(16)}
                 >
-                  <RN.Text style={[className(FlexContainerChildItemFullWidthCN, AlignLeftTextCN, LinkText)]}>
-                    {item.site}
-                  </RN.Text>
+                  <RN.Text>{item.site}</RN.Text>
                 </RN.Pressable>
               );
             })}
-          <Text style={[className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}>
+          <Text style={[FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN]}>
             <FontAwesomeIcon icon={faCoffee} size={30} />
           </Text>
-          <Text style={[className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}>
+          <Text style={[FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN]}>
             {localeDateStringFormatFromDatetime(new Date())}
           </Text>
         </RN.View>
@@ -125,9 +121,9 @@ export default function Page4SubItemExample(props) {
 
       <BlankSpaceDivider />
 
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+        <RN.View style={[FlexFluidRowContainerCN]}>
+          <RN.View style={[FlexContainerChildItemFullWidthCN]}>
             <Image source={require('../media/images/short-paragraph.png')} />
           </RN.View>
         </RN.View>
@@ -135,17 +131,17 @@ export default function Page4SubItemExample(props) {
 
       <BlankSpaceDivider />
 
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
         <RN.TouchableOpacity
           activeOpacity={0.6}
-          style={[className(FlexContainerChildItemFullWidthCN, NegativeButtonCN)]}
+          style={[FlexContainerChildItemFullWidthCN, NegativeButtonCN]}
           onPress={_ => {
             appNavigation.navigateBack(navigation);
           }}
         >
           <Text
             style={[
-              className(AlignCenterTextCN, NegativeButtonTextCN),
+              AlignCenterTextCN,
               {
                 width: '100%',
               },

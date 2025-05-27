@@ -63,8 +63,8 @@ export default function ReactNativeCameraModule(props) {
         } else {
           showToast('Could not save the image.', 'short');
         }
-      } catch (error) {
-        showToast(error.message, 'short');
+      } catch (error: any) {
+        showToast(error?.message, 'short');
       }
     } else {
       showToast('Could not capture the image.', 'short');
@@ -72,7 +72,7 @@ export default function ReactNativeCameraModule(props) {
   };
 
   return (
-    <View style={[className(FlexColumnContainerCN)]}>
+    <View style={[FlexColumnContainerCN]}>
       <Modal
         animationType={'slide'}
         visible={cameraLaunched}
@@ -83,14 +83,14 @@ export default function ReactNativeCameraModule(props) {
         {!isNullUndefined(imagePreview) && !isEmptyString(imagePreview.base64) && (
           <ScrollView
             style={[
-              className(FlexColumnContainerCN),
+              FlexColumnContainerCN,
               {
                 backgroundColor: SECONDARY_COLOR,
               },
             ]}
           >
-            <View style={[className(FlexColumnContainerCN)]}>
-              <View style={[className(FlexContainerChildItemFullWidthCN)]}>
+            <View style={[FlexColumnContainerCN]}>
+              <View style={[FlexContainerChildItemFullWidthCN]}>
                 <RN.Image
                   style={[
                     {
@@ -105,7 +105,7 @@ export default function ReactNativeCameraModule(props) {
 
               <View
                 style={[
-                  className(FlexContainerChildItemFullWidthCN),
+                  FlexContainerChildItemFullWidthCN,
                   {
                     backgroundColor: MAIN_BG_COLOR,
                     height: SCREEN_HEIGHT * 0.13,
@@ -113,7 +113,7 @@ export default function ReactNativeCameraModule(props) {
                   },
                 ]}
               >
-                <View style={[className(FlexRowContainerCN, AlignCenterContentCN)]}>
+                <View style={[FlexRowContainerCN, AlignCenterContentCN]}>
                   <TouchableOpacity
                     activeOpacity={0.6}
                     onPress={_ => {
@@ -132,7 +132,7 @@ export default function ReactNativeCameraModule(props) {
                   >
                     <Text
                       style={[
-                        className(AlignCenterTextCN),
+                        AlignCenterTextCN,
                         {
                           fontSize: 20,
                           color: POSITIVE_ACTION_COLOR,
@@ -164,7 +164,6 @@ export default function ReactNativeCameraModule(props) {
                   >
                     <Text
                       style={[
-                        className(AlignCenterTextCN),
                         {
                           fontSize: 20,
                           color: 'maroon',
@@ -184,10 +183,9 @@ export default function ReactNativeCameraModule(props) {
         )}
 
         {isNullUndefined(imagePreview) && (
-          <View style={[className(FlexContainerChildItemFullWidthCN)]}>
-            <View style={[className(FlexColumnContainerCN)]}>
+          <View>
+            <View>
               <RNCamera
-                style={[className(FlexContainerChildItemFullWidthCN)]}
                 type={backCamera ? RNCamera.Constants.Type.back : RNCamera.Constants.Type.front}
                 flashMode={cameraFlashOn ? RNCamera.Constants.FlashMode.auto : RNCamera.Constants.FlashMode.off}
                 androidCameraPermissionOptions={{
@@ -209,7 +207,6 @@ export default function ReactNativeCameraModule(props) {
                   return (
                     <View
                       style={[
-                        className(FlexRowContainerCN, AlignCenterContentCN),
                         {
                           position: 'absolute',
                           bottom: SCREEN_HEIGHT * 0.08,
@@ -227,7 +224,6 @@ export default function ReactNativeCameraModule(props) {
                       >
                         <Text
                           style={[
-                            className(AlignCenterTextCN),
                             {
                               fontSize: 18,
                               padding: 5,
@@ -253,7 +249,6 @@ export default function ReactNativeCameraModule(props) {
                       >
                         <Text
                           style={[
-                            className(AlignCenterTextCN),
                             {
                               fontSize: 18,
                               padding: 5,
@@ -274,7 +269,6 @@ export default function ReactNativeCameraModule(props) {
                       >
                         <Text
                           style={[
-                            className(AlignCenterTextCN),
                             {
                               fontSize: 18,
                               padding: 5,
@@ -294,7 +288,6 @@ export default function ReactNativeCameraModule(props) {
                       >
                         <Text
                           style={[
-                            className(AlignCenterTextCN),
                             {
                               fontSize: 18,
                               padding: 5,

@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -31,20 +29,20 @@ export default function Page4Example(props) {
   };
 
   return (
-    <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[className(FlexColumnContainerCN)]}>
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <Text style={[className(FlexContainerChildItemFullWidthCN, AlignCenterTextCN)]}>
+    <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[FlexColumnContainerCN]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+        <RN.View style={[FlexFluidRowContainerCN]}>
+          <Text style={[FlexContainerChildItemFullWidthCN, AlignCenterTextCN]}>
             Page 4 Example : About me, and S/Os and credits
           </Text>
         </RN.View>
       </RN.View>
 
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-            <RN.View style={[className(FlexFluidRowContainerCN)]}>
-              <Text style={[className([FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN])]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+        <RN.View style={[FlexFluidRowContainerCN]}>
+          <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+            <RN.View style={[FlexFluidRowContainerCN]}>
+              <Text style={[FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN]}>
                 <Text
                   style={[
                     {
@@ -61,51 +59,50 @@ export default function Page4Example(props) {
                 experience, both professionally and personally.
                 <NewLine lines={3} />
                 I'm especially, particularly well versed with
-                <Text style={[className(ItalicizedTextCN)]}>Java</Text>,
-                <Text style={[className(ItalicizedTextCN)]}>SQL (MySQL/OracleSQL)</Text>
+                <Text style={[]}>Java</Text>,<Text style={[]}>SQL (MySQL/OracleSQL)</Text>
                 ,&nbsp;
-                <Text style={[className(ItalicizedTextCN)]}>Javascript and web technologies</Text>,
-                <Text style={[className(ItalicizedTextCN)]}>Mobile app development with React Native and Android</Text>
+                <Text style={[]}>Javascript and web technologies</Text>,
+                <Text style={[]}>Mobile app development with React Native and Android</Text>
                 ,&nbsp; and I have, and can as well work with other languages and technologies like&nbsp;
-                <Text style={[className(ItalicizedTextCN)]}>Python, C++, C#, Dart, NoSQL Dbs, and AWS cloud</Text>
+                <Text style={[]}>Python, C++, C#, Dart, NoSQL Dbs, and AWS cloud</Text>
                 .
                 <NewLine lines={3} />
                 <Text>Let's connect:</Text>
                 <NewLine lines={3} />
                 <RN.Pressable
-                  style={[className(FlexFluidRowContainerCN)]}
+                  style={[FlexFluidRowContainerCN]}
                   onPress={_ => {
                     RN.Linking.openURL('https://linkedin.com/in/kaybarax').then(null);
                   }}
                 >
                   <RN.Text>LinkedIn:</RN.Text>
                   <Spacer />
-                  <Text style={[className(LinkText)]}>Kevin Barasa (kaybarax)</Text>
+                  <Text style={[]}>Kevin Barasa (kaybarax)</Text>
                 </RN.Pressable>
                 <NewLine lines={3} />
                 <RN.Pressable
-                  style={[className(FlexFluidRowContainerCN)]}
+                  style={[FlexFluidRowContainerCN]}
                   onPress={_ => {
                     RN.Linking.openURL('https://github.com/Kaybarax').then(null);
                   }}
                 >
                   <RN.Text>Github:</RN.Text>
                   <Spacer />
-                  <Text style={[className(LinkText)]}>Kaybarax</Text>
+                  <Text style={[]}>Kaybarax</Text>
                 </RN.Pressable>
                 <NewLine lines={3} />
                 <RN.Pressable
-                  style={[className(FlexFluidRowContainerCN)]}
+                  style={[FlexFluidRowContainerCN]}
                   onPress={_ => {
                     RN.Linking.openURL('https://twitter.com/Kaybarax').then(null);
                   }}
                 >
                   <RN.Text>Twitter:</RN.Text>
                   <Spacer />
-                  <Text style={[className(LinkText)]}>Kaybarax</Text>
+                  <Text style={[]}>Kaybarax</Text>
                 </RN.Pressable>
                 <NewLine lines={3} />
-                <Text style={[className(BoldTextCN)]}>Shout out's and credits:</Text>
+                <Text style={[]}>Shout out's and credits:</Text>
                 <NewLine lines={1} />
                 {!isEmptyArray(SOs_and_Credits_List) &&
                   SOs_and_Credits_List.map(item => {
@@ -130,7 +127,7 @@ export default function Page4Example(props) {
                                       _viewAttributedPersonDetails(item.person);
                                     }}
                                   >
-                                    <Text style={[className(LinkText, BoldTextCN)]}>{item.person}</Text>
+                                    <Text style={[]}>{item.person}</Text>
                                   </RN.Pressable>
                                 </View>
                               </View>

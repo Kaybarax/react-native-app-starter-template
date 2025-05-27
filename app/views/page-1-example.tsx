@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -25,20 +23,18 @@ export default function Page1Example(props) {
   const { navigation } = props;
 
   return (
-    <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[className(FlexColumnContainerCN)]}>
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <Text style={[className(FlexContainerChildItemFullWidthCN, AlignCenterTextCN)]}>
-            Page 1 Example : Let's start here!
-          </Text>
+    <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[FlexColumnContainerCN]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+        <RN.View style={[FlexFluidRowContainerCN]}>
+          <Text style={[FlexContainerChildItemFullWidthCN, AlignCenterTextCN]}>Page 1 Example : Let's start here!</Text>
         </RN.View>
       </RN.View>
 
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        <RN.View style={[className(FlexFluidRowContainerCN)]}>
-          <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-            <RN.View style={[className(FlexFluidRowContainerCN)]}>
-              <Text style={[className([FlexContainerChildItemFullWidthCN, AlignLeftTextCN])]}>
+      <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+        <RN.View style={[FlexFluidRowContainerCN]}>
+          <RN.View style={[FlexContainerChildItemFullWidthCN]}>
+            <RN.View style={[FlexFluidRowContainerCN]}>
+              <Text style={[FlexContainerChildItemFullWidthCN, AlignLeftTextCN]}>
                 Hey
                 <NewLine lines={3} />
                 Lorem ipsum, gypsum, hey.. leave some for me! Nous sommes!! Lorem ipsum, gypsum, hey.. leave some for
@@ -68,7 +64,7 @@ export default function Page1Example(props) {
                     appNavigation.navigateToPage2Example(navigation, null);
                   }}
                 >
-                  <Text style={[className(LinkText)]}>Continue to Page 2 Example to learn more...</Text>
+                  <Text style={[]}>Continue to Page 2 Example to learn more...</Text>
                 </RN.Pressable>
               </Text>
             </RN.View>
