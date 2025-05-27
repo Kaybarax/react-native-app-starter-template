@@ -186,6 +186,8 @@ Based on the project's `.prettierrc` configuration:
 
 Junie is a tool that helps with project management and development workflow. When working with Junie:
 
+- Before executing a junie task, first read `.junie/projectContext.md` to understand the current project context
+- After executing a junie task, update `.junie/projectContext.md` accordingly
 - Follow the guidelines in the `.junie` directory
 - Use the provided templates for creating new components and features
 - Submit issues and feature requests through the Junie interface
