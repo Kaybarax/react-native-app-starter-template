@@ -9,15 +9,15 @@ import React from 'react';
 import { useStores } from './with-stores-hook';
 
 /**
- * sd _ Kaybarax
- * @param Wrapped
- * @param stores
- * @constructor
+ * A higher-order component that provides the specified stores to the wrapped component
+ * @param Wrapped - The component to wrap
+ * @param storeNames - Array of store names to provide to the component
+ * @returns A new component with the stores provided as props
  */
-const WithStoresHoc = (Wrapped, stores: Array<string>) => {
-  return function (props) {
+const WithStoresHoc = (Wrapped: React.ComponentType<any>, storeNames: Array<string>) => {
+  return function (props: any) {
     // Use the useStores hook to get the stores
-    const storeProps = useStores(stores);
+    const storeProps = useStores(storeNames);
 
     // Pass the stores and the original props to the wrapped component
     return <Wrapped {...props} {...storeProps} />;

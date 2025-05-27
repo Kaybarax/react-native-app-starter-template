@@ -22,7 +22,7 @@ import {
   RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE,
   RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE,
 } from './views-routes-declarations';
-import { toJS } from '../stores';
+import { deepCloneObject } from '../util/util';
 import { showToast } from '../util/react-native-based-utils';
 
 /**
@@ -99,7 +99,7 @@ export class AppNavigation {
   };
 
   navigateBack = (navigator, navParams: object | any = null) => {
-    console.log('this.navStore', toJS(this.navStore));
+    console.log('this.navStore', deepCloneObject(this.navStore));
     if (isNullUndefined(this.navStore?.['navigatedFrom'])) {
       showToast('Cannot determine where to return!', 'long');
       return;

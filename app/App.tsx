@@ -7,8 +7,6 @@
 
 import React from 'react';
 import RN from 'react-native';
-import 'mobx-react-lite/batchingForReactNative';
-import { Provider } from 'mobx-react';
 import AppEntry from './app-entry';
 import appStores from './stores/index';
 import appNavigation from './routing-and-navigation/app-navigation';
@@ -21,6 +19,7 @@ import { serviceWorkerThread } from './controllers/app-controller';
 import { TIME_OUT } from './app-config';
 import { isEmptyObject, isEmptyString } from './util/util';
 import SafeComponentWrapper from './safe-component-wrapper';
+import { useAppStore } from './stores';
 
 export const SCREEN_HEIGHT = RN.Dimensions.get('window').height;
 export const SCREEN_WIDTH = RN.Dimensions.get('window').width;
@@ -63,8 +62,6 @@ const App = () => {
 
   let [dbLoaded, loadDb] = React.useState(false);
   let [dbLoadFeedback, setDbLoadFeedback] = React.useState('');
-  let [loadAppStores, setAppStoresLoaded] = React.useState(false);
-  let [loadAppStoresFeedback, setAppStoresLoadedFeedback] = React.useState('Initializing app state...');
 
   React.useEffect(() => {
     console.log('appSQLiteDb.dbLoadedAndInitialized :::: ', appSQLiteDb.dbLoadedAndInitialized);
@@ -79,6 +76,8 @@ const App = () => {
       },
       _ => {
         loadDb(true);
+        // pass navStore reference to appNavigation
+        appNavigation.navStore = useAppStore.getState().navStore;
       },
       _ => {
         setDbLoadFeedback('Failed to load app sqlite-db. Restart app to try again.');
@@ -86,29 +85,7 @@ const App = () => {
       TIME_OUT,
       1000,
     );
-
-    //init app stores
-    serviceWorkerThread(
-      _ => {
-        appStores.loadAppStores().then(null);
-      },
-      _ => {
-        return appStores.appStoresLoaded;
-      },
-      _ => {
-        setAppStoresLoaded(true);
-        // @ts-ignore
-        // pass navStore reference to appNavigation
-        appNavigation.navStore = appStores.stores.appStore.navStore;
-      },
-      _ => {
-        setAppStoresLoaded(false);
-        setAppStoresLoadedFeedback('Failed to load app state. Restart to try again');
-      },
-      TIME_OUT,
-      1000,
-    );
-  });
+  }, []);
 
   if (!dbLoaded) {
     return (
@@ -119,23 +96,10 @@ const App = () => {
     );
   }
 
-  if (!loadAppStores || isEmptyObject(appStores.stores)) {
-    return (
-      <RN.ScrollView style={[className(FlexColumnContainerCN)]}>
-        <NotFound />
-        <Loader message={loadAppStoresFeedback} />
-      </RN.ScrollView>
-    );
-  }
-
-  const stores = appStores.stores;
-
   return (
-    <Provider {...stores}>
-      <SafeComponentWrapper>
-        <AppEntry />
-      </SafeComponentWrapper>
-    </Provider>
+    <SafeComponentWrapper>
+      <AppEntry />
+    </SafeComponentWrapper>
   );
 };
 

@@ -6,15 +6,6 @@
  */
 import React from 'react';
 import { storeHooks } from './zustand-stores';
-import { StoreNames } from './store-schemas';
-
-// Type for the store hooks
-type StoreHook = () => any;
-
-// Type for the store hooks map
-type StoreHooksMap = {
-  [key: string]: StoreHook;
-};
 
 /**
  * A hook that provides access to the specified stores

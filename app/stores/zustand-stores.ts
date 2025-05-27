@@ -7,46 +7,131 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  AppActivitySchema,
-  LoginActivitySchema,
-  Page1ExampleActivitySchema,
-  Page2ExampleActivitySchema,
-  Page3ExampleActivitySchema,
-  Page4ExampleActivitySchema,
-  RecipeBoxActivitySchema,
-  StoreNames,
-} from './store-schemas';
-import { _StoreKey_ } from './actions-and-stores-data';
+import { objectInstanceProvider } from '../util/util';
+import { notificationAlertProps } from '../shared-components-and-modules/notification-center/notifications-controller';
 
 // Define the namespace for all stores
-const namespace = 'AppStores_' + _StoreKey_;
+const namespace = 'AppStores_';
+
+// Define store types
+interface BaseStore {
+  loading: boolean;
+  loadingMessage: string;
+}
+
+interface AppStore extends BaseStore {
+  user: any | null;
+  navStore: {
+    navigationTrail: any[];
+    currentNavigationTrailIndex: number;
+    navigatedTo: any | null;
+    navigatedFrom: any | null;
+  };
+  setLoading: (loading: boolean) => void;
+  setLoadingMessage: (loadingMessage: string) => void;
+  setUser: (user: any) => void;
+  setNavStore: (navStore: any) => void;
+  reset: () => void;
+}
+
+interface LoginStore extends BaseStore {
+  loginForm: {
+    usernameOrEmail: string | null;
+  };
+  signUpForm: {
+    user: any | null;
+  };
+  resetPasswordForm: {
+    usernameOrEmail: string | null;
+  };
+  viewAction: any | null;
+  notificationAlert: any;
+  setLoading: (loading: boolean) => void;
+  setLoadingMessage: (loadingMessage: string) => void;
+  setLoginForm: (loginForm: any) => void;
+  setSignUpForm: (signUpForm: any) => void;
+  setResetPasswordForm: (resetPasswordForm: any) => void;
+  setViewAction: (viewAction: any) => void;
+  setNotificationAlert: (notificationAlert: any) => void;
+  reset: () => void;
+}
+
+interface PageExampleStore extends BaseStore {
+  todo: any | null;
+  notificationAlert: any;
+  setLoading: (loading: boolean) => void;
+  setLoadingMessage: (loadingMessage: string) => void;
+  setTodo: (todo: any) => void;
+  setNotificationAlert: (notificationAlert: any) => void;
+  reset: () => void;
+}
+
+interface RecipeBoxStore extends BaseStore {
+  recipeItems: any[];
+  selectedRecipe: any | null;
+  user: any | null;
+  notificationAlert: any;
+  setLoading: (loading: boolean) => void;
+  setLoadingMessage: (loadingMessage: string) => void;
+  setRecipeItems: (recipeItems: any[]) => void;
+  setSelectedRecipe: (selectedRecipe: any) => void;
+  setUser: (user: any) => void;
+  setNotificationAlert: (notificationAlert: any) => void;
+  reset: () => void;
+}
 
 // Create individual zustand stores for each store in the application
-export const useAppStore = create(
+export const useAppStore = create<AppStore>()(
   persist(
-    set => ({
-      ...new AppActivitySchema(namespace, StoreNames.appStore),
-      // Add actions to update the store
+    (set) => ({
+      loading: false,
+      loadingMessage: 'Loading...',
+      user: null,
+      navStore: {
+        navigationTrail: [],
+        currentNavigationTrailIndex: 0,
+        navigatedTo: null,
+        navigatedFrom: null,
+      },
       setLoading: (loading: boolean) => set({ loading }),
       setLoadingMessage: (loadingMessage: string) => set({ loadingMessage }),
       setUser: (user: any) => set({ user }),
       setNavStore: (navStore: any) => set({ navStore }),
-      // Add a reset action
-      reset: () => set(new AppActivitySchema(namespace, StoreNames.appStore)),
+      reset: () => set({
+        loading: false,
+        loadingMessage: 'Loading...',
+        user: null,
+        navStore: {
+          navigationTrail: [],
+          currentNavigationTrailIndex: 0,
+          navigatedTo: null,
+          navigatedFrom: null,
+        },
+      }),
     }),
     {
-      name: namespace + StoreNames.appStore,
+      name: namespace + 'appStore',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );
 
-export const useLoginStore = create(
+export const useLoginStore = create<LoginStore>()(
   persist(
-    set => ({
-      ...new LoginActivitySchema(namespace, StoreNames.loginStore),
-      // Add actions to update the store
+    (set) => ({
+      loading: false,
+      loadingMessage: 'Loading...',
+      loginForm: {
+        usernameOrEmail: null,
+      },
+      signUpForm: {
+        user: null,
+      },
+      resetPasswordForm: {
+        usernameOrEmail: null,
+      },
+      viewAction: null,
+      notificationAlert: objectInstanceProvider(notificationAlertProps),
       setLoading: (loading: boolean) => set({ loading }),
       setLoadingMessage: (loadingMessage: string) => set({ loadingMessage }),
       setLoginForm: (loginForm: any) => set({ loginForm }),
@@ -54,120 +139,167 @@ export const useLoginStore = create(
       setResetPasswordForm: (resetPasswordForm: any) => set({ resetPasswordForm }),
       setViewAction: (viewAction: any) => set({ viewAction }),
       setNotificationAlert: (notificationAlert: any) => set({ notificationAlert }),
-      // Add a reset action
-      reset: () => set(new LoginActivitySchema(namespace, StoreNames.loginStore)),
+      reset: () => set({
+        loading: false,
+        loadingMessage: 'Loading...',
+        loginForm: {
+          usernameOrEmail: null,
+        },
+        signUpForm: {
+          user: null,
+        },
+        resetPasswordForm: {
+          usernameOrEmail: null,
+        },
+        viewAction: null,
+        notificationAlert: objectInstanceProvider(notificationAlertProps),
+      }),
     }),
     {
-      name: namespace + StoreNames.loginStore,
+      name: namespace + 'loginStore',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );
 
-export const usePage1ExampleStore = create(
+export const usePage1ExampleStore = create<PageExampleStore>()(
   persist(
-    set => ({
-      ...new Page1ExampleActivitySchema(namespace, StoreNames.page1ExampleStore),
-      // Add actions to update the store
+    (set) => ({
+      loading: false,
+      loadingMessage: 'Loading...',
+      todo: null,
+      notificationAlert: objectInstanceProvider(notificationAlertProps),
       setLoading: (loading: boolean) => set({ loading }),
       setLoadingMessage: (loadingMessage: string) => set({ loadingMessage }),
       setTodo: (todo: any) => set({ todo }),
       setNotificationAlert: (notificationAlert: any) => set({ notificationAlert }),
-      // Add a reset action
-      reset: () => set(new Page1ExampleActivitySchema(namespace, StoreNames.page1ExampleStore)),
+      reset: () => set({
+        loading: false,
+        loadingMessage: 'Loading...',
+        todo: null,
+        notificationAlert: objectInstanceProvider(notificationAlertProps),
+      }),
     }),
     {
-      name: namespace + StoreNames.page1ExampleStore,
+      name: namespace + 'page1ExampleStore',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );
 
-export const usePage2ExampleStore = create(
+export const usePage2ExampleStore = create<PageExampleStore>()(
   persist(
-    set => ({
-      ...new Page2ExampleActivitySchema(namespace, StoreNames.page2ExampleStore),
-      // Add actions to update the store
+    (set) => ({
+      loading: false,
+      loadingMessage: 'Loading...',
+      todo: null,
+      notificationAlert: objectInstanceProvider(notificationAlertProps),
       setLoading: (loading: boolean) => set({ loading }),
       setLoadingMessage: (loadingMessage: string) => set({ loadingMessage }),
       setTodo: (todo: any) => set({ todo }),
       setNotificationAlert: (notificationAlert: any) => set({ notificationAlert }),
-      // Add a reset action
-      reset: () => set(new Page2ExampleActivitySchema(namespace, StoreNames.page2ExampleStore)),
+      reset: () => set({
+        loading: false,
+        loadingMessage: 'Loading...',
+        todo: null,
+        notificationAlert: objectInstanceProvider(notificationAlertProps),
+      }),
     }),
     {
-      name: namespace + StoreNames.page2ExampleStore,
+      name: namespace + 'page2ExampleStore',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );
 
-export const usePage3ExampleStore = create(
+export const usePage3ExampleStore = create<PageExampleStore>()(
   persist(
-    set => ({
-      ...new Page3ExampleActivitySchema(namespace, StoreNames.page3ExampleStore),
-      // Add actions to update the store
+    (set) => ({
+      loading: false,
+      loadingMessage: 'Loading...',
+      todo: null,
+      notificationAlert: objectInstanceProvider(notificationAlertProps),
       setLoading: (loading: boolean) => set({ loading }),
       setLoadingMessage: (loadingMessage: string) => set({ loadingMessage }),
       setTodo: (todo: any) => set({ todo }),
       setNotificationAlert: (notificationAlert: any) => set({ notificationAlert }),
-      // Add a reset action
-      reset: () => set(new Page3ExampleActivitySchema(namespace, StoreNames.page3ExampleStore)),
+      reset: () => set({
+        loading: false,
+        loadingMessage: 'Loading...',
+        todo: null,
+        notificationAlert: objectInstanceProvider(notificationAlertProps),
+      }),
     }),
     {
-      name: namespace + StoreNames.page3ExampleStore,
+      name: namespace + 'page3ExampleStore',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );
 
-export const usePage4ExampleStore = create(
+export const usePage4ExampleStore = create<PageExampleStore>()(
   persist(
-    set => ({
-      ...new Page4ExampleActivitySchema(namespace, StoreNames.page4ExampleStore),
-      // Add actions to update the store
+    (set) => ({
+      loading: false,
+      loadingMessage: 'Loading...',
+      todo: null,
+      notificationAlert: objectInstanceProvider(notificationAlertProps),
       setLoading: (loading: boolean) => set({ loading }),
       setLoadingMessage: (loadingMessage: string) => set({ loadingMessage }),
       setTodo: (todo: any) => set({ todo }),
       setNotificationAlert: (notificationAlert: any) => set({ notificationAlert }),
-      // Add a reset action
-      reset: () => set(new Page4ExampleActivitySchema(namespace, StoreNames.page4ExampleStore)),
+      reset: () => set({
+        loading: false,
+        loadingMessage: 'Loading...',
+        todo: null,
+        notificationAlert: objectInstanceProvider(notificationAlertProps),
+      }),
     }),
     {
-      name: namespace + StoreNames.page4ExampleStore,
+      name: namespace + 'page4ExampleStore',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );
 
-export const useRecipeBoxStore = create(
+export const useRecipeBoxStore = create<RecipeBoxStore>()(
   persist(
-    set => ({
-      ...new RecipeBoxActivitySchema(namespace, StoreNames.recipeBoxStore),
-      // Add actions to update the store
+    (set) => ({
+      loading: false,
+      loadingMessage: 'Loading...',
+      recipeItems: [],
+      selectedRecipe: null,
+      user: null,
+      notificationAlert: objectInstanceProvider(notificationAlertProps),
       setLoading: (loading: boolean) => set({ loading }),
       setLoadingMessage: (loadingMessage: string) => set({ loadingMessage }),
       setRecipeItems: (recipeItems: any[]) => set({ recipeItems }),
       setSelectedRecipe: (selectedRecipe: any) => set({ selectedRecipe }),
       setUser: (user: any) => set({ user }),
       setNotificationAlert: (notificationAlert: any) => set({ notificationAlert }),
-      // Add a reset action
-      reset: () => set(new RecipeBoxActivitySchema(namespace, StoreNames.recipeBoxStore)),
+      reset: () => set({
+        loading: false,
+        loadingMessage: 'Loading...',
+        recipeItems: [],
+        selectedRecipe: null,
+        user: null,
+        notificationAlert: objectInstanceProvider(notificationAlertProps),
+      }),
     }),
     {
-      name: namespace + StoreNames.recipeBoxStore,
+      name: namespace + 'recipeBoxStore',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),
 );
 
-// Map store names to their respective hooks
+// Map store names to their respective hooks for backward compatibility
 export const storeHooks = {
-  [StoreNames.appStore]: useAppStore,
-  [StoreNames.loginStore]: useLoginStore,
-  [StoreNames.page1ExampleStore]: usePage1ExampleStore,
-  [StoreNames.page2ExampleStore]: usePage2ExampleStore,
-  [StoreNames.page3ExampleStore]: usePage3ExampleStore,
-  [StoreNames.page4ExampleStore]: usePage4ExampleStore,
-  [StoreNames.recipeBoxStore]: useRecipeBoxStore,
+  appStore: useAppStore,
+  loginStore: useLoginStore,
+  page1ExampleStore: usePage1ExampleStore,
+  page2ExampleStore: usePage2ExampleStore,
+  page3ExampleStore: usePage3ExampleStore,
+  page4ExampleStore: usePage4ExampleStore,
+  recipeBoxStore: useRecipeBoxStore,
 };
