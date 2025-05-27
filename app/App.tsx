@@ -8,16 +8,14 @@
 import React from 'react';
 import RN from 'react-native';
 import AppEntry from './app-entry';
-import appStores from './stores/index';
 import appNavigation from './routing-and-navigation/app-navigation';
 import { appSQLiteDb } from './app-management/data-manager/embeddedDb-manager';
 import Loader from './shared-components-and-modules/loaders';
 import NotFound from './views/not-found';
-import className from './util/react-native-based-utils';
 import { FlexColumnContainerCN } from './theme/app-layout-styles-classnames';
 import { serviceWorkerThread } from './controllers/app-controller';
 import { TIME_OUT } from './app-config';
-import { isEmptyObject, isEmptyString } from './util/util';
+import { isEmptyString } from './util/util';
 import SafeComponentWrapper from './safe-component-wrapper';
 import { useAppStore } from './stores';
 
