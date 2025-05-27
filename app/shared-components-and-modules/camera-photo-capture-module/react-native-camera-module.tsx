@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -10,7 +8,7 @@
 import React, { Component } from 'react';
 import RN, { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { isEmptyString, isNullUndefined } from '../../util/util';
-import className, { showToast } from '../../util/react-native-based-utils';
+import { showToast } from '../../util/react-native-based-utils';
 import {
   AlignCenterContentCN,
   AlignCenterTextCN,
@@ -30,7 +28,119 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Spacer } from '../shared-components';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
-import { POSITIVE_ACTION_COLOR, MAIN_BG_COLOR, SECONDARY_COLOR } from '../../theme/app-theme';
+import { MAIN_BG_COLOR, POSITIVE_ACTION_COLOR, SECONDARY_COLOR } from '../../theme/app-theme';
+
+interface CameraControlsProps {
+  camera: any;
+  takePicture: (camera: any) => Promise<void>;
+  cameraFlashOn: boolean;
+  backCamera: boolean;
+  cameraModuleProps: any;
+  updateCameraModuleProps: (props: any) => void;
+  hideCameraModal: () => void;
+  OnLightbulb: any; // Icon component
+}
+
+export const CameraControls: React.FC<CameraControlsProps> = ({
+  camera,
+  takePicture,
+  cameraFlashOn,
+  backCamera,
+  cameraModuleProps,
+  updateCameraModuleProps,
+  hideCameraModal,
+  OnLightbulb,
+}) => {
+  return (
+    <View
+      style={[
+        {
+          position: 'absolute',
+          bottom: SCREEN_HEIGHT * 0.08,
+          padding: 5,
+        },
+      ]}
+    >
+      <TouchableOpacity
+        activeOpacity={0.6}
+        onPress={_ => {
+          showToast('Capturing photo...', 'short');
+          takePicture(camera).then(null);
+        }}
+        style={[]}
+      >
+        <Text
+          style={[
+            {
+              fontSize: 18,
+              padding: 5,
+            },
+          ]}
+        >
+          <FontAwesomeIcon icon={faCamera} color={'white'} size={30} />
+        </Text>
+      </TouchableOpacity>
+      <Spacer spaces={5} />
+      <TouchableOpacity
+        onPress={_ => {
+          if (cameraFlashOn) {
+            showToast('Turning flashlight off...', 'short');
+          } else {
+            showToast('Turning flashlight on...', 'short');
+          }
+          cameraModuleProps.cameraFlashOn = !cameraFlashOn;
+          updateCameraModuleProps(cameraModuleProps);
+        }}
+      >
+        <Text
+          style={[
+            {
+              fontSize: 18,
+              padding: 5,
+            },
+          ]}
+        >
+          <FontAwesomeIcon icon={cameraFlashOn ? OnLightbulb : faLightbulb} color={'white'} size={30} />
+        </Text>
+      </TouchableOpacity>
+      <Spacer spaces={5} />
+      <TouchableOpacity
+        onPress={_ => {
+          cameraModuleProps.backCamera = !backCamera;
+          updateCameraModuleProps(cameraModuleProps);
+        }}
+      >
+        <Text
+          style={[
+            {
+              fontSize: 18,
+              padding: 5,
+            },
+          ]}
+        >
+          <FontAwesomeIcon icon={faExchangeAlt} color={'white'} size={30} />
+        </Text>
+      </TouchableOpacity>
+      <Spacer spaces={5} />
+      <TouchableOpacity
+        onPress={_ => {
+          hideCameraModal();
+        }}
+      >
+        <Text
+          style={[
+            {
+              fontSize: 18,
+              padding: 5,
+            },
+          ]}
+        >
+          <FontAwesomeIcon icon={faTimes} color={'white'} size={30} />
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 export default function ReactNativeCameraModule(props) {
   let { setCapturedImage, hideCameraModal, cameraModuleProps, updateCameraModuleProps } = props;
@@ -184,124 +294,41 @@ export default function ReactNativeCameraModule(props) {
 
         {isNullUndefined(imagePreview) && (
           <View>
-            <View>
-              <RNCamera
-                type={backCamera ? RNCamera.Constants.Type.back : RNCamera.Constants.Type.front}
-                flashMode={cameraFlashOn ? RNCamera.Constants.FlashMode.auto : RNCamera.Constants.FlashMode.off}
-                androidCameraPermissionOptions={{
-                  title: 'Permission to use camera',
-                  message: 'We need your permission to use your camera',
-                  buttonPositive: 'Ok',
-                  buttonNegative: 'Cancel',
-                }}
-                androidRecordAudioPermissionOptions={{
-                  title: 'Permission to use audio recording',
-                  message: 'We need your permission to use your audio',
-                  buttonPositive: 'Ok',
-                  buttonNegative: 'Cancel',
-                }}
-                pendingAuthorizationView={<PendingView />}
-              >
-                {({ camera, status, recordAudioPermissionStatus }) => {
-                  if (status !== 'READY') return <PendingView />;
-                  return (
-                    <View
-                      style={[
-                        {
-                          position: 'absolute',
-                          bottom: SCREEN_HEIGHT * 0.08,
-                          padding: 5,
-                        },
-                      ]}
-                    >
-                      <TouchableOpacity
-                        activeOpacity={0.6}
-                        onPress={_ => {
-                          showToast('Capturing photo...', 'short');
-                          takePicture(camera).then(null);
-                        }}
-                        style={[]}
-                      >
-                        <Text
-                          style={[
-                            {
-                              fontSize: 18,
-                              padding: 5,
-                            },
-                          ]}
-                        >
-                          <FontAwesomeIcon icon={faCamera} color={'white'} size={30} />
-                        </Text>
-                      </TouchableOpacity>
-
-                      <Spacer spaces={5} />
-
-                      <TouchableOpacity
-                        onPress={_ => {
-                          if (cameraFlashOn) {
-                            showToast('Turning flashlight off...', 'short');
-                          } else {
-                            showToast('Turning flashlight on...', 'short');
-                          }
-                          cameraModuleProps.cameraFlashOn = !cameraFlashOn;
-                          updateCameraModuleProps(cameraModuleProps);
-                        }}
-                      >
-                        <Text
-                          style={[
-                            {
-                              fontSize: 18,
-                              padding: 5,
-                            },
-                          ]}
-                        >
-                          <FontAwesomeIcon icon={cameraFlashOn ? OnLightbulb : faLightbulb} color={'white'} size={30} />
-                        </Text>
-                      </TouchableOpacity>
-
-                      <Spacer spaces={5} />
-
-                      <TouchableOpacity
-                        onPress={_ => {
-                          cameraModuleProps.backCamera = !backCamera;
-                          updateCameraModuleProps(cameraModuleProps);
-                        }}
-                      >
-                        <Text
-                          style={[
-                            {
-                              fontSize: 18,
-                              padding: 5,
-                            },
-                          ]}
-                        >
-                          <FontAwesomeIcon icon={faExchangeAlt} color={'white'} size={30} />
-                        </Text>
-                      </TouchableOpacity>
-
-                      <Spacer spaces={5} />
-
-                      <TouchableOpacity
-                        onPress={_ => {
-                          hideCameraModal();
-                        }}
-                      >
-                        <Text
-                          style={[
-                            {
-                              fontSize: 18,
-                              padding: 5,
-                            },
-                          ]}
-                        >
-                          <FontAwesomeIcon icon={faTimes} color={'white'} size={30} />
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  );
-                }}
-              </RNCamera>
-            </View>
+            {/*<View>*/}
+            {/*  <RNCamera*/}
+            {/*    type={backCamera ? RNCamera.Constants.Type.back : RNCamera.Constants.Type.front}*/}
+            {/*    flashMode={cameraFlashOn ? RNCamera.Constants.FlashMode.auto : RNCamera.Constants.FlashMode.off}*/}
+            {/*    androidCameraPermissionOptions={{*/}
+            {/*      title: 'Permission to use camera',*/}
+            {/*      message: 'We need your permission to use your camera',*/}
+            {/*      buttonPositive: 'Ok',*/}
+            {/*      buttonNegative: 'Cancel',*/}
+            {/*    }}*/}
+            {/*    androidRecordAudioPermissionOptions={{*/}
+            {/*      title: 'Permission to use audio recording',*/}
+            {/*      message: 'We need your permission to use your audio',*/}
+            {/*      buttonPositive: 'Ok',*/}
+            {/*      buttonNegative: 'Cancel',*/}
+            {/*    }}*/}
+            {/*    pendingAuthorizationView={<PendingView />}*/}
+            {/*  >*/}
+            {/*    {({ camera, status }) => {*/}
+            {/*      if (status !== 'READY') return <PendingView />;*/}
+            {/*      return (*/}
+            {/*        <CameraControls*/}
+            {/*          camera={camera}*/}
+            {/*          takePicture={takePicture}*/}
+            {/*          cameraFlashOn={cameraFlashOn}*/}
+            {/*          backCamera={backCamera}*/}
+            {/*          cameraModuleProps={cameraModuleProps}*/}
+            {/*          updateCameraModuleProps={updateCameraModuleProps}*/}
+            {/*          hideCameraModal={hideCameraModal}*/}
+            {/*          OnLightbulb={OnLightbulb}*/}
+            {/*        />*/}
+            {/*      );*/}
+            {/*    }}*/}
+            {/*  </RNCamera>*/}
+            {/*</View>*/}
           </View>
         )}
       </Modal>
