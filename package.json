@@ -18,9 +18,9 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "format": "prettier --write \"app/app-dev-scratch-pad/**/*.{js,jsx,ts,tsx}\" \"app/app-management/**/*.{js,jsx,ts,tsx}\" \"app/auth-and-security/**/*.{js,jsx,ts,tsx}\" \"app/controllers/**/*.{js,jsx,ts,tsx}\" \"app/routing-and-navigation/**/*.{js,jsx,ts,tsx}\" \"app/shared-components-and-modules/**/*.{js,jsx,ts,tsx}\" \"app/stores/**/*.{js,jsx,ts,tsx}\" \"app/theme/**/*.{js,jsx,ts,tsx}\" \"app/util/**/*.{js,jsx,ts,tsx}\" \"app/views/**/*.{js,jsx,ts,tsx}\"",
-    "install": "pnpm install",
+    "setup": "pnpm install",
     "update": "pnpm update",
-    "clean": "rm -rf node_modules && rm -rf pnpm-lock.yaml && pnpm install"
+    "clean": "rm -rf node_modules && rm -rf pnpm-lock.yaml && pnpm run setup"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
