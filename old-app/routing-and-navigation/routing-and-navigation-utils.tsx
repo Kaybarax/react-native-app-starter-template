@@ -14,20 +14,19 @@ import { Animated, Easing } from 'react-native';
  */
 export interface ViewRoute {
   name: string;
-  screen: any;
-  options?: object;
+  screen: React.ComponentType<any>;
+  options?: Record<string, any>;
   viewTitle: string;
 }
 
 /**
  * sd _ Kaybarax
  * @param viewRoutes
- * @returns {any}
+ * @returns {Record<string, React.ComponentType<any>>}
  */
-export function routeConfigMapBuilder(viewRoutes: Array<ViewRoute>) {
-  let viewMap = {};
+export function routeConfigMapBuilder(viewRoutes: Array<ViewRoute>): Record<string, React.ComponentType<any>> {
+  let viewMap: Record<string, React.ComponentType<any>> = {};
   for (let item of viewRoutes) {
-    // @ts-ignore
     viewMap[item.name] = item.screen;
   }
   return viewMap;

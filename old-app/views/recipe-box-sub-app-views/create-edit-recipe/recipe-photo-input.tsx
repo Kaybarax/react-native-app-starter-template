@@ -1,13 +1,9 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
- * Twitter @_ https://twitter.com/Kaybarax
  * Github @_ https://github.com/Kaybarax
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import { toJS } from '../../../stores';
 import { isEmptyArray, isEmptyString, isNullUndefined } from '../../../util/util';
 import RN from 'react-native';
 import className from '../../../util/react-native-based-utils';
@@ -26,7 +22,7 @@ export default function PhotoInput(props) {
 
   let photoPlaceholder = '../../../media/images/image.png';
 
-  console.log('PhotoInput recipePhotos:', toJS(recipePhotos));
+  console.log('PhotoInput recipePhotos:', recipePhotos);
 
   let photo = isEmptyArray(recipePhotos)
     ? null

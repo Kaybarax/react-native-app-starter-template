@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -17,7 +15,7 @@ export const BlockPartitionsDisplayCN = {
 //containers
 //start flex containers
 export const FlexRowContainerCN = {
-  display: "flex" as const,
+  display: 'flex' as const,
   flex: 1,
   flexDirection: 'row' as const,
   padding: 2,
@@ -26,7 +24,7 @@ export const FlexRowContainerCN = {
 };
 
 export const FlexFluidRowContainerCN = {
-  display: "flex" as const,
+  display: 'flex' as const,
   flex: 1,
   flexDirection: 'row' as const,
   flexWrap: 'wrap' as const,
@@ -36,7 +34,7 @@ export const FlexFluidRowContainerCN = {
 };
 
 export const FlexColumnContainerCN = {
-  display: "flex" as const,
+  display: 'flex' as const,
   flex: 1,
   flexDirection: 'column' as const,
   padding: 2,
@@ -45,7 +43,7 @@ export const FlexColumnContainerCN = {
 };
 
 export const FlexFluidColumnContainerCN = {
-  display: "flex" as const,
+  display: 'flex' as const,
   flex: 1,
   flexDirection: 'column' as const,
   flexWrap: 'wrap' as const,

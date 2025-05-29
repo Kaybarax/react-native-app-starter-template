@@ -26,15 +26,15 @@ export type User = {
 
 export interface UserCredentials {
   username: string;
-  password_hash?: string;
-  salt?: object;
+  password_hash: string;
+  salt: string;
 }
 
 export interface Recipe {
   id: string;
   name?: string;
-  is_vegetarian?: false | true | 0 | 1;
-  is_vegan?: false | true | 0 | 1;
+  is_vegetarian?: boolean;
+  is_vegan?: boolean;
   ingredients?: Array<string>;
   cooking_instructions?: Array<string>;
   groups_suitable?: Array<string>;
@@ -58,12 +58,12 @@ export interface UserRecipe {
 
 /**
  * sd _ Kaybarax
- * @param code
- * @param label
- * @returns {{code: *, name: *}}
+ * @param code - The code value for the food group
+ * @param label - The display label for the food group
+ * @returns {{value: string, label: string}}
  * @constructor
  */
-export function FoodGroupConsumer(code, label) {
+export function FoodGroupConsumer(code: string, label: string): { value: string; label: string } {
   return {
     value: code,
     label: label,

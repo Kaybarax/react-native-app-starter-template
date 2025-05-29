@@ -15,9 +15,7 @@ import {
   FlexContainerChildItemFullWidthCN,
   FlexFluidRowContainerCN,
 } from '../theme/app-layout-styles-classnames';
-import className from '../util/react-native-based-utils';
 import { NewLine } from '../shared-components-and-modules/shared-components';
-import { LinkText } from '../theme/app-text-styles-classnames';
 
 export default function Page3Example(props) {
   const { navigation } = props;

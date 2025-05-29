@@ -9,11 +9,12 @@
 
 import { AppRefKeys, Recipe, RecipeImage, User, UserCredentials, UserRecipe } from './models-manager';
 import { makeId } from '../../util/util';
+import { SQLiteDatabase } from 'expo-sqlite';
 
 export const APP_SQLITE_DATABASE = {
   DATABASE_VERSION: '1.0',
   DATABASE_SIZE: 200000,
-  DB_REFERENCE: null,
+  DB_REFERENCE: null as SQLiteDatabase | null,
   DATABASES: {
     APP_DB: {
       name: 'RNTSAST_AD.db',
@@ -45,7 +46,11 @@ export const APP_SQLITE_DATABASE = {
         USER_CREDENTIALS: {
           name: 'USER_CREDENTIALS',
           schema() {
-            let schema: UserCredentials = { username: makeId(32) };
+            let schema: UserCredentials = { 
+              username: makeId(32),
+              password_hash: '',
+              salt: ''
+            };
             return schema;
           },
         },

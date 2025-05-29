@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -20,11 +18,12 @@ import className from '../util/react-native-based-utils';
 import { SCREEN_HEIGHT } from '../App';
 import { BlankSpaceDivider } from '../shared-components-and-modules/shared-components';
 import { SECONDARY_COLOR } from '../theme/app-theme';
+import FallBackPage from '@/old-app/fall-back-page';
 
 export default class NotFound extends Component {
   render() {
     return (
-      <SafeComponentWrapper>
+      <SafeComponentWrapper fallback={<FallBackPage />}>
         <ImageBackground
           source={require('../media/images/page-not-found.jpg')}
           style={[

@@ -17,9 +17,7 @@ import {
   FlexContainerChildItemFullWidthCN,
   FlexFluidRowContainerCN,
 } from '../theme/app-layout-styles-classnames';
-import className from '../util/react-native-based-utils';
 import { BlankSpaceDivider, NewLine, Spacer } from '../shared-components-and-modules/shared-components';
-import { BoldTextCN, ItalicizedTextCN, LinkText } from '../theme/app-text-styles-classnames';
 
 export default function Page4Example(props) {
   const { navigation } = props;

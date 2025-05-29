@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -7,99 +5,83 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React from 'react';
-import RN, { Alert } from 'react-native';
-import PropTypes from 'prop-types';
+import React, { useRef } from 'react';
+import { Alert, StyleProp, Text, TouchableOpacity, UIManager, View, ViewStyle, findNodeHandle } from 'react-native';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { SECONDARY_COLOR } from '../theme/app-theme';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import appNavigation from './app-navigation';
 import WithStoresHoc from '../stores/with-stores-hoc';
-import { handleLogOut } from '../controllers/recipe-box-sub-app-controllers/recipe-box-login-controller';
+import { handleLogOut, LoginStore } from '../controllers/recipe-box-sub-app-controllers/recipe-box-login-controller';
 
 interface PopupMenuProps {
   actions: string[];
   onPress: (e: any, i: number) => void;
   children?: React.ReactNode;
-  style?: RN.StyleProp<RN.ViewStyle>;
+  style?: StyleProp<ViewStyle>;
 }
 
-export class PopupMenu extends React.Component<PopupMenuProps> {
-  private menu: React.RefObject<RN.Text>;
+export function PopupMenu(props: PopupMenuProps): React.ReactElement {
+  const { actions, onPress, children, style } = props;
+  const menu = useRef<Text | null>(null);
 
-  constructor(props: PopupMenuProps) {
-    super(props);
-    this.menu = React.createRef();
-  }
-
-  handleShowPopupError = (): void => {
+  const handleShowPopupError = (): void => {
     // todo: show error here
   };
 
-  handleMenuPress = (): void => {
-    const { actions, onPress } = this.props;
-    RN.UIManager.showPopupMenu(
-      RN.findNodeHandle(this.menu.current as any),
-      actions,
-      this.handleShowPopupError,
-      onPress,
-    );
+  const handleMenuPress = (): void => {
+    const node = findNodeHandle(menu.current);
+    if (node) {
+      // @ts-ignore: UIManager.showPopupMenu exists at runtime but is missing from type definitions
+      UIManager.showPopupMenu(node, actions, handleShowPopupError, onPress);
+    }
   };
 
-  render(): React.ReactNode {
-    return (
-      <RN.View style={[{ paddingBottom: 10 }]}>
-        {this.props.children}
-        <RN.TouchableOpacity
-          onPress={this.handleMenuPress}
-          style={[
-            {
-              alignSelf: 'center',
-              backgroundColor: 'transparent',
-              height: 45,
-              width: 45,
-              borderRadius: 45,
-              borderColor: 'transparent',
-            },
-          ]}
-        >
-          <RN.Text ref={this.menu}>
-            <FontAwesomeIcon icon={faEllipsisV} color={SECONDARY_COLOR} size={30} />
-          </RN.Text>
-        </RN.TouchableOpacity>
-      </RN.View>
-    );
-  }
+  return (
+    <View style={[{ paddingBottom: 10 }, style]}>
+      {children}
+      <TouchableOpacity
+        onPress={handleMenuPress}
+        style={[
+          {
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+            height: 45,
+            width: 45,
+            borderRadius: 45,
+            borderColor: 'transparent',
+          },
+        ]}
+      >
+        <Text ref={menu}>
+          <FontAwesomeIcon icon={faEllipsisV} color={SECONDARY_COLOR} size={30} />
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
-
-// PropTypes are kept for backward compatibility
-PopupMenu.propTypes = {
-  actions: PropTypes.array.isRequired,
-  onPress: PropTypes.func.isRequired,
-  children: PropTypes.object,
-};
 
 interface RecipeBoxStoreType {
-  // Add properties as needed
-}
-
-interface LoginStoreType {
-  // Add properties as needed
+  user: any;
+  recipeItems: Array<any>;
+  selectedRecipe: any;
+  selectedRecipePhotos: Array<any>;
+  [key: string]: any;
 }
 
 interface RecipeBoxPopupMenuProps {
   recipeBoxStore: RecipeBoxStoreType;
-  loginStore: LoginStoreType;
+  loginStore: LoginStore;
 }
 
-export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): JSX.Element {
+export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): React.ReactElement {
   console.log('RecipeBoxPopupMenu props', props);
-  let { recipeBoxStore, loginStore } = props;
-  let { drawerProps, executeHaltedBackNavigation, navigator } = appNavigation.globalNavigationProps;
+  const { recipeBoxStore, loginStore } = props;
+  const { navigator } = appNavigation.globalNavigationProps;
   console.log('RecipeBoxPopupMenu globalNavigationProps', appNavigation.globalNavigationProps);
 
   return (
-    <RN.View
+    <View
       style={[
         {
           marginTop: 30,
@@ -116,7 +98,6 @@ export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): JSX.Element 
           }
           if (i === 1) {
             // Logout
-            console.log('RecipeBoxPopupMenu GlobalDrawerProps', drawerProps);
             try {
               //turn on logout
               appNavigation.globalNavigationProps.internalLogout = true;
@@ -128,7 +109,7 @@ export function RecipeBoxPopupMenu(props: RecipeBoxPopupMenuProps): JSX.Element 
           }
         }}
       />
-    </RN.View>
+    </View>
   );
 }
 

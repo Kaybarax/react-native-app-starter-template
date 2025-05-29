@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -8,15 +6,14 @@
  */
 
 import React from 'react';
-import RN from 'react-native';
-import Animated from 'react-native-reanimated';
+import { TouchableOpacity, View } from 'react-native';
+import Animated, { interpolate } from 'react-native-reanimated';
 import {
   MAIN_SUPPORT_COLOR,
   NEGATIVE_ACTION_COLOR,
   SECONDARY_COLOR,
   SECONDARY_SUPPORT_COLOR,
 } from '../theme/app-theme';
-import { makeId } from '../util/util';
 import { SCREEN_HEIGHT } from '../App';
 import {
   PAGE1EXAMPLE_VIEW_ROUTE,
@@ -25,7 +22,34 @@ import {
   PAGE4EXAMPLE_VIEW_ROUTE,
 } from './views-routes-declarations';
 
-export default function MainAppTopNavigationTabsCustomTabBars({ state, descriptors, navigation, position }) {
+interface MainAppTopNavigationTabsCustomTabBarsProps {
+  state: {
+    index: number;
+    routes: Array<{
+      key: string;
+      name: string;
+    }>;
+  };
+  descriptors: {
+    [key: string]: {
+      options: {
+        tabBarLabel?: string | ((props: { focused: boolean; color: string; children: string; }) => React.ReactNode);
+        title?: string;
+        tabBarAccessibilityLabel?: string;
+        tabBarTestID?: string;
+      };
+    };
+  };
+  navigation: any;
+  position: any;
+}
+
+export default function MainAppTopNavigationTabsCustomTabBars({
+  state,
+  descriptors,
+  navigation,
+  position,
+}: MainAppTopNavigationTabsCustomTabBarsProps) {
   console.log('MainAppTopNavigationTabsCustomTabBars');
   console.log('PROPS', state, descriptors, navigation);
 
@@ -37,7 +61,7 @@ export default function MainAppTopNavigationTabsCustomTabBars({ state, descripto
   ];
 
   return (
-    <RN.View
+    <View
       style={[
         {
           flexDirection: 'row',
@@ -76,13 +100,11 @@ export default function MainAppTopNavigationTabsCustomTabBars({ state, descripto
         };
 
         const inputRange = state.routes.map((_, i) => i);
-        const opacity = Animated.interpolate(position, {
-          inputRange,
-          outputRange: inputRange.map(i => (i === index ? 1 : 0.7)),
-        });
+        const outputRange = inputRange.map(i => (i === index ? 1 : 0.7));
+        const opacity = interpolate(position, inputRange, outputRange);
 
         return (
-          <RN.TouchableOpacity
+          <TouchableOpacity
             accessibilityRole="button"
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
@@ -96,7 +118,7 @@ export default function MainAppTopNavigationTabsCustomTabBars({ state, descripto
                 padding: 10,
               },
             ]}
-            key={makeId(16)}
+            key={route.key}
           >
             <Animated.Text
               style={[
@@ -112,9 +134,9 @@ export default function MainAppTopNavigationTabsCustomTabBars({ state, descripto
             >
               {TAB_NAMES[index]}
             </Animated.Text>
-          </RN.TouchableOpacity>
+          </TouchableOpacity>
         );
       })}
-    </RN.View>
+    </View>
   );
 }

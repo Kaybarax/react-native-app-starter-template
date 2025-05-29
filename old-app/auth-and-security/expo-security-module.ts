@@ -6,7 +6,6 @@
  */
 
 import * as Crypto from 'expo-crypto';
-import { isEmptyString, isNullUndefined } from '../util/util';
 import { showToast } from '../util/react-native-based-utils';
 
 interface UserCredentials {
@@ -53,10 +52,7 @@ async function hashPassword(password: string, salt: string): Promise<string> {
   // Combine password and salt
   const combined = password + salt;
   // Hash using SHA-256
-  const hash = await Crypto.digestStringAsync(
-    Crypto.CryptoDigestAlgorithm.SHA256,
-    combined
-  );
+  const hash = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, combined);
   return hash;
 }
 
@@ -77,18 +73,18 @@ export async function createPasswordHash(
   try {
     // Generate a random salt
     const salt = await generateSalt();
-    
+
     // Hash the password with the salt
     const hash = await hashPassword(passwordText, salt);
-    
+
     // Update the user credentials
     userCredentials.password_hash = hash;
     userCredentials.salt = salt;
-    
+
     // Update the callback
     callbackResListener.done = true;
     callbackResListener.createPasswordHash = true;
-    
+
     showToast('Password hashed successfully');
   } catch (error) {
     console.error('Error creating password hash:', error);
@@ -117,17 +113,17 @@ export async function validatePasswordWithHashAndSalt(
   try {
     // Hash the password with the stored salt
     const calculatedHash = await hashPassword(passwordToValidate, salt);
-    
+
     // Compare the calculated hash with the stored hash
     const isValid = calculatedHash === hash;
-    
+
     if (isValid) {
       showToast('Correct password');
       validatePasswordFeedback.isValidPassword = true;
     } else {
       showToast('Incorrect password');
     }
-    
+
     validatePasswordFeedback.done = true;
   } catch (error) {
     console.error('Error validating password:', error);

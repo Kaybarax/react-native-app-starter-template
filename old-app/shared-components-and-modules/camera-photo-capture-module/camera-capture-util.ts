@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -18,13 +16,14 @@ export const CAMERA_PERMISSION = PermissionsAndroid.PERMISSIONS.CAMERA;
  * @param message
  * @returns {Promise<boolean>}
  */
-export async function requestPermission(permission: string, title: string, message: string): Promise<boolean> {
+export async function requestPermission(permission: any, title: any, message: any): Promise<boolean> {
   try {
     const granted = await PermissionsAndroid.request(permission, {
       title: title,
       message: message,
+      buttonPositive: '',
     });
-    if (granted === true) {
+    if (granted) {
       // already got permissions from manifest
       return true;
     } else {

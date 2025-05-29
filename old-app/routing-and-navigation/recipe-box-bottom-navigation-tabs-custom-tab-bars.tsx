@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import RN from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import className from '../util/react-native-based-utils';
 import {
   AlignCenterContentCN,
@@ -18,24 +18,49 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faInbox } from '@fortawesome/free-solid-svg-icons';
 import { MAIN_BG_COLOR, MAIN_SUPPORT_COLOR, SECONDARY_COLOR, SECONDARY_SUPPORT_COLOR } from '../theme/app-theme';
-import { makeId } from '../util/util';
 import { SCREEN_HEIGHT } from '../App';
 
-export default function RecipeBoxBottomNavigationTabsCustomTabBars({ state, descriptors, navigation }) {
+interface RecipeBoxBottomNavigationTabsCustomTabBarsProps {
+  state: {
+    index: number;
+    routes: Array<{
+      key: string;
+      name: string;
+    }>;
+  };
+  descriptors: {
+    [key: string]: {
+      options: {
+        tabBarLabel?: string | ((props: { focused: boolean; color: string; position: any; children: string; }) => React.ReactNode);
+        title?: string;
+        tabBarAccessibilityLabel?: string;
+        tabBarTestID?: string;
+      };
+    };
+  };
+  navigation: any;
+  insets?: any;
+}
+
+export default function RecipeBoxBottomNavigationTabsCustomTabBars({
+  state,
+  descriptors,
+  navigation,
+}: RecipeBoxBottomNavigationTabsCustomTabBarsProps) {
   console.log('RecipeBoxBottomNavigationTabsCustomTabBars');
-  console.log('PROSSSS', state, descriptors, navigation);
+  console.log('PROPS', state, descriptors, navigation);
 
   const TAB_NAMES = ['Home', 'Recipe Requests'];
   const TAB_ICONS = [faHome, faInbox];
 
   return (
-    <RN.View
+    <View
       style={[
         className(FlexFluidRowContainerCN),
         {
           backgroundColor: SECONDARY_COLOR,
           position: 'absolute',
-          bottom: '0.5%',
+          bottom: 5, // Changed from '0.5%' to a numeric value
         },
       ]}
     >
@@ -45,8 +70,8 @@ export default function RecipeBoxBottomNavigationTabsCustomTabBars({ state, desc
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-              ? options.title
-              : route.name;
+            ? options.title
+            : route.name;
 
         const isFocused = state.index === index;
 
@@ -71,8 +96,8 @@ export default function RecipeBoxBottomNavigationTabsCustomTabBars({ state, desc
         let perItemWidth: string = (1.0 / state.routes.length) * 100 + '%';
 
         return (
-          <RN.View style={[className(FlexContainerChildItemWidthCN(perItemWidth))]} key={makeId(16)}>
-            <RN.TouchableOpacity
+          <View style={[className(FlexContainerChildItemWidthCN(perItemWidth))]} key={route.key}>
+            <TouchableOpacity
               style={[
                 className(AlignCenterContentCN),
                 {
@@ -89,7 +114,7 @@ export default function RecipeBoxBottomNavigationTabsCustomTabBars({ state, desc
             >
               <FontAwesomeIcon icon={TAB_ICONS[index]} color={MAIN_BG_COLOR} size={25} />
 
-              <RN.Text
+              <Text
                 style={[
                   {
                     color: isFocused ? SECONDARY_SUPPORT_COLOR : MAIN_SUPPORT_COLOR,
@@ -98,11 +123,11 @@ export default function RecipeBoxBottomNavigationTabsCustomTabBars({ state, desc
                 ]}
               >
                 {TAB_NAMES[index]}
-              </RN.Text>
-            </RN.TouchableOpacity>
-          </RN.View>
+              </Text>
+            </TouchableOpacity>
+          </View>
         );
       })}
-    </RN.View>
+    </View>
   );
 }

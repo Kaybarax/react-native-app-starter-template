@@ -1,11 +1,6 @@
-/* eslint-disable prettier/prettier */
-//key
-//sd - self described
-//@authored by Kaybarax -- Twitter @_ https://twitter.com/Kaybarax, Github @_ https://github.com/Kaybarax, LinkedIn @_ https://linkedin.com/in/kaybarax
-
 import { Alert, ToastAndroid } from 'react-native';
-import { isEmptyArray, isEmptyString, isNullUndefined, isObject, stringifyObject } from './util';
-import AsyncStorage from '@react-native-community/async-storage';
+import { isEmptyString, isNullUndefined, isObject, stringifyObject } from './util';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * sd _ Kaybarax
@@ -26,16 +21,8 @@ export function enforceReactNaturalStateUpdateBehavior(self: any): void {
   self.setState({ updated: true });
 }
 
-/**
- * sd _ Kaybarax
- * @param classNames
- * @returns {*[]}
- */
-export default function className(...classNames: string[]): string[] | undefined {
-  if (!isEmptyArray(classNames)) {
-    return [...classNames];
-  }
-  return undefined;
+export default function className(...args: any) {
+  return [];
 }
 
 /**

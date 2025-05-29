@@ -60,21 +60,21 @@ export const PAGE4EXAMPLE_VIEW_ROUTE: ViewRoute = {
 export const PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE: ViewRoute = {
   name: 'PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE',
   screen: WithStoresHoc(Page4SubItemExample, ['page4ExampleStore', 'appStore']),
-  viewTitle: '',
+  viewTitle: 'Page 4 Sub Item',
 };
 
 //the 404 route
 export const _404_VIEW: ViewRoute = {
   name: '_404_',
   screen: NotFound,
-  viewTitle: '',
+  viewTitle: 'Page Not Found',
 };
 
 // just added for your mocking of scenarios
 export const APP_DEV_MOCKS_VIEW_ROUTE: ViewRoute = {
   name: 'APP_DEV_MOCKS_VIEW_ROUTE',
   screen: WithStoresHoc(AppDevScratchPad, ['loginStore', 'appStore']),
-  viewTitle: '',
+  viewTitle: 'App Dev Scratchpad',
 };
 
 /*End app primitive views/screens*/

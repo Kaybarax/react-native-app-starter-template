@@ -15,19 +15,16 @@ import {
   AlignCenterContentCN,
   AlignCenterTextCN,
   AlignLeftFlexContainerContentCN,
-  AlignLeftTextCN,
   FlexColumnContainerCN,
   FlexContainerChildItemFullWidthCN,
   FlexFluidRowContainerCN,
 } from '../theme/app-layout-styles-classnames';
-import className from '../util/react-native-based-utils';
 import { SCREEN_HEIGHT } from '../App';
 import appNavigation from '../routing-and-navigation/app-navigation';
 import { BlankSpaceDivider } from '../shared-components-and-modules/shared-components';
-import { NegativeButtonCN, NegativeButtonTextCN } from '../theme/component-themes';
-import { LinkText } from '../theme/app-text-styles-classnames';
+import { NegativeButtonCN } from '../theme/component-themes';
 
-export default function Page4SubItemExample(props) {
+export default function Page4SubItemExample(props: any) {
   console.log('Page4SubItemExample props', props);
 
   const {

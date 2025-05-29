@@ -1,6 +1,3 @@
-/* eslint-disable */
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -33,7 +30,6 @@ import {
   RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE,
 } from './views-routes-declarations';
 import { createStackNavigator } from '@react-navigation/stack';
-import { makeId } from '../util/util';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import AppDrawerNavigationContent from './app-drawer-navigation-content';
 import { SCREEN_WIDTH } from '../App';
@@ -56,71 +52,44 @@ import MainAppTopNavigationTabsCustomTabBars from './main-app-top-navigation-tab
 export default function AppWithDrawerNavigationRoutingComposition() {
   const DrawerNav = createDrawerNavigator();
 
-  const routeMap = [
-    <DrawerNav.Screen
-      name={MAIN_APP_STACK_VIEW_ROUTE.name}
-      component={MAIN_APP_STACK_VIEW_ROUTE.screen}
-      key={makeId(16)}
-    />,
-    <DrawerNav.Screen
-      name={APP_DEV_MOCKS_STACK_VIEW_ROUTE.name}
-      component={APP_DEV_MOCKS_STACK_VIEW_ROUTE.screen}
-      key={makeId(16)}
-    />,
-    <DrawerNav.Screen
-      name={RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE.name}
-      component={RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE.screen}
-      key={makeId(16)}
-      options={({ route, navigation }) => {
-        return {
-          swipeEnabled: false,
-        };
-      }}
-    />,
-  ];
-
   return (
     <DrawerNav.Navigator
-      children={routeMap}
       drawerContent={props => {
         return <AppDrawerNavigationContent {...props} />;
       }}
-      drawerType={SCREEN_WIDTH >= 768 ? 'permanent' : 'front'}
-      drawerStyle={{
-        backgroundColor: MAIN_BG_COLOR,
-        width: SCREEN_WIDTH * 0.75,
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: MAIN_BG_COLOR,
+          width: SCREEN_WIDTH * 0.75,
+        },
+        drawerType: SCREEN_WIDTH >= 768 ? 'permanent' : 'front',
       }}
-    />
+    >
+      <DrawerNav.Screen
+        name={MAIN_APP_STACK_VIEW_ROUTE.name}
+        component={MAIN_APP_STACK_VIEW_ROUTE.screen}
+      />
+      <DrawerNav.Screen
+        name={APP_DEV_MOCKS_STACK_VIEW_ROUTE.name}
+        component={APP_DEV_MOCKS_STACK_VIEW_ROUTE.screen}
+      />
+      <DrawerNav.Screen
+        name={RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE.name}
+        component={RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE.screen}
+        options={{
+          swipeEnabled: false,
+        }}
+      />
+    </DrawerNav.Navigator>
   );
 }
 
 export function MainAppStackRoutingComposition() {
   const StackNav = createStackNavigator();
 
-  const routeMap = [
-    <StackNav.Screen
-      name={APP_TOP_TABS_VIEW_ROUTE.name}
-      component={APP_TOP_TABS_VIEW_ROUTE.screen}
-      key={makeId(16)}
-      options={{
-        headerTitle: props => <AppTopTabsTitleBar {...props} />,
-      }}
-    />,
-    <StackNav.Screen
-      name={PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.name}
-      component={PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.screen}
-      key={makeId(16)}
-      options={{
-        headerTitle: props => <Page4SubItemExampleTitleBar {...props} />,
-      }}
-    />,
-    <StackNav.Screen name={_404_VIEW.name} component={_404_VIEW.screen} key={makeId(16)} />,
-  ];
-
   return (
     <StackNav.Navigator
       initialRouteName={APP_TOP_TABS_VIEW_ROUTE.name}
-      children={routeMap}
       screenOptions={{
         headerStyle: {
           backgroundColor: MAIN_SUPPORT_COLOR,
@@ -128,54 +97,31 @@ export function MainAppStackRoutingComposition() {
         headerTintColor: '#fff',
         headerTitleStyle: [],
       }}
-      headerMode={'screen'}
-    />
+    >
+      <StackNav.Screen
+        name={APP_TOP_TABS_VIEW_ROUTE.name}
+        component={APP_TOP_TABS_VIEW_ROUTE.screen}
+        options={{
+          headerTitle: props => <AppTopTabsTitleBar {...props} />,
+        }}
+      />
+      <StackNav.Screen
+        name={PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.name}
+        component={PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.screen}
+        options={{
+          headerTitle: props => <Page4SubItemExampleTitleBar {...props} />,
+        }}
+      />
+      <StackNav.Screen name={_404_VIEW.name} component={_404_VIEW.screen} />
+    </StackNav.Navigator>
   );
 }
 
 export function RecipeBoxSubAppStackRoutingComposition() {
   const StackNav = createStackNavigator();
 
-  const routeMap = [
-    <StackNav.Screen
-      name={MY_RECIPE_LOGIN_VIEW_ROUTE.name}
-      component={MY_RECIPE_LOGIN_VIEW_ROUTE.screen}
-      key={makeId(16)}
-      options={{
-        headerTitle: props => <RecipeBoxTitleBar {...props} />,
-      }}
-    />,
-    <StackNav.Screen
-      name={RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE.name}
-      component={RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE.screen}
-      key={makeId(16)}
-      options={{
-        headerTitle: props => <RecipeBoxHomeTitleBar {...props} />,
-        headerRight: props => <RecipeBoxPopupMenuWithStores {...props} />,
-        headerLeft: props => null, //remove back arrow
-      }}
-    />,
-    <StackNav.Screen
-      name={MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE.name}
-      component={MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE.screen}
-      key={makeId(16)}
-      options={{
-        headerTitle: props => <RecipeDetailsTitleBar {...props} />,
-      }}
-    />,
-    <StackNav.Screen
-      name={MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE.name}
-      component={MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE.screen}
-      key={makeId(16)}
-      options={{
-        headerTitle: props => <CreateEditTitleBar {...props} />,
-      }}
-    />,
-  ];
-
   return (
     <StackNav.Navigator
-      children={routeMap}
       screenOptions={{
         headerStyle: {
           backgroundColor: NEGATIVE_ACTION_COLOR,
@@ -183,62 +129,82 @@ export function RecipeBoxSubAppStackRoutingComposition() {
         headerTintColor: '#fff',
         headerTitleStyle: [],
       }}
-    />
+    >
+      <StackNav.Screen
+        name={MY_RECIPE_LOGIN_VIEW_ROUTE.name}
+        component={MY_RECIPE_LOGIN_VIEW_ROUTE.screen}
+        options={{
+          headerTitle: props => <RecipeBoxTitleBar {...props} />,
+        }}
+      />
+      <StackNav.Screen
+        name={RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE.name}
+        component={RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE.screen}
+        options={{
+          headerTitle: props => <RecipeBoxHomeTitleBar {...props} />,
+          headerRight: props => <RecipeBoxPopupMenuWithStores {...props} />,
+          headerLeft: () => null, // Hide back button
+        }}
+      />
+      <StackNav.Screen
+        name={MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE.name}
+        component={MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE.screen}
+        options={{
+          headerTitle: props => <RecipeDetailsTitleBar {...props} />,
+        }}
+      />
+      <StackNav.Screen
+        name={MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE.name}
+        component={MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE.screen}
+        options={{
+          headerTitle: props => <CreateEditTitleBar {...props} />,
+        }}
+      />
+    </StackNav.Navigator>
   );
 }
 
 export function AppTopTabsNavigationRoutingComposition() {
   const TopTabsNav = createMaterialTopTabNavigator();
 
-  const routeMap = [
-    <TopTabsNav.Screen
-      name={PAGE1EXAMPLE_VIEW_ROUTE.name}
-      component={PAGE1EXAMPLE_VIEW_ROUTE.screen}
-      key={makeId(16)}
-    />,
-    <TopTabsNav.Screen
-      name={PAGE2EXAMPLE_VIEW_ROUTE.name}
-      component={PAGE2EXAMPLE_VIEW_ROUTE.screen}
-      key={makeId(16)}
-    />,
-    <TopTabsNav.Screen
-      name={PAGE3EXAMPLE_VIEW_ROUTE.name}
-      component={PAGE3EXAMPLE_VIEW_ROUTE.screen}
-      key={makeId(16)}
-    />,
-    <TopTabsNav.Screen
-      name={PAGE4EXAMPLE_VIEW_ROUTE.name}
-      component={PAGE4EXAMPLE_VIEW_ROUTE.screen}
-      key={makeId(16)}
-    />,
-  ];
-
   return (
-    <TopTabsNav.Navigator tabBar={props => <MainAppTopNavigationTabsCustomTabBars {...props} />} children={routeMap} />
+    <TopTabsNav.Navigator tabBar={props => <MainAppTopNavigationTabsCustomTabBars {...props} />}>
+      <TopTabsNav.Screen
+        name={PAGE1EXAMPLE_VIEW_ROUTE.name}
+        component={PAGE1EXAMPLE_VIEW_ROUTE.screen}
+      />
+      <TopTabsNav.Screen
+        name={PAGE2EXAMPLE_VIEW_ROUTE.name}
+        component={PAGE2EXAMPLE_VIEW_ROUTE.screen}
+      />
+      <TopTabsNav.Screen
+        name={PAGE3EXAMPLE_VIEW_ROUTE.name}
+        component={PAGE3EXAMPLE_VIEW_ROUTE.screen}
+      />
+      <TopTabsNav.Screen
+        name={PAGE4EXAMPLE_VIEW_ROUTE.name}
+        component={PAGE4EXAMPLE_VIEW_ROUTE.screen}
+      />
+    </TopTabsNav.Navigator>
   );
 }
 
 export function RecipeBoxBottomTabsNavigationRoutingComposition() {
   const BottomTabsNav = createBottomTabNavigator();
 
-  const routeMap = [
-    <BottomTabsNav.Screen
-      name={MY_RECIPE_HOME_VIEW_ROUTE.name}
-      component={MY_RECIPE_HOME_VIEW_ROUTE.screen}
-      key={makeId(16)}
-    />,
-    <BottomTabsNav.Screen
-      name={MY_RECIPE_REQUESTS_VIEW_ROUTE.name}
-      component={MY_RECIPE_REQUESTS_VIEW_ROUTE.screen}
-      key={makeId(16)}
-    />,
-  ];
-
   return (
     <BottomTabsNav.Navigator
       tabBar={props => <RecipeBoxBottomNavigationTabsCustomTabBars {...props} />}
-      children={routeMap}
-    />
+    >
+      <BottomTabsNav.Screen
+        name={MY_RECIPE_HOME_VIEW_ROUTE.name}
+        component={MY_RECIPE_HOME_VIEW_ROUTE.screen}
+      />
+      <BottomTabsNav.Screen
+        name={MY_RECIPE_REQUESTS_VIEW_ROUTE.name}
+        component={MY_RECIPE_REQUESTS_VIEW_ROUTE.screen}
+      />
+    </BottomTabsNav.Navigator>
   );
 }
 
@@ -253,7 +219,7 @@ export function AppDevMocksStackRoutingComposition() {
           backgroundColor: SECONDARY_SUPPORT_COLOR,
         },
         headerTintColor: '#fff',
-        headerTitleStyle: [],
+        headerTitleStyle: {},
       }}
     >
       <Stack.Screen

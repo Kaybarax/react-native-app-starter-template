@@ -1,6 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-//key
-//sd - self described
+/**
+ * @authored by Kaybarax
+ * Twitter @_ https://twitter.com/Kaybarax
+ * Github @_ https://github.com/Kaybarax
+ * LinkedIn @_ https://linkedin.com/in/kaybarax
+ */
 
 import { isEmptyArray, isEmptyString, isNullUndefined, makeId } from '../../util/util';
 import { Recipe, RecipeImage, UserRecipe } from '../../app-management/data-manager/models-manager';
@@ -8,12 +11,21 @@ import { NUMBER_OF_RECIPE_PHOTOS } from '../../app-config';
 import { showToast } from '../../util/react-native-based-utils';
 import { appSQLiteDb } from '../../app-management/data-manager/embeddedDb-manager';
 
+// Define types
+type Activity = Record<string, any>;
+type RecipeBoxStore = {
+  user: any;
+  selectedRecipe: Recipe | null;
+  selectedRecipePhotos: Array<RecipeImage>;
+  recipeItems: Array<any>;
+};
+
 /**
- * sd _ Kaybarax
- * @param recipeBoxStore
- * @param activity
+ * Create a new recipe
+ * @param recipeBoxStore - Recipe box store
+ * @param activity - Optional activity context
  */
-export function createRecipe(recipeBoxStore, activity = null) {
+export function createRecipe(recipeBoxStore: RecipeBoxStore, activity: Activity | null = null): void {
   //the recipe
   let recipe: Recipe = { id: makeId(32) };
   recipe.date_created = new Date().toISOString();
@@ -23,8 +35,8 @@ export function createRecipe(recipeBoxStore, activity = null) {
   recipe.status_ref_key_value = 'ACT'; //set status
   recipe.groups_suitable = [];
   recipe.name = '';
-  recipe.is_vegetarian = 0;
-  recipe.is_vegan = 0;
+  recipe.is_vegetarian = false;
+  recipe.is_vegan = false;
   recipe.rating = 0;
   //the photos
   let recipePhotos: Array<RecipeImage> = [];
@@ -41,7 +53,12 @@ export function createRecipe(recipeBoxStore, activity = null) {
   recipeBoxStore.selectedRecipePhotos = recipePhotos;
 }
 
-export function addRecipePhoto(recipePhotos, recipe) {
+/**
+ * Add a photo to a recipe
+ * @param recipePhotos - Array of recipe photos
+ * @param recipe - Recipe object
+ */
+export function addRecipePhoto(recipePhotos: Array<RecipeImage>, recipe: Recipe): void {
   if (isEmptyArray(recipePhotos)) {
     showToast('Cannot add recipe photo.');
     return;
@@ -61,79 +78,84 @@ export function addRecipePhoto(recipePhotos, recipe) {
 }
 
 /**
- * sd _ Kaybarax
- * @param activity
+ * Toggle dark mode
+ * @param activity - Activity with appStore
  */
-export function toggleDarkMode(activity) {
-  activity.appStore.darkMode = !activity.appStore.darkMode;
-  activity.$vuetify.theme.dark = activity.appStore.darkMode;
+export function toggleDarkMode(activity: Activity): void {
+  if (activity && activity.appStore) {
+    activity.appStore.darkMode = !activity.appStore.darkMode;
+
+    // Check if $vuetify exists before accessing it
+    if (activity.$vuetify && activity.$vuetify.theme) {
+      activity.$vuetify.theme.dark = activity.appStore.darkMode;
+    }
+  }
 }
 
 /**
- * sd _ Kaybarax
- * @param recipe
- * @param activity
+ * Mark a recipe as deleted
+ * @param recipe - Recipe to delete
+ * @param activity - Optional activity context
  */
-export function deleteRecipe(recipe: Recipe, activity = null) {
+export function deleteRecipe(recipe: Recipe, activity: Activity | null = null): void {
   recipe.status_ref_key_value = 'DEL';
 }
 
-export function fetchUserRecipes(userId) {
+/**
+ * Fetch recipes for a specific user
+ * @param userId - User ID
+ * @returns Array of recipe items
+ */
+export function fetchUserRecipes(userId: string): Array<any> {
   let recipeItems: Array<any> = [];
-
-  console.log('fetchUserRecipes userId', userId);
 
   if (isEmptyArray(appSQLiteDb.usersRecipesQueryResults)) {
     return recipeItems;
   }
 
-  console.log('fetchUserRecipes urs', appSQLiteDb.usersRecipesQueryResults);
-
   let userRecipes: Array<UserRecipe> = appSQLiteDb.usersRecipesQueryResults.filter(
     (item: UserRecipe) => item.user_id === userId,
   );
+
   if (isEmptyArray(userRecipes)) {
     return recipeItems;
   }
-  console.log('fetchUserRecipes userRecipes', userRecipes);
 
   let recipes: Array<Recipe> = appSQLiteDb.recipesQueryResults.filter((item: Recipe) => {
     return !isNullUndefined(userRecipes.find(it => it.recipe_id === item.id));
   });
-  console.log('fetchUserRecipes recipes', recipes);
 
   if (isEmptyArray(recipes)) {
     return recipeItems;
   }
 
   recipeItems = recipes.map(item => {
-    let recipeItem = {};
+    let recipeItem: { recipe?: Recipe; recipePhotos?: Array<RecipeImage> } = {};
     let recipeItemPhotos: Array<RecipeImage> = [];
+
     for (let it of appSQLiteDb.recipesPhotosQueryResults) {
       if (item.id === it.recipe_id) {
         recipeItemPhotos.push(it);
       }
     }
 
-    //because was saved as string
-    // @ts-ignore
-    let cooking_instructions: string = item.cooking_instructions;
-    console.log('split cooking_instructions', cooking_instructions);
-    !isEmptyString(cooking_instructions) && (item.cooking_instructions = cooking_instructions.split(','));
-    // @ts-ignore
-    let ingredients: string = item.ingredients;
-    console.log('split ingredients', ingredients);
-    !isEmptyString(ingredients) && (item.ingredients = ingredients.split(','));
-    // @ts-ignore
-    let groups_suitable: string = item.groups_suitable;
-    console.log('split groups_suitable', groups_suitable);
-    !isEmptyString(groups_suitable) && (item.groups_suitable = groups_suitable.split(','));
+    // Process arrays that were saved as strings
+    const cooking_instructions = item.cooking_instructions as unknown as string;
+    if (!isEmptyString(cooking_instructions)) {
+      item.cooking_instructions = cooking_instructions.split(',');
+    }
 
-    console.log('item.groups_suitable', item.groups_suitable);
+    const ingredients = item.ingredients as unknown as string;
+    if (!isEmptyString(ingredients)) {
+      item.ingredients = ingredients.split(',');
+    }
 
-    // @ts-ignore
+    const groups_suitable = item.groups_suitable as unknown as string;
+    if (!isEmptyString(groups_suitable)) {
+      item.groups_suitable = groups_suitable.split(',');
+    }
+
     recipeItem.recipe = item;
-    // @ts-ignore
     recipeItem.recipePhotos = recipeItemPhotos;
     return recipeItem;
   });

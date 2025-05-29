@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -8,56 +5,57 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import { StyleSheet, Text, View } from 'react-native';
 import { isTrue } from '../util/util';
 
-export default class Loader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: '',
-      hasError: false,
-    };
+// Error boundary wrapper since hooks don't have direct equivalents for error boundaries
+const ErrorBoundary = ({ children, fallback }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return fallback;
   }
 
-  static propTypes = {
-    message: PropTypes.string.isRequired,
-  };
-
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true };
+  try {
+    return children;
+  } catch (error) {
+    // This simulates componentDidCatch and getDerivedStateFromError
+    setHasError(true);
+    // You could log the error here if needed
+    return fallback;
   }
+};
 
-  componentDidCatch(error, info) {
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, info);
-  }
+const LoaderContent = ({ message }) => {
+  return (
+    <View style={styles.container}>
+      <OrientationLoadingOverlay
+        visible={true}
+        color={'#EDDFF6'}
+        indicatorSize={'large'}
+        messageFontSize={24}
+        message={message}
+      />
+    </View>
+  );
+};
 
-  render() {
-    // @ts-ignore
-    if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <Text>Loader failing!!</Text>;
-    }
-    // @ts-ignore
-    let message = this.props.message;
-    return (
-      <View style={styles.container}>
-        <OrientationLoadingOverlay
-          visible={true}
-          color={'#EDDFF6'}
-          indicatorSize={'large'}
-          messageFontSize={24}
-          message={message}
-        />
-      </View>
-    );
-  }
-}
+const Loader = ({ message }) => {
+  return (
+    <ErrorBoundary fallback={<Text>Loader failing!!</Text>}>
+      <LoaderContent message={message} />
+    </ErrorBoundary>
+  );
+};
+
+Loader.propTypes = {
+  message: PropTypes.string.isRequired,
+};
+
+export default Loader;
 
 const styles = StyleSheet.create({
   container: {

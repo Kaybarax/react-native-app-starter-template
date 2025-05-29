@@ -15,8 +15,6 @@ import {
   FlexContainerChildItemFullWidthCN,
   FlexFluidRowContainerCN,
 } from '../theme/app-layout-styles-classnames';
-import className from '../util/react-native-based-utils';
-import { LinkText } from '../theme/app-text-styles-classnames';
 import { NewLine } from '../shared-components-and-modules/shared-components';
 
 export default function Page1Example(props) {
@@ -26,7 +24,9 @@ export default function Page1Example(props) {
     <RN.ScrollView contentInsetAdjustmentBehavior={'automatic'} style={[FlexColumnContainerCN]}>
       <RN.View style={[FlexContainerChildItemFullWidthCN]}>
         <RN.View style={[FlexFluidRowContainerCN]}>
-          <Text style={[FlexContainerChildItemFullWidthCN, AlignCenterTextCN]}>Page 1 Example : Let's start here!</Text>
+          <Text style={[FlexContainerChildItemFullWidthCN, AlignCenterTextCN]}>
+            Page 1 Example : Let&#39;s start here!
+          </Text>
         </RN.View>
       </RN.View>
 

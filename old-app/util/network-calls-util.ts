@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier,no-eval */
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax

@@ -1,5 +1,3 @@
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -10,8 +8,7 @@
 import React from 'react';
 import { isBoolean, isEmptyArray, isEmptyString, isNullUndefined, makeId, objectKeyExists } from './util';
 import { enforceReactNaturalStateUpdateBehavior } from './react-native-based-utils';
-import { Picker } from '@react-native-community/picker';
-import { toJS } from '../stores';
+import { Picker } from '@react-native-picker/picker';
 
 //TEXT-INPUTS
 /**
@@ -105,7 +102,7 @@ export function checkboxItemValueChanged(
   falseValue: any,
   activity: any = null,
 ): any {
-  console.log('key-> ', key, '\tof model->', toJS(model), '\tcheckedTrue-> ', toJS(checkedTrue));
+  console.log('key-> ', key, '\tof model->', model, '\tcheckedTrue-> ', checkedTrue);
   let feedback = null;
   if (isNullUndefined(model)) {
     console.log('No model');

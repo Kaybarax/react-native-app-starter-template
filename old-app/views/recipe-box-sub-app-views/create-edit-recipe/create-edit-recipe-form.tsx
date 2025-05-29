@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -19,14 +16,10 @@ import { isEmptyArray, isEmptyObject, isEmptyString, isTrue, makeId } from '../.
 import className, { showToast } from '../../../util/react-native-based-utils';
 import {
   AlignCenterContentCN,
-  AlignCenterTextCN,
   AlignLeftFlexContainerContentCN,
   AlignLeftTextCN,
-  FlexColumnContainerCN,
   FlexContainerChildItemFullWidthCN,
-  FlexContainerChildItemOneThirdWidthCN,
   FlexFluidRowContainerCN,
-  FlexRowContainerCN,
 } from '../../../theme/app-layout-styles-classnames';
 import {
   checkboxItemValueChanged,
@@ -46,7 +39,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { RecipeGroupsSuitable } from '../../../app-management/data-manager/list-manager';
 import { RecipeImage } from '../../../app-management/data-manager/models-manager';
-import { toJS } from '../../../stores';
 import RnMultiSelectKaybarax from '../../../shared-components-and-modules/form-controls/rn-multi-select-kaybarax';
 import { RECIPE_BOX_VIEWS_ACTIONS_ENUM } from '../../../stores/actions-and-stores-data';
 import { POSITIVE_ACTION_COLOR } from '../../../theme/app-theme';
@@ -55,13 +47,12 @@ import {
   CAMERA_PERMISSION,
   requestPermission,
 } from '../../../shared-components-and-modules/camera-photo-capture-module/camera-capture-util';
-import PhotoInput from './recipe-photo-input';
 import { NUMBER_OF_RECIPE_PHOTOS } from '../../../app-config';
 import { addRecipePhoto } from '../../../controllers/recipe-box-sub-app-controllers/recipe-box-controller';
 import Loader from '../../../shared-components-and-modules/loaders';
 
-export default function CreateEditRecipeForm(props) {
-  console.log('props at CreateEditRecipeForm:', toJS(props));
+export default function CreateEditRecipeForm(props: any) {
+  console.log('props at CreateEditRecipeForm:', props);
   console.log('CreateEditRecipeForm rn count!');
 
   let {
@@ -91,13 +82,25 @@ export default function CreateEditRecipeForm(props) {
   });
   let [photoCaptureModuleTrigger, InvokePhotoCaptureModuleTrigger] = React.useState(1);
 
-  let updateCameraModuleProps = props => {
+  let updateCameraModuleProps = (
+    props: React.SetStateAction<{
+      //basic props
+      cameraFlashOn: boolean;
+      cameraLaunched: boolean;
+      backCamera: boolean;
+      imagePreview: null;
+      acceptPhoto: boolean;
+      //extra props for this use case, because I am capturing, several photos
+      // identified by their assigned numbers, and other parameters as needed
+      photoFor: number;
+    }>,
+  ) => {
     updateCameraModule(props);
     photoCaptureModuleTrigger += 1;
     InvokePhotoCaptureModuleTrigger(photoCaptureModuleTrigger);
   };
 
-  let setCapturedImage = photo => {
+  let setCapturedImage = (photo: { base64: any }) => {
     if (isEmptyArray(recipePhotos)) {
       let photo: RecipeImage = {
         id: makeId(32),
@@ -184,7 +187,7 @@ export default function CreateEditRecipeForm(props) {
     console.log('NAME VALIDITY:', recipeFormValidityTree.name);
   }, [recipeFormValidityTree, setupFormValidation, submitPressed]);
 
-  const FormFieldIsRequiredMessage = props => (
+  const FormFieldIsRequiredMessage = (props: { message?: any }) => (
     <RN.Text style={[{ color: 'red' }, className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}>
       {props?.message || '* This field is required.'}
     </RN.Text>
@@ -193,12 +196,11 @@ export default function CreateEditRecipeForm(props) {
   let photoCount = !isEmptyArray(recipePhotos) ? recipePhotos.length : NUMBER_OF_RECIPE_PHOTOS;
 
   return (
-    <RN.ScrollView style={[className(FlexColumnContainerCN)]}>
-      <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-        {displayFieldExpectationSatisfied('alert', notificationAlert, eOfX => isTrue(eOfX)) && (
+    <RN.ScrollView style={[]}>
+      <RN.View style={[]}>
+        {displayFieldExpectationSatisfied('alert', notificationAlert, (eOfX: any) => isTrue(eOfX)) && (
           <RN.View
             style={[
-              className(FlexRowContainerCN),
               {
                 position: 'absolute',
                 top: 0,
@@ -213,23 +215,22 @@ export default function CreateEditRecipeForm(props) {
 
       <RN.ScrollView
         style={[
-          className(FlexColumnContainerCN),
           {
             backgroundColor: '#dedede',
           },
         ]}
         contentInsetAdjustmentBehavior={'automatic'}
       >
-        <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-          <RN.View style={[className(FlexFluidRowContainerCN)]}>
-            <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-              <RN.View style={[className(FlexFluidRowContainerCN)]}>
-                <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-                  <RN.View style={[className(FlexFluidRowContainerCN)]}>
-                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
+        <RN.View style={[]}>
+          <RN.View style={[]}>
+            <RN.View style={[]}>
+              <RN.View style={[]}>
+                <RN.View style={[]}>
+                  <RN.View style={[]}>
+                    <RN.View style={[]}>
                       {submitPressed && !recipeFormValidityTree.name && (
                         <React.Fragment>
-                          <FormFieldIsRequiredMessage />
+                          <FormFieldIsRequiredMessage message={undefined} />
                           <BlankSpaceDivider />
                         </React.Fragment>
                       )}
@@ -251,26 +252,26 @@ export default function CreateEditRecipeForm(props) {
                       </React.Fragment>
                     )}
 
-                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-                      <RN.View style={[className(FlexFluidRowContainerCN)]}>
-                        {(_ => {
-                          let photos: Array<Element> = [];
-                          for (let i = 0; i < photoCount; i++) {
-                            photos.push(
-                              <RN.View style={[className(FlexContainerChildItemOneThirdWidthCN)]} key={makeId(16)}>
-                                <PhotoInput
-                                  photoIndex={i}
-                                  recipePhotos={recipePhotos}
-                                  removePhoto={removePhoto}
-                                  showCameraModal={showCameraModal}
-                                />
-                              </RN.View>,
-                            );
-                          }
-                          return photos;
-                        })()}
+                    <RN.View style={[className()]}>
+                      <RN.View style={[className()]}>
+                        {/*{(_ => {*/}
+                        {/*  let photos: Array<Element> = [];*/}
+                        {/*  for (let i = 0; i < photoCount; i++) {*/}
+                        {/*    photos.push(*/}
+                        {/*      <RN.View style={[className()]} key={makeId(16)}>*/}
+                        {/*        <PhotoInput*/}
+                        {/*          photoIndex={i}*/}
+                        {/*          recipePhotos={recipePhotos}*/}
+                        {/*          removePhoto={removePhoto}*/}
+                        {/*          showCameraModal={showCameraModal}*/}
+                        {/*        />*/}
+                        {/*      </RN.View>,*/}
+                        {/*    );*/}
+                        {/*  }*/}
+                        {/*  return photos;*/}
+                        {/*})()}*/}
 
-                        <RN.View style={[className(FlexContainerChildItemOneThirdWidthCN, AlignCenterContentCN)]}>
+                        <RN.View style={[className()]}>
                           <RN.TouchableOpacity
                             activeOpacity={0.6}
                             style={[
@@ -294,7 +295,7 @@ export default function CreateEditRecipeForm(props) {
 
                     {submitPressed && !recipeFormValidityTree.is_vegetarian && (
                       <React.Fragment>
-                        <FormFieldIsRequiredMessage />
+                        <FormFieldIsRequiredMessage message={undefined} />
                         <BlankSpaceDivider />
                       </React.Fragment>
                     )}
@@ -311,7 +312,7 @@ export default function CreateEditRecipeForm(props) {
 
                     {submitPressed && !recipeFormValidityTree.is_vegan && (
                       <React.Fragment>
-                        <FormFieldIsRequiredMessage />
+                        <FormFieldIsRequiredMessage message={undefined} />
                         <BlankSpaceDivider />
                       </React.Fragment>
                     )}
@@ -319,7 +320,7 @@ export default function CreateEditRecipeForm(props) {
                     <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
                       <Checkbox
                         label={'Is Vegan'}
-                        onCheckBoxChange={check => {
+                        onCheckBoxChange={(check: boolean) => {
                           checkboxItemValueChanged(recipe, check, 'is_vegan', 1, 0);
                         }}
                         value={recipe.is_vegan}
@@ -525,15 +526,11 @@ export default function CreateEditRecipeForm(props) {
 
                     <BlankSpaceDivider />
 
-                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-                      <RN.View style={[className(FlexFluidRowContainerCN)]}>
-                        <RN.Text
-                          style={[className(FlexContainerChildItemFullWidthCN, AlignLeftFlexContainerContentCN)]}
-                        >
-                          Okay for
-                        </RN.Text>
+                    <RN.View style={[className()]}>
+                      <RN.View style={[className()]}>
+                        <RN.Text style={[className()]}>Okay for</RN.Text>
 
-                        <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
+                        <RN.View style={[className()]}>
                           <RnMultiSelectKaybarax
                             style={{ zIndex: 100 }}
                             itemsList={
@@ -568,8 +565,8 @@ export default function CreateEditRecipeForm(props) {
                       </RN.View>
                     </RN.View>
 
-                    <RN.View style={[className(FlexContainerChildItemFullWidthCN)]}>
-                      <RN.View style={[className(FlexFluidRowContainerCN, AlignCenterContentCN)]}>
+                    <RN.View style={[className()]}>
+                      <RN.View style={[className()]}>
                         {viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE && (
                           <RN.TouchableOpacity
                             activeOpacity={0.6}
@@ -626,7 +623,7 @@ export default function CreateEditRecipeForm(props) {
                                   fontSize: 28,
                                   color: 'white',
                                 },
-                                className(AlignCenterTextCN),
+                                className(),
                               ]}
                             >
                               Save Recipe
@@ -655,7 +652,7 @@ export default function CreateEditRecipeForm(props) {
                                   fontSize: 28,
                                   color: 'white',
                                 },
-                                className(AlignCenterTextCN),
+                                className(),
                               ]}
                             >
                               Update Recipe

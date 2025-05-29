@@ -5,7 +5,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import RN, { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { isEmptyString, isNullUndefined } from '../../util/util';
 import { showToast } from '../../util/react-native-based-utils';
@@ -17,7 +17,7 @@ import {
   FlexRowContainerCN,
 } from '../../theme/app-layout-styles-classnames';
 import { SCREEN_HEIGHT } from '../../App';
-import { Camera, CameraType } from 'expo-camera';
+import { CameraView, Camera } from 'expo-camera';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   faCamera,
@@ -145,7 +145,7 @@ export const CameraControls: React.FC<CameraControlsProps> = ({
 export default function ReactNativeCameraModule(props) {
   let { setCapturedImage, hideCameraModal, cameraModuleProps, updateCameraModuleProps } = props;
   let { cameraFlashOn, imagePreview, backCamera, cameraLaunched } = cameraModuleProps;
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasPermission, setHasPermission] = useState(false);
   const cameraRef = useRef(null);
 
   useEffect(() => {
@@ -216,9 +216,12 @@ export default function ReactNativeCameraModule(props) {
                       borderRadius: 10,
                     },
                   ]}
-                  source={{ uri: typeof imagePreview.base64 === 'string' && imagePreview.base64.startsWith('data:') 
-                    ? imagePreview.base64 
-                    : 'data:image/jpeg;base64,' + imagePreview.base64 }}
+                  source={{
+                    uri:
+                      typeof imagePreview.base64 === 'string' && imagePreview.base64.startsWith('data:')
+                        ? imagePreview.base64
+                        : 'data:image/jpeg;base64,' + imagePreview.base64,
+                  }}
                 />
               </View>
 
@@ -312,11 +315,11 @@ export default function ReactNativeCameraModule(props) {
                 <Text>No access to camera</Text>
               </View>
             ) : (
-              <Camera
+              <CameraView
                 ref={cameraRef}
                 style={{ flex: 1 }}
-                type={backCamera ? CameraType.back : CameraType.front}
-                flashMode={cameraFlashOn ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off}
+                facing={backCamera ? 'back' : 'front'}
+                flash={cameraFlashOn ? 'on' : 'off'}
               >
                 <CameraControls
                   camera={cameraRef}
@@ -328,7 +331,7 @@ export default function ReactNativeCameraModule(props) {
                   hideCameraModal={hideCameraModal}
                   OnLightbulb={OnLightbulb}
                 />
-              </Camera>
+              </CameraView>
             )}
           </View>
         )}

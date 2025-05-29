@@ -26,6 +26,26 @@ import { deepCloneObject } from '../util/util';
 import { showToast } from '../util/react-native-based-utils';
 
 /**
+ * Navigation store interface
+ */
+interface NavStore {
+  navigationTrail: string[];
+  currentNavigationTrailIndex: number;
+  navigatedTo: string | null;
+  navigatedFrom: string | null;
+}
+
+/**
+ * Global navigation props interface
+ */
+interface GlobalNavigationProps {
+  drawerProps: any;
+  navigator: any;
+  executeHaltedBackNavigation: () => void;
+  internalLogout: boolean;
+}
+
+/**
  * sd _ Kaybarax
  * NOTE1: THERE IS NO 'NAVIGATE TO DEFAULT' FOR THIS TEMPLATE FRAMEWORK, BECAUSE
  * THAT WOULD BE NAVIGATING TO LOGIN PAGE, AND THAT IS HANDLED BY LOGOUT LOGIC FROM 'AUTH-STORE'
@@ -35,16 +55,11 @@ import { showToast } from '../util/react-native-based-utils';
  * ROUTER IN OF YOUR CHOICE. LOGIC REMAINS THE SAME
  */
 export class AppNavigation {
-  navigatedToParams = null;
-  navigatedTo = null;
-  navigatedFrom: string | any = null;
-  navStore: {
-    navigationTrail: any[];
-    currentNavigationTrailIndex: number;
-    navigatedTo: any;
-    navigatedFrom: any;
-  } | null = null;
-  globalNavigationProps = {
+  navigatedToParams: Record<string, any> | null = null;
+  navigatedTo: string | null = null;
+  navigatedFrom: string | null = null;
+  navStore: NavStore | null = null;
+  globalNavigationProps: GlobalNavigationProps = {
     drawerProps: null,
     navigator: null,
     executeHaltedBackNavigation: () => {
@@ -53,7 +68,7 @@ export class AppNavigation {
     internalLogout: false,
   };
 
-  navigate = (navigator, navTo, navParams: object | any = null, goingBack = false) => {
+  navigate = (navigator: any, navTo: string, navParams: Record<string, any> | null = null, goingBack = false) => {
     this.navigatedFrom = this.navigatedTo || 'home';
     this.navigatedTo = navTo;
 
@@ -86,7 +101,7 @@ export class AppNavigation {
     }
   };
 
-  trailNavigation = (goingBack, navStore) => {
+  trailNavigation = (goingBack: boolean, navStore: NavStore) => {
     let goTo = navStore.currentNavigationTrailIndex - 1;
     if (goTo >= 0) {
       navStore.currentNavigationTrailIndex = goTo;
@@ -96,68 +111,72 @@ export class AppNavigation {
       navStore.navigationTrail.splice(navStore.currentNavigationTrailIndex, 1);
       navStore.navigatedFrom = this.navigatedFrom; //should be null, if all works correctly
     } else {
-      navStore.navigationTrail.push(this.navigatedTo);
-      navStore.currentNavigationTrailIndex = navStore.navigationTrail.length - 1;
-      navStore.navigatedTo = this.navigatedTo;
-      navStore.navigatedFrom = this.navigatedFrom;
+      if (this.navigatedTo) {
+        navStore.navigationTrail.push(this.navigatedTo);
+        navStore.currentNavigationTrailIndex = navStore.navigationTrail.length - 1;
+        navStore.navigatedTo = this.navigatedTo;
+        navStore.navigatedFrom = this.navigatedFrom;
+      }
     }
   };
 
-  navigateBack = (navigator, navParams: object | any = null) => {
+  navigateBack = (navigator: any, navParams: Record<string, any> | null = null) => {
     console.log('this.navStore', deepCloneObject(this.navStore));
-    if (isNullUndefined(this.navStore?.['navigatedFrom'])) {
+    if (isNullUndefined(this.navStore?.navigatedFrom)) {
       showToast('Cannot determine where to return!', 'long');
       return;
     } else {
-      this.navigate(navigator, this.navigatedFrom, navParams, true);
+      if (this.navigatedFrom) {
+        this.navigate(navigator, this.navigatedFrom, navParams, true);
+      }
     }
   };
 
-  navigateToHome = (navigator, navParams: object | any = null) => {
+  navigateToHome = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, MAIN_APP_STACK_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToPage1Example = (navigator, navParams: object | any = null) => {
+  navigateToPage1Example = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, PAGE1EXAMPLE_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToPage2Example = (navigator, navParams: object | any = null) => {
+  navigateToPage2Example = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, PAGE2EXAMPLE_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToPage3Example = (navigator, navParams: object | any = null) => {
+  navigateToPage3Example = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, PAGE3EXAMPLE_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToPage4Example = (navigator, navParams: object | any = null) => {
+  navigateToPage4Example = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, PAGE4EXAMPLE_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToPage4SubItemExample = (navigator, navParams: object | any = null) => {
+  navigateToPage4SubItemExample = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, PAGE4_SUB_ITEM_EXAMPLE_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToAppDevScratchPad = (navigator, navParams: object | any = null) => {
+  navigateToAppDevScratchPad = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, APP_DEV_MOCKS_STACK_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToRecipeBoxSubApplication = (navigator, navParams: object | any = null) => {
+  navigateToRecipeBoxSubApplication = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, RECIPE_BOX_SUB_APP_STACK_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToRecipeBoxLogin = (navigator, navParams: object | any = null) => {
+  navigateToRecipeBoxLogin = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, MY_RECIPE_LOGIN_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToRecipeBoxHome = (navigator, navParams: object | any = null) => {
+  navigateToRecipeBoxHome = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, RECIPE_BOX_BOTTOM_TABS_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToRecipeDetails = (navigator, navParams: object | any = null) => {
+  navigateToRecipeDetails = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, MY_RECIPE_RECIPE_DETAILS_VIEW_ROUTE.name, navParams);
   };
 
-  navigateToCreateEditRecipe = (navigator, navParams: object | any = null) => {
+  navigateToCreateEditRecipe = (navigator: any, navParams: Record<string, any> | null = null) => {
     this.navigate(navigator, MY_RECIPE_CREATE_EDIT_RECIPE_VIEW_ROUTE.name, navParams);
   };
 }

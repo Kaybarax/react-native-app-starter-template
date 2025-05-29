@@ -7,7 +7,7 @@
  * LinkedIn @_ https://linkedin.com/in/kaybarax
  */
 
-import RN from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import className from '../util/react-native-based-utils';
 import { FlexFluidRowContainerCN } from '../theme/app-layout-styles-classnames';
 import { MAIN_BG_COLOR, MAIN_SUPPORT_COLOR, NEGATIVE_ACTION_COLOR, SECONDARY_SUPPORT_COLOR } from '../theme/app-theme';
@@ -19,10 +19,14 @@ import appNavigation from './app-navigation';
 import { RECIPE_BOX_VIEWS_ACTIONS_ENUM } from '../stores/actions-and-stores-data';
 import appStores from '../stores';
 
-export function AppTopTabsTitleBar(props) {
-  let drawerProps = appNavigation.globalNavigationProps.drawerProps;
+interface HeaderBarProps {
+  [key: string]: any;
+}
+
+export function AppTopTabsTitleBar(props: HeaderBarProps) {
+  const drawerProps = appNavigation.globalNavigationProps.drawerProps;
   return (
-    <RN.View
+    <View
       style={[
         className(FlexFluidRowContainerCN),
         {
@@ -30,11 +34,11 @@ export function AppTopTabsTitleBar(props) {
         },
       ]}
     >
-      <RN.Pressable
-        onPress={_ => {
-          // console.log('GlobalDrawerProps', GlobalDrawerProps);
-          // @ts-ignore
-          drawerProps.navigation.openDrawer();
+      <Pressable
+        onPress={() => {
+          if (drawerProps?.navigation?.openDrawer) {
+            drawerProps.navigation.openDrawer();
+          }
         }}
       >
         <FontAwesomeIcon
@@ -47,11 +51,11 @@ export function AppTopTabsTitleBar(props) {
             },
           ]}
         />
-      </RN.Pressable>
+      </Pressable>
 
       <Spacer spaces={2} />
 
-      <RN.Text
+      <Text
         style={[
           {
             color: 'white',
@@ -61,15 +65,15 @@ export function AppTopTabsTitleBar(props) {
         ]}
       >
         RN Ts App Starter Template
-      </RN.Text>
-    </RN.View>
+      </Text>
+    </View>
   );
 }
 
-export function AppDevScratchTitleBar(props) {
-  let drawerProps = appNavigation.globalNavigationProps.drawerProps;
+export function AppDevScratchTitleBar(props: HeaderBarProps) {
+  const drawerProps = appNavigation.globalNavigationProps.drawerProps;
   return (
-    <RN.View
+    <View
       style={[
         className(FlexFluidRowContainerCN),
         {
@@ -77,10 +81,11 @@ export function AppDevScratchTitleBar(props) {
         },
       ]}
     >
-      <RN.Pressable
-        onPress={_ => {
-          // @ts-ignore
-          drawerProps.navigation.openDrawer();
+      <Pressable
+        onPress={() => {
+          if (drawerProps?.navigation?.openDrawer) {
+            drawerProps.navigation.openDrawer();
+          }
         }}
       >
         <FontAwesomeIcon
@@ -93,11 +98,11 @@ export function AppDevScratchTitleBar(props) {
             },
           ]}
         />
-      </RN.Pressable>
+      </Pressable>
 
       <Spacer spaces={2} />
 
-      <RN.Text
+      <Text
         style={[
           {
             color: 'white',
@@ -107,15 +112,15 @@ export function AppDevScratchTitleBar(props) {
         ]}
       >
         App Dev Scratchpad
-      </RN.Text>
-    </RN.View>
+      </Text>
+    </View>
   );
 }
 
-export function RecipeBoxTitleBar(props) {
-  let drawerProps = appNavigation.globalNavigationProps.drawerProps;
+export function RecipeBoxTitleBar(props: HeaderBarProps) {
+  const drawerProps = appNavigation.globalNavigationProps.drawerProps;
   return (
-    <RN.View
+    <View
       style={[
         className(FlexFluidRowContainerCN),
         {
@@ -123,10 +128,11 @@ export function RecipeBoxTitleBar(props) {
         },
       ]}
     >
-      <RN.Pressable
-        onPress={_ => {
-          // @ts-ignore
-          drawerProps.navigation.openDrawer();
+      <Pressable
+        onPress={() => {
+          if (drawerProps?.navigation?.openDrawer) {
+            drawerProps.navigation.openDrawer();
+          }
         }}
       >
         <FontAwesomeIcon
@@ -139,11 +145,11 @@ export function RecipeBoxTitleBar(props) {
             },
           ]}
         />
-      </RN.Pressable>
+      </Pressable>
 
       <Spacer spaces={2} />
 
-      <RN.Text
+      <Text
         style={[
           {
             color: 'white',
@@ -153,15 +159,14 @@ export function RecipeBoxTitleBar(props) {
         ]}
       >
         My Recipe
-      </RN.Text>
-    </RN.View>
+      </Text>
+    </View>
   );
 }
 
-export function RecipeBoxHomeTitleBar(props) {
-  let drawerProps = appNavigation.globalNavigationProps.drawerProps;
+export function RecipeBoxHomeTitleBar(props: HeaderBarProps) {
   return (
-    <RN.View
+    <View
       style={[
         className(FlexFluidRowContainerCN),
         {
@@ -169,7 +174,7 @@ export function RecipeBoxHomeTitleBar(props) {
         },
       ]}
     >
-      <RN.Text
+      <Text
         style={[
           {
             color: 'white',
@@ -179,14 +184,13 @@ export function RecipeBoxHomeTitleBar(props) {
         ]}
       >
         My Recipe : Home
-      </RN.Text>
-    </RN.View>
+      </Text>
+    </View>
   );
 }
 
-export function RecipeDetailsTitleBar(props) {
-  let drawerProps = appNavigation.globalNavigationProps.drawerProps;
-  let { navigatedToParams } = appNavigation;
+export function RecipeDetailsTitleBar(props: HeaderBarProps) {
+  const { navigatedToParams } = appNavigation;
   console.log(
     '\nRecipeDetailsTitleBar props\n',
     props,
@@ -196,7 +200,7 @@ export function RecipeDetailsTitleBar(props) {
     navigatedToParams,
   );
   return (
-    <RN.View
+    <View
       style={[
         className(FlexFluidRowContainerCN),
         {
@@ -204,7 +208,7 @@ export function RecipeDetailsTitleBar(props) {
         },
       ]}
     >
-      <RN.Text
+      <Text
         style={[
           {
             color: 'white',
@@ -213,16 +217,15 @@ export function RecipeDetailsTitleBar(props) {
           },
         ]}
       >
-        {navigatedToParams?.['recipe']?.['name']}
-      </RN.Text>
-    </RN.View>
+        {navigatedToParams?.recipe?.name}
+      </Text>
+    </View>
   );
 }
 
-export function CreateEditTitleBar(props) {
-  let drawerProps = appNavigation.globalNavigationProps.drawerProps;
+export function CreateEditTitleBar(props: HeaderBarProps) {
   return (
-    <RN.View
+    <View
       style={[
         className(FlexFluidRowContainerCN),
         {
@@ -230,7 +233,7 @@ export function CreateEditTitleBar(props) {
         },
       ]}
     >
-      <RN.Text
+      <Text
         style={[
           {
             color: 'white',
@@ -239,22 +242,22 @@ export function CreateEditTitleBar(props) {
           },
         ]}
       >
-        {appStores.stores?.recipeBoxStore['viewAction'] === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE
+        {appStores.stores?.recipeBoxStore?.viewAction === RECIPE_BOX_VIEWS_ACTIONS_ENUM.CREATE_RECIPE
           ? 'Create Recipe'
           : 'Edit Recipe'}
-      </RN.Text>
-    </RN.View>
+      </Text>
+    </View>
   );
 }
 
-export function Page4SubItemExampleTitleBar(props) {
+export function Page4SubItemExampleTitleBar(props: HeaderBarProps) {
   console.log('Page4SubItemExampleTitleBar Props', props);
   console.log('Page4SubItemExampleTitleBar navParams', appNavigation.navigatedToParams);
 
-  let { navigatedToParams } = appNavigation;
+  const { navigatedToParams } = appNavigation;
 
   return (
-    <RN.View
+    <View
       style={[
         className(FlexFluidRowContainerCN),
         {
@@ -262,7 +265,7 @@ export function Page4SubItemExampleTitleBar(props) {
         },
       ]}
     >
-      <RN.Text
+      <Text
         style={[
           {
             color: 'white',
@@ -271,8 +274,8 @@ export function Page4SubItemExampleTitleBar(props) {
           },
         ]}
       >
-        {navigatedToParams?.['item']}
-      </RN.Text>
-    </RN.View>
+        {navigatedToParams?.item}
+      </Text>
+    </View>
   );
 }

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-//key
-//sd - self described
 /**
  * @authored by Kaybarax
  * Twitter @_ https://twitter.com/Kaybarax
@@ -9,8 +6,8 @@
  */
 
 import React from 'react';
-import RN from 'react-native';
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { DrawerContentScrollView, DrawerItem, DrawerNavigationProp } from '@react-navigation/drawer';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCoffee, faCog, faHome } from '@fortawesome/free-solid-svg-icons';
 import { MAIN_BG_COLOR, SECONDARY_COLOR } from '../theme/app-theme';
@@ -25,11 +22,18 @@ import { SCREEN_HEIGHT } from '../App';
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons';
 import appNavigation from './app-navigation';
 
-export default function AppDrawerNavigationContent(props) {
+interface AppDrawerNavigationContentProps {
+  state: any;
+  navigation: any;
+  descriptors: any;
+  [key: string]: any;
+}
+
+export default function AppDrawerNavigationContent(props: AppDrawerNavigationContentProps) {
   console.log('AppDrawerNavigationContent');
   console.log('AppDrawerNavigationContent props', props);
 
-  let { navigation } = props;
+  const { navigation } = props;
 
   //avail drawer props globally
   appNavigation.globalNavigationProps.drawerProps = props;
@@ -37,14 +41,14 @@ export default function AppDrawerNavigationContent(props) {
 
   return (
     <DrawerContentScrollView {...props} style={[className(FlexColumnContainerCN)]}>
-      <RN.TouchableOpacity
+      <TouchableOpacity
         activeOpacity={0.6}
         style={[className(FlexContainerChildItemFullWidthCN)]}
-        onPress={_ => {
+        onPress={() => {
           appNavigation.navigateToHome(navigation);
         }}
       >
-        <RN.Image
+        <Image
           style={[
             {
               height: SCREEN_HEIGHT * 0.2,
@@ -54,7 +58,7 @@ export default function AppDrawerNavigationContent(props) {
           ]}
           source={require('../media/images/breakfast-2151201_1920.jpg')}
         />
-      </RN.TouchableOpacity>
+      </TouchableOpacity>
 
       <DrawerItem
         style={[
@@ -64,9 +68,9 @@ export default function AppDrawerNavigationContent(props) {
             padding: 0,
           },
         ]}
-        label={({ focused, color }) => {
+        label={() => {
           return (
-            <RN.View
+            <View
               style={[
                 className(FlexFluidRowContainerCN),
                 {
@@ -76,7 +80,7 @@ export default function AppDrawerNavigationContent(props) {
             >
               <FontAwesomeIcon icon={faHome} color={MAIN_BG_COLOR} size={25} />
               <Spacer />
-              <RN.Text
+              <Text
                 style={[
                   {
                     color: 'teal',
@@ -87,8 +91,8 @@ export default function AppDrawerNavigationContent(props) {
                 ]}
               >
                 Home
-              </RN.Text>
-            </RN.View>
+              </Text>
+            </View>
           );
         }}
         onPress={() => {
@@ -104,9 +108,9 @@ export default function AppDrawerNavigationContent(props) {
             padding: 0,
           },
         ]}
-        label={({ focused, color }) => {
+        label={() => {
           return (
-            <RN.View
+            <View
               style={[
                 className(FlexFluidRowContainerCN),
                 {
@@ -116,7 +120,7 @@ export default function AppDrawerNavigationContent(props) {
             >
               <FontAwesomeIcon icon={faCog} color={MAIN_BG_COLOR} size={25} />
               <Spacer />
-              <RN.Text
+              <Text
                 style={[
                   {
                     color: 'teal',
@@ -127,8 +131,8 @@ export default function AppDrawerNavigationContent(props) {
                 ]}
               >
                 App Dev Scratchpad
-              </RN.Text>
-            </RN.View>
+              </Text>
+            </View>
           );
         }}
         onPress={() => {
@@ -144,9 +148,9 @@ export default function AppDrawerNavigationContent(props) {
             padding: 0,
           },
         ]}
-        label={({ focused, color }) => {
+        label={() => {
           return (
-            <RN.View
+            <View
               style={[
                 className(FlexFluidRowContainerCN),
                 {
@@ -156,7 +160,7 @@ export default function AppDrawerNavigationContent(props) {
             >
               <FontAwesomeIcon icon={faCoffee} color={MAIN_BG_COLOR} size={25} />
               <Spacer />
-              <RN.Text
+              <Text
                 style={[
                   {
                     color: 'teal',
@@ -167,8 +171,8 @@ export default function AppDrawerNavigationContent(props) {
                 ]}
               >
                 My Recipe Sub-app
-              </RN.Text>
-            </RN.View>
+              </Text>
+            </View>
           );
         }}
         onPress={() => {
@@ -184,9 +188,9 @@ export default function AppDrawerNavigationContent(props) {
             padding: 0,
           },
         ]}
-        label={({ focused, color }) => {
+        label={() => {
           return (
-            <RN.View
+            <View
               style={[
                 className(FlexFluidRowContainerCN),
                 {
@@ -196,7 +200,7 @@ export default function AppDrawerNavigationContent(props) {
             >
               <FontAwesomeIcon icon={faCreditCard} color={MAIN_BG_COLOR} size={25} />
               <Spacer />
-              <RN.Text
+              <Text
                 style={[
                   {
                     color: 'teal',
@@ -207,12 +211,12 @@ export default function AppDrawerNavigationContent(props) {
                 ]}
               >
                 Credits Roll
-              </RN.Text>
-            </RN.View>
+              </Text>
+            </View>
           );
         }}
         onPress={() => {
-          // appNavigation.navigateToRecipeBoxSubApplication(navigation);
+          appNavigation.navigateToHome(navigation);
         }}
       />
     </DrawerContentScrollView>
