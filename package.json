@@ -5,11 +5,9 @@
   "author": {
     "name": "Kevin Barasa",
     "github": "https://github.com/Kaybarax",
-    "linkedin": "https://linkedin.com/in/kaybarax",
-    "twitter": "https://twitter.com/Kaybarax"
+    "linkedin": "https://linkedin.com/in/kaybarax"
   },
   "repository": "https://github.com/Kaybarax/react-native-app-starter-template",
-  "packageManager": "pnpm@8.6.0",
   "scripts": {
     "start": "expo start",
     "start-with-corepack": "node ./scripts/enable-corepack.js",
@@ -17,11 +15,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint",
-    "format": "prettier --write \"app/app-dev-scratch-pad/**/*.{js,jsx,ts,tsx}\" \"app/app-management/**/*.{js,jsx,ts,tsx}\" \"app/auth-and-security/**/*.{js,jsx,ts,tsx}\" \"app/controllers/**/*.{js,jsx,ts,tsx}\" \"app/routing-and-navigation/**/*.{js,jsx,ts,tsx}\" \"app/shared-components-and-modules/**/*.{js,jsx,ts,tsx}\" \"app/stores/**/*.{js,jsx,ts,tsx}\" \"app/theme/**/*.{js,jsx,ts,tsx}\" \"app/util/**/*.{js,jsx,ts,tsx}\" \"app/views/**/*.{js,jsx,ts,tsx}\"",
-    "setup": "pnpm install",
-    "update": "pnpm update",
-    "clean": "rm -rf node_modules && rm -rf pnpm-lock.yaml && pnpm run setup"
+    "lint": "expo lint"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
