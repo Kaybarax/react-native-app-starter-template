@@ -7,14 +7,22 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 1. Install dependencies
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 2. Start the app
 
    ```bash
-   npx expo start
+   pnpm start
    ```
+
+   > **Note:** If you encounter an error about packageManager and Corepack, use the following command instead:
+   >
+   > ```bash
+   > pnpm start-with-corepack
+   > ```
+   >
+   > This will enable Corepack and then start the app. Corepack is a tool included with Node.js that helps manage package managers.
 
 In the output, you'll find options to open the app in a
 
@@ -30,7 +38,7 @@ You can start developing by editing the files inside the **app** directory. This
 When you're ready, run:
 
 ```bash
-npm run reset-project
+pnpm reset-project
 ```
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.

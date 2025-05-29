@@ -12,6 +12,7 @@
   "packageManager": "pnpm@8.6.0",
   "scripts": {
     "start": "expo start",
+    "start-with-corepack": "node ./scripts/enable-corepack.js",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
