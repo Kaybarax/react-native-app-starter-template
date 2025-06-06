@@ -12,6 +12,7 @@
     "start": "expo start",
     "start-with-corepack": "node ./scripts/enable-corepack.js",
     "reset-project": "node ./scripts/reset-project.js",
+    "git-workflow": "node ./scripts/git-workflow.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -71,5 +72,5 @@
     "typescript": "~5.8.3"
   },
   "private": true,
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "pnpm@8.6.0"
 }
