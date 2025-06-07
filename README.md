@@ -4,7 +4,13 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 ## Get started
 
-1. Install dependencies
+1. Install pnpm (if not already installed)
+
+   ```bash
+   npm install -g pnpm
+   ```
+
+2. Install dependencies
 
    ```bash
    pnpm install
@@ -42,6 +48,28 @@ pnpm reset-project
 ```
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+
+## Git Workflow
+
+This project follows a specific Git workflow for contributing changes:
+
+1. Create a feature branch from the main branch
+2. Make your changes and commit them
+3. Push your feature branch to GitHub
+4. Open a Pull Request against the main branch
+5. Return to the main branch after creating the PR
+
+We've provided a script to guide you through this process:
+
+```bash
+# Using pnpm
+pnpm git-workflow
+
+# Or directly with Node.js
+node scripts/git-workflow.js
+```
+
+For more details, see the [Git Workflow Guide](scripts/GIT_WORKFLOW.md).
 
 ## Learn more
 
